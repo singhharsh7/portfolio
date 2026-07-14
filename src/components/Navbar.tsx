@@ -1,13 +1,15 @@
+import Link from "next/link";
+
 export default function Navbar() {
   return (
-    <div className="nav">
-      <div className="wm">Harsh <span className="v">V</span> Singh</div>
+    <nav className="nav">
+      <Link href="/" className="wm" style={{ textDecoration: 'none' }}>Harsh <span className="v">V</span> Singh</Link>
       <div className="nav-links">
-        <div>Writing</div>
-        <div>About</div>
-        <div>Press</div>
-        <div>Contact</div>
+        <Link href="/writing">Writing &amp; Press</Link>
+        <Link href="/about">About</Link>
+        <Link href="/field-notes">Field Notes</Link>
+        <Link href="/contact">Contact</Link>
       </div>
-    </div>
+    </nav>
   );
 }
