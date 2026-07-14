@@ -1,29 +1,51 @@
+import SectionHead from "./SectionHead";
+import { credentials, education } from "@/lib/data";
+
 export default function Credentials() {
   return (
-    <section>
-      <div className="cred">
-        <b>Associate Director, Rang Digitech</b> &middot; Ex&#8209;Times of India &middot; Ex&#8209;IBT Singapore &middot; 1.9M LinkedIn views
-      </div>
+    <section className="section" id="credentials" aria-labelledby="cred-title">
+      <div className="wrap">
+        <SectionHead
+          index="03"
+          label="The file"
+          title={
+            <span id="cred-title">
+              125+ <em>certifications</em>, and the schooling behind them
+            </span>
+          }
+          lede="Journalism, brand, SEO, generative AI, leadership and DEI — through Reuters, Semrush, HubSpot, Google and LinkedIn Learning."
+        />
 
-      <div className="blk">
-        <h2 className="eyebrow">Credentials</h2>
-        <h3 className="headline" style={{ fontSize: '20px' }}>Certificates</h3>
-        <div className="grid3">
-          <div className="card cert-card">
-            <img src="https://images.unsplash.com/photo-1557426272-fc759fdf7a8d?auto=format&fit=crop&w=150&q=80" alt="Credential 1" />
-            <div className="t">Brand Strategy</div>
-            <div className="s">Google</div>
+        <div className="file-grid">
+          <div>
+            {credentials.map((g) => (
+              <details className="folder" key={g.title} data-reveal>
+                <summary>
+                  <span>{g.title}</span>
+                  <span className="count">{g.items.length}</span>
+                  <span className="sign" aria-hidden="true">
+                    +
+                  </span>
+                </summary>
+                <ul className="folder-body">
+                  {g.items.map((it) => (
+                    <li key={it}>{it}</li>
+                  ))}
+                </ul>
+              </details>
+            ))}
           </div>
-          <div className="card cert-card">
-            <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=150&q=80" alt="Credential 2" />
-            <div className="t">Digital Marketing</div>
-            <div className="s">HubSpot</div>
-          </div>
-          <div className="card cert-card">
-            <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=150&q=80" alt="Credential 3" />
-            <div className="t">Project Management</div>
-            <div className="s">PMI</div>
-          </div>
+
+          <aside className="edu" data-reveal aria-label="Education">
+            <div className="edu-h">Schooling</div>
+            {education.map((e) => (
+              <div className="edu-item" key={e.credential}>
+                <div className="cred">{e.credential}</div>
+                <div className="place">{e.place}</div>
+                {e.note ? <span className="award">{e.note}</span> : null}
+              </div>
+            ))}
+          </aside>
         </div>
       </div>
     </section>

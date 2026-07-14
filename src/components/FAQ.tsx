@@ -1,11 +1,29 @@
+import SectionHead from "./SectionHead";
+import { faqs } from "@/lib/data";
+
 export default function FAQ() {
   return (
-    <div className="blk">
-      <div className="eyebrow">FAQ</div>
-      <div className="headline" style={{ fontSize: '14px' }}>Frequently asked</div>
-      <div className="faq-item"><div className="q">Who is Harsh V Singh?</div><div className="a">Answer placeholder, direct and short.</div></div>
-      <div className="faq-item"><div className="q">What does he do at Rang Digitech?</div><div className="a">Answer placeholder, direct and short.</div></div>
-      <div className="faq-item"><div className="q">Where has he published?</div><div className="a">Answer placeholder, direct and short.</div></div>
-    </div>
+    <section className="section" id="faq" aria-labelledby="faq-title">
+      <div className="wrap">
+        <SectionHead
+          index="—"
+          label="Frequently asked"
+          title={<span id="faq-title">Straight answers</span>}
+        />
+        <div className="faq">
+          {faqs.map((f) => (
+            <details className="qa" key={f.q} data-reveal>
+              <summary>
+                {f.q}
+                <span className="sign" aria-hidden="true">
+                  +
+                </span>
+              </summary>
+              <p className="ans">{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
