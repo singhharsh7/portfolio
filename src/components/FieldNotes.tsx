@@ -13,7 +13,7 @@ export default function FieldNotes() {
               A photograph, with <em>context</em>
             </span>
           }
-          lede="Frames from nine years of chasing the story — prints loading soon."
+          lede="Frames from nine years of chasing the story — from the assembly floor to the brand studio. Hover to bring them to colour."
         />
         <div className="plates">
           {fieldNotes.map((p) => (

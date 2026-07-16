@@ -1149,12 +1149,16 @@ a.press-row:hover .headline {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  transition: transform 0.5s var(--ease), box-shadow 0.4s var(--ease);
+  /* Develop the essay in monochrome; it comes to colour on hover. */
+  filter: grayscale(1) contrast(1.03);
+  transition: transform 0.5s var(--ease), box-shadow 0.4s var(--ease),
+    filter 0.5s var(--ease);
   overflow: hidden;
 }
 .plate:hover .plate-frame {
   transform: translateY(-4px);
   box-shadow: var(--shadow);
+  filter: grayscale(0) contrast(1);
 }
 .plate-no {
   position: absolute;
