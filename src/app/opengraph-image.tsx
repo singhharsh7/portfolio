@@ -14,10 +14,10 @@ export default function OgImage() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          background: "#16130e",
-          color: "#ece3d2",
+          background: "#fbfaf8",
+          color: "#18150f",
           padding: "64px 72px",
-          fontFamily: "Georgia, serif",
+          fontFamily: "sans-serif",
         }}
       >
         <div
@@ -28,30 +28,31 @@ export default function OgImage() {
             fontSize: 22,
             letterSpacing: 4,
             textTransform: "uppercase",
-            color: "#cda24d",
-            borderBottom: "1px solid #352a1b",
+            color: "#2438cc",
+            borderBottom: "1px solid #e6e2d9",
             paddingBottom: 20,
           }}
         >
-          <span>HVS · Collected Dispatches</span>
-          <span style={{ color: "#9d927b" }}>Est. 2017</span>
+          <span>Vol. IX · Est. 2017</span>
+          <span style={{ color: "#8a857a" }}>Harsh V Singh</span>
         </div>
 
         <div style={{ display: "flex", flexDirection: "column" }}>
           <div
             style={{
               display: "flex",
-              fontSize: 108,
+              fontSize: 118,
+              fontWeight: 800,
               lineHeight: 1,
-              letterSpacing: -3,
+              letterSpacing: -5,
             }}
           >
             <span>Harsh</span>
             <span
               style={{
-                color: "#e2c073",
-                fontStyle: "italic",
-                margin: "0 0.28em",
+                color: "#2438cc",
+                margin: "0 0.24em",
+                borderBottom: "8px solid #2438cc",
               }}
             >
               V
@@ -63,8 +64,8 @@ export default function OgImage() {
               display: "flex",
               fontSize: 40,
               fontStyle: "italic",
-              color: "#e2c073",
-              marginTop: 24,
+              color: "#57534b",
+              marginTop: 28,
             }}
           >
             Get the facts right — then make people care.
@@ -77,13 +78,13 @@ export default function OgImage() {
             justifyContent: "space-between",
             alignItems: "center",
             fontSize: 24,
-            color: "#c9bfa8",
-            borderTop: "1px solid #352a1b",
+            color: "#57534b",
+            borderTop: "1px solid #e6e2d9",
             paddingTop: 20,
           }}
         >
           <span>Associate Director, Project Delivery · Rang Digitech</span>
-          <span style={{ color: "#d0503a", fontSize: 20, letterSpacing: 3 }}>
+          <span style={{ color: "#2438cc", fontSize: 20, letterSpacing: 3 }}>
             ON THE RECORD
           </span>
         </div>

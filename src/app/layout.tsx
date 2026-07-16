@@ -1,30 +1,32 @@
 import type { Metadata, Viewport } from "next";
-import { Fraunces, Newsreader, IBM_Plex_Mono } from "next/font/google";
+import { Bricolage_Grotesque, Hanken_Grotesk, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import Enhance from "@/components/Enhance";
 import { site, socials } from "@/lib/data";
 
-const display = Fraunces({
+// Display — a characterful grotesque, set tight and heavy for the masthead.
+const display = Bricolage_Grotesque({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-display-src",
+});
+
+// Body — a warm, humanist grotesque with a true italic for standfirsts.
+const body = Hanken_Grotesk({
   subsets: ["latin"],
   style: ["normal", "italic"],
   display: "swap",
-  variable: "--font-display",
+  variable: "--font-body-src",
 });
 
-const body = Newsreader({
-  subsets: ["latin"],
-  style: ["normal", "italic"],
-  display: "swap",
-  variable: "--font-body",
-});
-
+// Utility — datelines, labels and data, in the wire-copy tradition.
 const mono = IBM_Plex_Mono({
   subsets: ["latin"],
   weight: ["400", "500", "600"],
   display: "swap",
-  variable: "--font-mono",
+  variable: "--font-mono-src",
 });
 
 export const metadata: Metadata = {
@@ -68,8 +70,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#16130e",
-  colorScheme: "dark",
+  themeColor: "#fbfaf8",
+  colorScheme: "light",
 };
 
 const personJsonLd = {
@@ -98,7 +100,11 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${display.variable} ${body.variable} ${mono.variable}`}>
+    <html
+      lang="en"
+      className={`${display.variable} ${body.variable} ${mono.variable}`}
+      suppressHydrationWarning
+    >
       <body>
         {/* Mark JS as available before paint so reveal animations only hide
             content when JavaScript can bring it back. No-JS = fully visible. */}
