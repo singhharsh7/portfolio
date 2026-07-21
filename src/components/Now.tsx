@@ -13,7 +13,7 @@ export default function Now() {
               What he does <em>now</em>
             </span>
           }
-          lede="Associate Director of Project Delivery at Rang Digitech — sitting at the intersection of storytelling, SEO and applied AI to build campaigns that move real numbers."
+          lede="Associate Director of Project Delivery at Rang Digitech, sitting at the intersection of storytelling, SEO, and applied AI to build campaigns that move real numbers."
         />
         <div className="caps">
           {capabilities.map((c, i) => (

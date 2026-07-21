@@ -54,7 +54,7 @@ export default function SiteHeader() {
   return (
     <header className={`site-header${stuck ? " stuck" : ""}`}>
       <div className="wrap bar">
-        <a className="brand" href="#top" aria-label="Harsh V Singh — home">
+        <a className="brand" href="#top" aria-label="Harsh V Singh, home">
           <span className="mono-mark">{site.monogram}</span>
           <span className="full">
             Harsh <em>V</em> Singh

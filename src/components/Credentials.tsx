@@ -13,7 +13,7 @@ export default function Credentials() {
               125+ <em>certifications</em>, and the schooling behind them
             </span>
           }
-          lede="Journalism, brand, SEO, generative AI, leadership and DEI — through Reuters, Semrush, HubSpot, Google and LinkedIn Learning."
+          lede="Journalism, brand, SEO, generative AI, leadership and DEI, through Reuters, Semrush, HubSpot, Google and LinkedIn Learning."
         />
 
         <div className="file-grid">

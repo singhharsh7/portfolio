@@ -1,4 +1,4 @@
-// AUTO-GENERATED — intrinsic dimensions for /field-notes images.
+// AUTO-GENERATED: intrinsic dimensions for /field-notes images.
 // Regenerate after adding photos (see scripts note in CLAUDE context):
 //   python: scan public/field-notes and rewrite this map.
 export const photoDims: Record<string, { w: number; h: number }> = {

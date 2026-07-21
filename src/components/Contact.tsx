@@ -15,7 +15,7 @@ export default function Contact() {
               Get in touch
             </span>
             <h2 id="contact-title">
-              Let&apos;s talk — a byline, a brief, or a <em>brand</em>.
+              Let&apos;s talk. A byline, a brief, or a <em>brand</em>.
             </h2>
 
             <div className="contact-lines">

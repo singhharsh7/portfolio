@@ -7,14 +7,14 @@ export default function FieldNotes() {
     <section className="section" id="field-notes" aria-labelledby="fn-title">
       <div className="wrap">
         <SectionHead
-          index="—"
+          index="-"
           label="Field notes"
           title={
             <span id="fn-title">
               The photo <em>journal</em>
             </span>
           }
-          lede="Encounters from nine years of chasing the story — Supreme Court justices, chief ministers, authors, cricketers — each filed with the story behind it, not as a name list."
+          lede="Encounters from nine years of chasing the story: Supreme Court justices, chief ministers, authors, cricketers, each filed with the story behind it, not as a name list."
         />
 
         <div className="journal">
@@ -22,7 +22,7 @@ export default function FieldNotes() {
             <figure className="j-photo" key={e.name}>
               {e.src ? (
                 <div className="j-frame">
-                  {/* Natural aspect ratio — frames are never cropped. Intrinsic
+                  {/* Natural aspect ratio, frames are never cropped. Intrinsic
                       width/height reserve the space before the lazy load lands. */}
                   <img
                     src={e.src}

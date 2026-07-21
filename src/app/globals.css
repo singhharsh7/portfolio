@@ -1,5 +1,5 @@
 /* ============================================================
-   HARSH V SINGH — "BYLINE"
+   HARSH V SINGH - "BYLINE"
    A journalist's portfolio, set like a design-forward magazine
    printed on bright paper. Grotesque display, clean grotesque body,
    an editor's blue-pencil accent used only where it means something.
@@ -386,7 +386,7 @@ a {
 }
 
 /* ============================================================
-   HERO — the masthead
+   HERO - the masthead
    ============================================================ */
 .hero {
   position: relative;
@@ -405,7 +405,7 @@ a {
   z-index: 1;
 }
 
-/* Ink-dust WebGL field — full-bleed behind the hero, fades before the fold */
+/* Ink-dust WebGL field - full-bleed behind the hero, fades before the fold */
 .hero-canvas {
   position: absolute;
   top: 0;
@@ -424,7 +424,7 @@ a {
   display: block;
 }
 
-/* GSAP owns the reveal choreography — retire the CSS fallback transition */
+/* GSAP owns the reveal choreography - retire the CSS fallback transition */
 .gsap [data-reveal] {
   transition: none !important;
 }
@@ -541,7 +541,7 @@ a {
   border: 1px solid var(--line);
   padding: 0.7rem 0.7rem 0.85rem;
   border-radius: var(--r-lg);
-  /* width:100% — grid auto-margins otherwise collapse the card to its
+  /* width:100% - grid auto-margins otherwise collapse the card to its
      caption's width instead of filling the column */
   width: 100%;
   max-width: 27rem;
@@ -553,7 +553,7 @@ a {
   overflow: hidden;
   aspect-ratio: 4 / 5;
   border-radius: var(--r);
-  /* Tinted studio backdrop — the white of the photo multiplies away,
+  /* Tinted studio backdrop - the white of the photo multiplies away,
      leaving the subject cut out against the paper tone. */
   background:
     radial-gradient(120% 90% at 50% 0%, rgba(36, 56, 204, 0.14), transparent 60%),
@@ -600,7 +600,7 @@ a {
 }
 
 /* ============================================================
-   LEDGER — the numbers strip
+   LEDGER - the numbers strip
    ============================================================ */
 .ledger {
   background: var(--wash);
@@ -673,7 +673,7 @@ a {
 }
 
 /* ============================================================
-   ON THE DESK — capabilities (services grid, one dark card)
+   ON THE DESK - capabilities (services grid, one dark card)
    ============================================================ */
 .caps {
   display: grid;
@@ -717,7 +717,7 @@ a {
   color: var(--ink-2);
   font-size: 1rem;
 }
-/* the one inverted card — the signature contrast */
+/* the one inverted card - the signature contrast */
 .caps .cap:last-child {
   background: var(--ink);
   border-color: var(--ink);
@@ -736,7 +736,7 @@ a {
 }
 
 /* ============================================================
-   THE BEAT — career as an editorial index
+   THE BEAT - career as an editorial index
    ============================================================ */
 .beat {
   border-top: 1px solid var(--line);
@@ -801,7 +801,7 @@ a {
 }
 
 /* ============================================================
-   THE FILE — credentials + education
+   THE FILE - credentials + education
    ============================================================ */
 .file-grid {
   display: grid;
@@ -924,7 +924,7 @@ details.folder[open] > summary .sign {
 }
 
 /* ============================================================
-   ON THE RECORD — testimonials
+   ON THE RECORD - testimonials
    ============================================================ */
 .feature-quote {
   border-radius: var(--r-lg);
@@ -1019,7 +1019,7 @@ details.folder[open] > summary .sign {
 }
 
 /* ============================================================
-   DISPATCHES — writing · PRESS · CURRENTLY
+   DISPATCHES - writing · PRESS · CURRENTLY
    ============================================================ */
 .two {
   display: grid;
@@ -1097,7 +1097,7 @@ details.folder[open] > summary .sign {
     gap: 1.4rem;
   }
 }
-/* The clipping — a scan of the printed piece */
+/* The clipping - a scan of the printed piece */
 .press-row .clip {
   width: 6.5rem;
   height: 4.6rem;
@@ -1192,7 +1192,7 @@ a.press-row:hover .headline {
 }
 
 /* ============================================================
-   ABOUT — the long version
+   ABOUT - the long version
    ============================================================ */
 .about-grid {
   display: grid;
@@ -1264,7 +1264,7 @@ a.press-row:hover .headline {
 }
 
 /* ============================================================
-   FIELD NOTES — the photo journal
+   FIELD NOTES - the photo journal
    ============================================================ */
 .journal {
   columns: 1;
@@ -1327,7 +1327,7 @@ a.press-row:hover .headline {
   overflow: hidden;
   transition: transform 0.5s var(--ease), box-shadow 0.4s var(--ease);
 }
-/* Natural aspect ratio — the frame takes the photo's own shape, never crops. */
+/* Natural aspect ratio - the frame takes the photo's own shape, never crops. */
 .j-frame img {
   display: block;
   width: 100%;
@@ -1414,7 +1414,7 @@ details.qa .ans {
 }
 
 /* ============================================================
-   CONTACT — the inverted CTA block
+   CONTACT - the inverted CTA block
    ============================================================ */
 .contact-shell {
   position: relative;

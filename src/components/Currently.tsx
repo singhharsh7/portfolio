@@ -6,14 +6,14 @@ export default function Currently() {
     <section className="section" id="currently" aria-labelledby="cur-title">
       <div className="wrap">
         <SectionHead
-          index="—"
+          index="-"
           label="Currently"
           title={
             <span id="cur-title">
               Reading &amp; <em>watching</em>
             </span>
           }
-          lede="The habit behind the range — a well-read desk makes for a sharper brief."
+          lede="The habit behind the range, a well-read desk makes for a sharper brief."
         />
         <div className="currently">
           {currently.map((c) => (

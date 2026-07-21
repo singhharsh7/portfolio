@@ -49,7 +49,7 @@ export default function Enhance() {
           return;
         }
 
-        // GSAP owns the reveals now — disable the CSS fallback transition.
+        // GSAP owns the reveals now, disable the CSS fallback transition.
         document.documentElement.classList.add("gsap");
         reveals.forEach((el) => el.classList.add("in"));
         gsap.defaults({ ease: "power3.out", duration: 0.9 });
@@ -157,7 +157,7 @@ export default function Enhance() {
             }),
         });
 
-        // Layout settles after images load — keep trigger positions honest.
+        // Layout settles after images load, keep trigger positions honest.
         const onLoad = () => ScrollTrigger.refresh();
         window.addEventListener("load", onLoad);
         return () => window.removeEventListener("load", onLoad);

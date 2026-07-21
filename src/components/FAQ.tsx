@@ -6,7 +6,7 @@ export default function FAQ() {
     <section className="section" id="faq" aria-labelledby="faq-title">
       <div className="wrap">
         <SectionHead
-          index="—"
+          index="-"
           label="Frequently asked"
           title={<span id="faq-title">Straight answers</span>}
         />

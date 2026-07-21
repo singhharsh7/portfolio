@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 
 /**
- * Ink dust — a quiet WebGL field behind the hero. Tiny ink and
+ * Ink dust, a quiet WebGL field behind the hero. Tiny ink and
  * blue-pencil particles drift on the paper and lean toward the cursor.
  * Loads three.js lazily, pauses off-screen, skips entirely for
  * reduced-motion users, and disposes cleanly on unmount.
@@ -32,7 +32,7 @@ export default function HeroCanvas() {
           powerPreference: "low-power",
         });
       } catch {
-        return; // no WebGL — the paper stays plain
+        return; // no WebGL, the paper stays plain
       }
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
       renderer.setClearColor(0x000000, 0);

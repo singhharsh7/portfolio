@@ -16,14 +16,14 @@ export default function Testimonials() {
               What editors, deans &amp; <em>clients</em> say
             </span>
           }
-          lede="Attributions from newsrooms, agencies and lecture halls — not one of them anonymous."
+          lede="Attributions from newsrooms, agencies and lecture halls, not one of them anonymous."
         />
 
         {feature ? (
           <figure className="feature-quote" data-reveal>
             <blockquote>“{feature.quote}”</blockquote>
             <figcaption className="by">
-              <b>{feature.name}</b> — {feature.title}
+              <b>{feature.name}</b>, {feature.title}
             </figcaption>
           </figure>
         ) : null}

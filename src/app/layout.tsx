@@ -6,14 +6,14 @@ import SiteFooter from "@/components/SiteFooter";
 import Enhance from "@/components/Enhance";
 import { site, socials, faqs } from "@/lib/data";
 
-// Display — a characterful grotesque, set tight and heavy for the masthead.
+// Display, a characterful grotesque, set tight and heavy for the masthead.
 const display = Bricolage_Grotesque({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-display-src",
 });
 
-// Body — a warm, humanist grotesque with a true italic for standfirsts.
+// Body, a warm, humanist grotesque with a true italic for standfirsts.
 const body = Hanken_Grotesk({
   subsets: ["latin"],
   style: ["normal", "italic"],
@@ -21,7 +21,7 @@ const body = Hanken_Grotesk({
   variable: "--font-body-src",
 });
 
-// Utility — datelines, labels and data, in the wire-copy tradition.
+// Utility, datelines, labels and data, in the wire-copy tradition.
 const mono = IBM_Plex_Mono({
   subsets: ["latin"],
   weight: ["400", "500", "600"],
@@ -32,11 +32,11 @@ const mono = IBM_Plex_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: "Harsh V Singh — Reporter turned brand & delivery leader",
+    default: "Harsh V Singh · Reporter turned brand & delivery leader",
     template: "%s · Harsh V Singh",
   },
   description:
-    "Harsh V Singh is Associate Director of Project Delivery at Rang Digitech — a former Times of India / NewsX reporter now running global delivery across the US, UK, Canada, UAE and India.",
+    "Harsh V Singh is Associate Director of Project Delivery at Rang Digitech, a former Times of India / NewsX reporter now running global delivery across the US, UK, Canada, UAE, and India.",
   keywords: [
     "Harsh V Singh",
     "Rang Digitech",
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
   openGraph: {
     type: "profile",
-    title: "Harsh V Singh — Reporter turned brand & delivery leader",
+    title: "Harsh V Singh · Reporter turned brand & delivery leader",
     description:
       "Get the facts right, then make people care. Nine years across the newsroom and the brand desk.",
     url: site.url,
@@ -94,8 +94,8 @@ const personJsonLd = {
     { "@type": "CollegeOrUniversity", name: "Presidency College, Bangalore" },
   ],
   award: [
-    "Architect of Success — Rang Digitech AGM Flare 2024",
-    "Promising Journalist Award — Presidency College, 2018",
+    "Architect of Success, Rang Digitech AGM Flare 2024",
+    "Promising Journalist Award, Presidency College, 2018",
   ],
   sameAs: socials.map((s) => s.href),
 };

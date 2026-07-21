@@ -1,15 +1,15 @@
 // Single source of truth for all site content.
-// Every value here is drawn from Harsh V Singh's own brief — no invented facts.
+// Every value here is drawn from Harsh V Singh's own brief, no invented facts.
 
 export const site = {
   name: "Harsh V Singh",
   monogram: "HVS",
   role: "Associate Director, Project Delivery",
   org: "Rang Digitech LLC",
-  tagline: "Get the facts right — then make people care.",
+  tagline: "Get the facts right, then make people care.",
   support:
     "A reporter who chased chief ministers for a quote now runs global delivery for a digital agency. Same craft: verify the fact, hit the deadline, say the complicated thing simply.",
-  base: "Piscataway, New Jersey — filing daily from Vadodara & Ahmedabad, Gujarat",
+  base: "Piscataway, New Jersey, filing daily from Vadodara & Ahmedabad, Gujarat",
   email: "singhharsh_7@yahoo.in",
   phone: "+91 95387 86693",
   phoneHref: "+919538786693",
@@ -52,7 +52,7 @@ export type Capability = { title: string; body: string };
 export const capabilities: Capability[] = [
   {
     title: "Global project delivery",
-    body: "End-to-end ownership of a portfolio of active accounts — allocating resources and coordinating cross-functional teams through concurrent engagements across five markets.",
+    body: "End-to-end ownership of a portfolio of active accounts, allocating resources and coordinating cross-functional teams through concurrent engagements across five markets.",
   },
   {
     title: "Brand strategy & reputation",
@@ -60,7 +60,7 @@ export const capabilities: Capability[] = [
   },
   {
     title: "Storytelling × SEO × applied AI",
-    body: "Working at the intersection of narrative, search, and applied AI to build campaigns — the reporter's questions, pointed at a different kind of story.",
+    body: "Working at the intersection of narrative, search, and applied AI to build campaigns: the reporter's questions, pointed at a different kind of story.",
   },
   {
     title: "KPIs, not vanity metrics",
@@ -76,39 +76,39 @@ export type Dispatch = {
   era: "brand" | "news";
 };
 
-// Reverse-chronological — the latest dispatch first.
+// Reverse-chronological, the latest dispatch first.
 export const career: Dispatch[] = [
   {
-    dateline: "PISCATAWAY ↔ VADODARA · 2026 – NOW · DELIVERY",
-    role: "Associate Director — Project Delivery",
+    dateline: "PISCATAWAY ↔ VADODARA · 2026 - NOW · DELIVERY",
+    role: "Associate Director, Project Delivery",
     org: "Rang Digitech LLC",
-    body: "Owns end-to-end delivery for a portfolio of digital-marketing accounts across the US, UK, Canada, UAE and India — resourcing, coordinating teams through concurrent engagements, and protecting KPIs, brand compliance and online reputation.",
+    body: "Owns end-to-end delivery for a portfolio of digital marketing accounts across the US, UK, Canada, UAE, and India, resourcing, coordinating teams through concurrent engagements, and protecting KPIs, brand compliance and online reputation.",
     era: "brand",
   },
   {
-    dateline: "VADODARA · 2024 – 2026 · BRAND",
+    dateline: "VADODARA · 2024 - 2026 · BRAND",
     role: "Brand Manager",
     org: "Rang Digitech",
-    body: "Set brand strategy at the intersection of storytelling, SEO and applied AI — building campaigns measured on real numbers rather than vanity metrics.",
+    body: "Set brand strategy at the intersection of storytelling, SEO, and applied AI, building campaigns measured on real numbers rather than vanity metrics.",
     era: "brand",
   },
   {
-    dateline: "VADODARA · 2023 – 2024 · CONTENT",
+    dateline: "VADODARA · 2023 - 2024 · CONTENT",
     role: "Senior Content Writer & Head of Content",
     org: "Rang Technologies / Rang Digitech",
-    body: "Led a team of SEO, social-media and design professionals across eight-plus companies inside the group.",
+    body: "Led a team of SEO, social media and design professionals across eight-plus companies inside the group.",
     era: "brand",
   },
   {
     dateline: "AHMEDABAD · CONTENT DESK",
-    role: "Content Writer — pen name “Ryan Allen”",
+    role: "Content Writer, pen name “Ryan Allen”",
     org: "GoodFirms (OpenXcell)",
     body: "Wrote for a global client base across software development, mobile apps, SEO, blockchain and digital marketing.",
     era: "brand",
   },
   {
     dateline: "STUDY-ABROAD DESK · EDTECH",
-    role: "Manager — Creative Content & Social Media",
+    role: "Manager, Creative Content & Social Media",
     org: "Kanan.Co",
     body: "Led content for Visa Crunch and academic content for KananPrep and its franchises; ran campaigns that lifted brand engagement by 40 percent.",
     era: "brand",
@@ -129,23 +129,23 @@ export const career: Dispatch[] = [
   },
   {
     dateline: "BENGALURU · ENTERTAINMENT BUREAU",
-    role: "Reporter — Hollywood beat",
+    role: "Reporter, Hollywood beat",
     org: "International Business Times, Singapore Edition",
     body: "Covered the Hollywood beat out of Bangalore for IBT's Singapore edition.",
     era: "news",
   },
   {
-    dateline: "HYDERABAD · 2018 – 2019 · CIVIC DESK",
+    dateline: "HYDERABAD · 2018 - 2019 · CIVIC DESK",
     role: "Civic Affairs & Public-Health Reporter",
     org: "The Times of India",
-    body: "Thirteen published bylines in seven days — a hospital-sanitation investigation that prompted government scrutiny, organ-donation shortfalls, road safety on Necklace Road, and political messaging in government-school notebooks.",
+    body: "Thirteen published bylines in seven days, a hospital sanitation investigation that prompted government scrutiny, organ-donation shortfalls, road safety on Necklace Road, and political messaging in government-school notebooks.",
     era: "news",
   },
   {
-    dateline: "BENGALURU · 2017 – 2019 · POLITICS BUREAU",
-    role: "Political Reporter — Karnataka",
+    dateline: "BENGALURU · 2017 - 2019 · POLITICS BUREAU",
+    role: "Political Reporter, Karnataka",
     org: "NewsX (Bangalore Bureau)",
-    body: "Ran camera and OB-van operations and landed on-camera interviews with CM Siddaramaiah, former CM B. S. Yeddyurappa, KPCC president Dr. G. Parameshwara and JD(S) spokesperson Tanveer Ahmed — reporting live from the Vidhan Soudha during the presidential-election proceedings for Ram Nath Kovind.",
+    body: "Ran camera and OB-van operations and landed on-camera interviews with CM Siddaramaiah, former CM B. S. Yeddyurappa, KPCC president Dr. G. Parameshwara and JD(S) spokesperson Tanveer Ahmed, reporting live from the Vidhan Soudha during the presidential-election proceedings for Ram Nath Kovind.",
     era: "news",
   },
 ];
@@ -155,50 +155,50 @@ export const credentials: CredentialGroup[] = [
   {
     title: "Brand & Leadership",
     items: [
-      "Create a Brand Strategy — LinkedIn Learning",
-      "Brand Leadership: Building Brand and Culture — LinkedIn Learning",
-      "Leadership & People Management — Semrush",
-      "Leading a Marketing Team — LinkedIn Learning",
-      "Communicating with Clarity as a Manager — LinkedIn Learning",
-      "Nano Tips for Empathetic Leadership, India Gary-Martin — LinkedIn Learning",
+      "Create a Brand Strategy - LinkedIn Learning",
+      "Brand Leadership: Building Brand and Culture - LinkedIn Learning",
+      "Leadership & People Management - Semrush",
+      "Leading a Marketing Team - LinkedIn Learning",
+      "Communicating with Clarity as a Manager - LinkedIn Learning",
+      "Nano Tips for Empathetic Leadership, India Gary-Martin - LinkedIn Learning",
     ],
   },
   {
     title: "Marketing & Account Strategy",
     items: [
-      "Key Account Management — LinkedIn Learning",
-      "Account Management: Maintaining Relationships — LinkedIn Learning",
-      "Customer Success Management Fundamentals — LinkedIn Learning",
-      "Content Led SEO, with Brian Dean — Semrush",
-      "SEO Strategies — Great Learning",
-      "Marketing Analytics — Great Learning",
+      "Key Account Management - LinkedIn Learning",
+      "Account Management: Maintaining Relationships - LinkedIn Learning",
+      "Customer Success Management Fundamentals - LinkedIn Learning",
+      "Content Led SEO, with Brian Dean - Semrush",
+      "SEO Strategies - Great Learning",
+      "Marketing Analytics - Great Learning",
     ],
   },
   {
     title: "Content & Generative AI",
     items: [
-      "Content Marketing Fundamentals, Ashley Segura — Semrush",
-      "Generative AI for Digital Marketers — LinkedIn Learning",
-      "Artificial Intelligence and Business Strategy — LinkedIn Learning",
-      "Writing Great Content with Gen AI That Doesn't Sound Fake — LinkedIn Learning",
-      "A Content Marketer's Guide to Using ChatGPT — LinkedIn Learning",
-      "Email Marketing — HubSpot Academy",
-      "Content Marketing — HubSpot Academy",
+      "Content Marketing Fundamentals, Ashley Segura - Semrush",
+      "Generative AI for Digital Marketers - LinkedIn Learning",
+      "Artificial Intelligence and Business Strategy - LinkedIn Learning",
+      "Writing Great Content with Gen AI That Doesn't Sound Fake - LinkedIn Learning",
+      "A Content Marketer's Guide to Using ChatGPT - LinkedIn Learning",
+      "Email Marketing - HubSpot Academy",
+      "Content Marketing - HubSpot Academy",
     ],
   },
   {
     title: "Journalism & Media Craft",
     items: [
-      "Introduction to Digital Journalism — Reuters",
-      "Video Journalism: Shooting Techniques — LinkedIn Learning",
+      "Introduction to Digital Journalism - Reuters",
+      "Video Journalism: Shooting Techniques - LinkedIn Learning",
     ],
   },
   {
     title: "Culture & DEI Leadership",
     items: [
-      "Rolling Out a Diversity & Inclusion Training Program — LinkedIn Learning",
-      "Foundations of Diversity, Equity, Inclusion & Belonging — LinkedIn Learning",
-      "Fair & Effective Interviewing for Diversity & Inclusion — LinkedIn Learning",
+      "Rolling Out a Diversity & Inclusion Training Program - LinkedIn Learning",
+      "Foundations of Diversity, Equity, Inclusion & Belonging - LinkedIn Learning",
+      "Fair & Effective Interviewing for Diversity & Inclusion - LinkedIn Learning",
     ],
   },
 ];
@@ -240,25 +240,25 @@ export const testimonials: Testimonial[] = [
   },
   {
     quote:
-      "One of my first impressions of Harsh was of a silent observer who internalised everything without letting out much. In the days to come he proved a well-read, well-aware and confident student who held forth on views based on solid research — not cursory information gleaned off the internet. His well-balanced views put him well above the rest of the class, earning him a well-deserved run with The Times of India.",
+      "One of my first impressions of Harsh was of a silent observer who internalised everything without letting out much. In the days to come he proved a well-read, well-aware and confident student who held forth on views based on solid research, not cursory information gleaned off the internet. His well-balanced views put him well above the rest of the class, earning him a well-deserved run with The Times of India.",
     name: "Dr. K Sai Prasad",
-    title: "PhD, MPhil, PGDJMC, MBA — Dean, COMMITS Bangalore",
+    title: "PhD, MPhil, PGDJMC, MBA, Dean, COMMITS Bangalore",
   },
   {
-    quote: "Precise and crisp fact-finding skills — has a nose for news.",
+    quote: "Precise and crisp fact-finding skills, has a nose for news.",
     name: "Srirupa Goswami",
     title:
       "Senior Producer & Reporter, The Indian Express · ex-NDTV, CNN-News18, The Times of India",
   },
   {
     quote:
-      "I rarely come across real talents who stand out like Harsh. His ability to handle multiple projects was unlike anything I'd seen before — managing events, planning shoots and assigning work to achieve a common goal. As a team member or a leader, Harsh earns my highest recommendation.",
+      "I rarely come across real talents who stand out like Harsh. His ability to handle multiple projects was unlike anything I'd seen before, managing events, planning shoots and assigning work to achieve a common goal. As a team member or a leader, Harsh earns my highest recommendation.",
     name: "Krishan Roy",
     title: "Founder & CEO, Motorist · ex-The Hindu, NewsX, CNN-News18",
   },
   {
     quote:
-      "As a journalist, Harsh has consistently demonstrated a strong commitment to excellence. His vast pool of knowledge on several subjects makes him a cut above the rest, along with his ability to think strategically and deliver his best at all times. During college I was quite intimidated by his presence — he was the guy who seemed to know everything, and honestly, it was so cool.",
+      "As a journalist, Harsh has consistently demonstrated a strong commitment to excellence. His vast pool of knowledge on several subjects makes him a cut above the rest, along with his ability to think strategically and deliver his best at all times. During college I was quite intimidated by his presence, he was the guy who seemed to know everything, and honestly, it was so cool.",
     name: "Srijanee Majumdar",
     title: "Journalist, Hindustan Times · ex-Mid-Day, Republic Media, Sportskeeda",
   },
@@ -270,25 +270,25 @@ export const testimonials: Testimonial[] = [
   },
   {
     quote:
-      "His meticulous proofreading and insightful feedback significantly enhance the quality of his work — engaging and error-free, reflecting positively on the company's image. His ability to understand and adapt to various writing styles makes him an invaluable asset.",
+      "His meticulous proofreading and insightful feedback significantly enhance the quality of his work, engaging and error-free, reflecting positively on the company's image. His ability to understand and adapt to various writing styles makes him an invaluable asset.",
     name: "Alma Halilovic",
     title: "UX Designer, Tech Fleet · ex-Rang Technologies",
   },
   {
     quote:
-      "Harsh is very hardworking and was known in college for his innovative thinking. He sits quietly, observes everything, and speaks only when it adds value. He produced a lot of great news stories, excelled in all his coursework — and he's street-smart.",
+      "Harsh is very hardworking and was known in college for his innovative thinking. He sits quietly, observes everything, and speaks only when it adds value. He produced a lot of great news stories, excelled in all his coursework, and he's street-smart.",
     name: "Jyotsna Bharti",
     title: "Journalist & Content Producer · ex-Kashmir Observer",
   },
   {
     quote:
-      "An exceptional student with a passion for political science, journalism and literature, pursued with a rare combination of boldness, empathy and hard work. I watched Harsh launch his career interviewing some of the most prominent figures in Indian media, politics and entertainment — always curious, always seeking out new perspectives. I have no hesitation in recommending him.",
+      "An exceptional student with a passion for political science, journalism and literature, pursued with a rare combination of boldness, empathy and hard work. I watched Harsh launch his career interviewing some of the most prominent figures in Indian media, politics and entertainment, always curious, always seeking out new perspectives. I have no hesitation in recommending him.",
     name: "Shibu Immanuel",
-    title: "BA, LLB — L&D Lead, EssentiallySports · ex-Brifly News",
+    title: "BA, LLB, L&D Lead, EssentiallySports · ex-Brifly News",
   },
   {
     quote:
-      "Has a big heart for the news. An amazing counterpart to work with — sharing experiences and knowledge.",
+      "Has a big heart for the news. An amazing counterpart to work with, sharing experiences and knowledge.",
     name: "Azam Rafiq Sait",
     title: "Dorothy Foods · co-founder, Brifly News · ex-British Herald",
   },
@@ -351,7 +351,7 @@ export const press: PressItem[] = [
   },
   {
     outlet: "International Business Times · Singapore",
-    title: "Reporter archive — Hollywood beat",
+    title: "Reporter archive, Hollywood beat",
     meta: "ibtimes.sg",
     href: "https://www.ibtimes.sg/reporters/harsh-v-singh",
   },
@@ -424,11 +424,11 @@ export type Faq = { q: string; a: string };
 export const faqs: Faq[] = [
   {
     q: "Who is Harsh V Singh?",
-    a: "Harsh V Singh is Associate Director, Project Delivery at Rang Digitech LLC, and a former news reporter for the Times of India, International Business Times (Singapore Edition), NewsX and British Herald. He now leads global digital-marketing delivery while continuing to write independently on geopolitics, marketing, life and long-form narrative.",
+    a: "Harsh V Singh is Associate Director, Project Delivery at Rang Digitech LLC, and a former news reporter for the Times of India, International Business Times (Singapore Edition), NewsX and British Herald. He now leads global digital marketing delivery while continuing to write independently on geopolitics, marketing, life and long-form narrative.",
   },
   {
     q: "What does Harsh V Singh do at Rang Digitech?",
-    a: "He owns end-to-end project delivery for a global portfolio of digital-marketing accounts spanning the US, UK, Canada, UAE and India — managing cross-functional teams, resource allocation, KPIs and brand compliance across concurrent client engagements.",
+    a: "He owns end-to-end project delivery for a global portfolio of digital marketing accounts spanning the US, UK, Canada, UAE, and India, managing cross-functional teams, resource allocation, KPIs and brand compliance across concurrent client engagements.",
   },
   {
     q: "Where has Harsh V Singh worked as a journalist?",
@@ -444,7 +444,7 @@ export const faqs: Faq[] = [
   },
   {
     q: "What is Harsh V Singh's area of professional expertise?",
-    a: "His expertise centres on leadership and cross-functional team management, having led content, SEO, social-media and design professionals across eight-plus companies before rising to Associate Director. He combines this with digital-marketing project delivery, brand strategy, SEO and executive-level communications — sharpened by a background in investigative journalism and public relations, where clear, persuasive communication under pressure was the daily requirement.",
+    a: "His expertise centers on leadership and cross-functional team management, having led content, SEO, social media and design professionals across eight-plus companies before rising to Associate Director. He combines this with digital marketing project delivery, brand strategy, SEO and executive-level communications, sharpened by a background in investigative journalism and public relations, where clear, persuasive communication under pressure was the daily requirement.",
   },
   {
     q: "Does Harsh V Singh hold marketing or SEO certifications?",
@@ -464,7 +464,7 @@ export const faqs: Faq[] = [
   },
   {
     q: "What is Harsh V Singh known for as a journalist?",
-    a: "He is known for investigative civic reporting — including a Times of India exposé on sanitation failures across three Hyderabad government hospitals — and for securing on-camera interviews with senior Karnataka political leaders during his time at NewsX.",
+    a: "He is known for investigative civic reporting, including a Times of India exposé on sanitation failures across three Hyderabad government hospitals, and for securing on-camera interviews with senior Karnataka political leaders during his time at NewsX.",
   },
   {
     q: "What awards or recognitions has Harsh V Singh received?",
@@ -472,11 +472,11 @@ export const faqs: Faq[] = [
   },
   {
     q: "Who has Harsh V Singh interviewed or met throughout his career?",
-    a: "Beyond his formal reporting assignments, Harsh has interviewed and met a wide range of public figures — from Supreme Court justices and Members of Parliament to authors, actors and cricketers — each documented with the actual story behind the encounter in his photo journal above, rather than as a name list.",
+    a: "Beyond his formal reporting assignments, Harsh has interviewed and met a wide range of public figures, from Supreme Court justices and Members of Parliament to authors, actors and cricketers, each documented with the actual story behind the encounter in his photo journal above, rather than as a name list.",
   },
   {
     q: "How is Harsh V Singh's writing style different from typical marketing content?",
-    a: "His writing carries a reporter's discipline — verified facts, sourced claims and narrative pacing — applied to brand strategy and corporate communications instead of daily news.",
+    a: "His writing carries a reporter's discipline, verified facts, sourced claims and narrative pacing, applied to brand strategy and corporate communications instead of daily news.",
   },
   {
     q: "What is Harsh V Singh's professional philosophy?",
@@ -489,13 +489,13 @@ export const faqs: Faq[] = [
 ];
 
 // ---------------------------------------------------------------
-// THE PHOTO JOURNAL — real encounters, each with the story behind
+// THE PHOTO JOURNAL, real encounters, each with the story behind
 // it. Entries with `src` render as photo plates (drop Harsh's own
 // frame at that path in /public to replace the placeholder scene);
 // entries with `story` render as archive cards.
 // ---------------------------------------------------------------
 export type JournalEntry = {
-  meta: string; // dateline — place · date · assignment
+  meta: string; // dateline, place · date · assignment
   name: string;
   story?: string;
   src?: string;
@@ -506,14 +506,14 @@ export const journal: JournalEntry[] = [
     meta: "The Lalit Ashok · Bangalore",
     name: "Chitra Subramaniam",
     story:
-      "Met and spoke with the journalist whose investigative reporting first broke open the Bofors–India Howitzer deal.",
+      "Met and spoke with the journalist whose investigative reporting first broke open the Bofors-India Howitzer deal.",
     src: "/field-notes/chitra-subramaniam.jpg",
   },
   {
     meta: "Bangalore · Jan 20, 2016",
     name: "Justice N. Santosh Hegde",
     story:
-      "Asked the former Supreme Court judge and Karnataka Lokayukta directly whether the Rajya Sabha needed reform. His answer — that the Upper House was built as an intellectual check on the Lok Sabha but had become a seat people could effectively buy — stuck with me long after the interview ended.",
+      "Asked the former Supreme Court judge and Karnataka Lokayukta directly whether the Rajya Sabha needed reform. His answer, that the Upper House was built as an intellectual check on the Lok Sabha but had become a seat people could effectively buy, stuck with me long after the interview ended.",
     src: "/field-notes/santosh-hegde.jpg",
   },
   {
@@ -525,14 +525,14 @@ export const journal: JournalEntry[] = [
     meta: "Bangalore",
     name: "Chetan Bhagat",
     story:
-      "Read 2 States on a friend's recommendation in 2011. Seven years later, sat beside its author asking him questions for a story. He signed off with a note thanking me for entering the reading world. Full circle — the kind journalism occasionally hands you.",
+      "Read 2 States on a friend's recommendation in 2011. Seven years later, sat beside its author asking him questions for a story. He signed off with a note thanking me for entering the reading world. Full circle, the kind journalism occasionally hands you.",
     src: "/field-notes/chetan-bhagat.jpg",
   },
   {
     meta: "Hyderabad",
     name: "VVS Laxman",
     story:
-      "Told him thank you — for carrying Indian cricket through the match-fixing years, and for that Kolkata Test against Australia alongside Rahul Dravid in particular. He smiled, acknowledged it kindly, signed an autograph for my father, and posed for a quick selfie before he had to rush off. Genuinely humble, exactly as advertised.",
+      "Told him thank you, for carrying Indian cricket through the match-fixing years, and for that Kolkata Test against Australia alongside Rahul Dravid in particular. He smiled, acknowledged it kindly, signed an autograph for my father, and posed for a quick selfie before he had to rush off. Genuinely humble, exactly as advertised.",
     src: "/field-notes/vvs-laxman.jpg",
   },
   {
@@ -553,7 +553,7 @@ export const journal: JournalEntry[] = [
     meta: "COMMITS alumna",
     name: "Prema Sridevi",
     story:
-      "With the then News & Special Projects Editor at Republic TV — an alumna of my college.",
+      "With the then News & Special Projects Editor at Republic TV, an alumna of my college.",
     src: "/field-notes/prema-sridevi.jpg",
   },
   {
@@ -565,61 +565,61 @@ export const journal: JournalEntry[] = [
     meta: "On camera · Bangalore",
     name: "Chidanand Rajghatta",
     story:
-      "Interviewed the foreign correspondent and author on the craft of journalism — on the record, on camera. He later wrote Illiberal India: Gauri Lankesh and the Age of Unreason.",
+      "Interviewed the foreign correspondent and author on the craft of journalism, on the record, on camera. He later wrote Illiberal India: Gauri Lankesh and the Age of Unreason.",
     src: "/field-notes/chidanand-rajghatta.jpg",
   },
   {
     meta: "Bangalore Literature Festival",
     name: "Pavan K. Varma",
     story:
-      "Second meeting with the former diplomat and MP, who personally translated a collection of Atal Bihari Vajpayee's poetry. Asked him directly whether Vajpayee himself had requested the translation. He confirmed it — a phone call, a personal ask, exactly as the story had always gone.",
+      "Second meeting with the former diplomat and MP, who personally translated a collection of Atal Bihari Vajpayee's poetry. Asked him directly whether Vajpayee himself had requested the translation. He confirmed it, a phone call, a personal ask, exactly as the story had always gone.",
     src: "/field-notes/pavan-k-varma.jpg",
   },
   {
     meta: "College alumna",
     name: "Faye D'Souza",
-    story: "With the former Editor-in-Chief of Mirror Now — an alumna of my college.",
+    story: "With the former Editor-in-Chief of Mirror Now, an alumna of my college.",
     src: "/field-notes/faye-dsouza.jpg",
   },
   {
     meta: "Bangalore Literature Festival",
     name: "R. Aravamudan",
     story:
-      "Former director of the Satish Dhawan Space Centre and the ISRO Satellite Centre — one of Dr. Vikram Sarabhai's first handpicked engineers in 1962, senior to Dr. APJ Abdul Kalam, and the man who recruited scientist S. Nambi Narayanan.",
+      "Former director of the Satish Dhawan Space Centre and the ISRO Satellite Centre, one of Dr. Vikram Sarabhai's first handpicked engineers in 1962, senior to Dr. APJ Abdul Kalam, and the man who recruited scientist S. Nambi Narayanan.",
     src: "/field-notes/r-aravamudan.jpg",
   },
   {
     meta: "Police HQ · Bangalore · NewsX",
     name: "CM Siddaramaiah",
     story:
-      "Covered a media briefing with the Karnataka Chief Minister alongside the state's senior IPS cadre — part of ongoing NewsX coverage of Karnataka state politics.",
+      "Covered a media briefing with the Karnataka Chief Minister alongside the state's senior IPS cadre, part of ongoing NewsX coverage of Karnataka state politics.",
     src: "/field-notes/siddaramaiah.jpg",
   },
   {
     meta: "Benson Town · Bangalore · NewsX",
     name: "Tanveer Ahmed",
     story:
-      "Recorded on-camera bytes from the JD(S) national spokesperson on two developing state political issues — one of several assignments covering Karnataka's opposition politics that season.",
+      "Recorded on-camera bytes from the JD(S) national spokesperson on two developing state political issues, one of several assignments covering Karnataka's opposition politics that season.",
     src: "/field-notes/tanveer-ahmed.jpg",
   },
   {
     meta: "Fortune Park JP Celestial · #NewsX",
     name: "Taking the byte",
-    story: "— with Sathish Kumar, on two developing issues.",
+    story: "With Sathish Kumar, on two developing issues.",
     src: "/field-notes/tanveer-byte.jpg",
   },
   {
     meta: "Bangalore",
     name: "Praveen Shetty",
     story:
-      "Recorded a byte from Praveen Shetty of the pro-Kannada organisation Karnataka Rakshana Vedike.",
+      "Recorded a byte from Praveen Shetty of the pro-Kannada organization Karnataka Rakshana Vedike.",
     src: "/field-notes/praveen-shetty.jpg",
   },
   {
     meta: "A small cabin",
     name: "Subir Ghosh",
     story:
-      "An unexpected, challenging interview with the author of Gas Wars: Crony Capitalism and the Ambanis — a book that landed back in the spotlight when Delhi CM Arvind Kejriwal took on Mukesh Ambani and Reliance Industries.",
+      "An unexpected, challenging interview with the author of Gas Wars: Crony Capitalism and the Ambanis, a book that landed back in the spotlight when Delhi CM Arvind Kejriwal took on Mukesh Ambani and Reliance Industries.",
     src: "/field-notes/subir-ghosh.jpg",
   },
   {
@@ -644,7 +644,7 @@ export const journal: JournalEntry[] = [
     meta: "Bangalore",
     name: "Ashwini Iyer Tiwari",
     story:
-      "Caught the Filmfare-winning director of Nil Battey Sannata, Bareilly Ki Barfi and Panga for a quick interview. Fifteen minutes in a chaotic, crowded space — and her warmth still came through completely unhurried.",
+      "Caught the Filmfare-winning director of Nil Battey Sannata, Bareilly Ki Barfi and Panga for a quick interview. Fifteen minutes in a chaotic, crowded space, and her warmth still came through completely unhurried.",
     src: "/field-notes/ashwini-iyer-tiwari.jpg",
   },
   {
@@ -664,7 +664,7 @@ export const journal: JournalEntry[] = [
     meta: "21st Chief of the Army Staff",
     name: "General J.J. Singh",
     story:
-      "Met the general closely associated with the planning and execution of the Kargil War — the public face of the Indian Army as ADGMO for a generation that grew up watching those broadcasts.",
+      "Met the general closely associated with the planning and execution of the Kargil War, the public face of the Indian Army as ADGMO for a generation that grew up watching those broadcasts.",
     src: "/field-notes/jj-singh.jpg",
   },
   {
@@ -684,7 +684,7 @@ export const journal: JournalEntry[] = [
     meta: "Bangalore",
     name: "Shailesh Gandhi",
     story:
-      "Heard the Right to Information activist and former Central Information Commissioner speak on threats to the RTI Act. The only RTI activist to have served as a Central Information Commissioner — he disposed of over 20,000 cases in two years and nine months.",
+      "Heard the Right to Information activist and former Central Information Commissioner speak on threats to the RTI Act. The only RTI activist to have served as a Central Information Commissioner, he disposed of over 20,000 cases in two years and nine months.",
     src: "/field-notes/shailesh-gandhi.jpg",
   },
   {
@@ -698,7 +698,7 @@ export const journal: JournalEntry[] = [
     meta: "Rashtriya Sanskriti Mahotsav",
     name: "Warsi Brothers",
     story:
-      "With the Qawwali singers of Hyderabad — Nazeer Ahmed Khan Warsi and Naseer Ahmed Khan Warsi, along with accompanists.",
+      "With the Qawwali singers of Hyderabad, Nazeer Ahmed Khan Warsi and Naseer Ahmed Khan Warsi, along with accompanists.",
     src: "/field-notes/warsi-brothers.jpg",
   },
   {
@@ -724,7 +724,7 @@ export const journal: JournalEntry[] = [
     meta: "NSoJ · Bangalore",
     name: "Aditya Sondhi",
     story:
-      "Discussed defamation law and India–Pakistan relations with the senior advocate of the Karnataka High Court.",
+      "Discussed defamation law and India-Pakistan relations with the senior advocate of the Karnataka High Court.",
     src: "/field-notes/aditya-sondhi.jpg",
   },
   {
@@ -736,14 +736,14 @@ export const journal: JournalEntry[] = [
   {
     meta: "Mirchi 95 · Bangalore",
     name: "RJ Ridhi",
-    story: "With Ridhi Shah — iamridhiculous — while she hosts the show.",
+    story: "With Ridhi Shah, iamridhiculous, while she hosts the show.",
     src: "/field-notes/rj-ridhi.jpg",
   },
   {
     meta: "At his house · Bangalore",
     name: "A.M.R. Ramesh",
     story:
-      "Met the director who has worked across Kannada, Tamil, Telugu and Malayalam cinema and rose to prominence with Cyanide — then at work on a biopic of Bengaluru DIG (Prisons) D. Roopa.",
+      "Met the director who has worked across Kannada, Tamil, Telugu and Malayalam cinema and rose to prominence with Cyanide, then at work on a biopic of Bengaluru DIG (Prisons) D. Roopa.",
     src: "/field-notes/amr-ramesh.jpg",
   },
   {
@@ -754,17 +754,17 @@ export const journal: JournalEntry[] = [
 ];
 
 // ---------------------------------------------------------------
-// ABOUT — the long version
+// ABOUT, the long version
 // ---------------------------------------------------------------
 export const aboutParas: string[] = [
-  "Harsh V Singh spent his twenties chasing chief ministers for a quote and hospital corridors for a story. Today he runs global project delivery for Rang Digitech LLC — Associate Director since April 2026, based out of Piscataway, New Jersey, running his team day-to-day from Rang's Vadodara and Ahmedabad offices in Gujarat — leading delivery for a cross-functional team that manages client relationships and campaign execution across the US, UK, Canada, UAE and India.",
-  "Before any of that, he was a reporter — bylined stories for The Times of India, the International Business Times (Singapore Edition), NewsX and British Herald. Reporting that took him from hospital wards in Hyderabad to the floor of the Karnataka Vidhan Soudha, sitting across from sitting and former Chief Ministers, party spokespeople and civil servants to get the quote that mattered. That grounding — verify the fact, hit the deadline, say the complicated thing simply — still drives how he thinks about brand strategy and corporate communications now. Just aimed at a different kind of story.",
-  "Nine-plus years in, journalism and brand strategy still run on the same fuel: get the facts right, then make people care. He has interviewed sitting chief ministers, a former prime minister, Indian ambassadors, actors, singers, foreign MPs, Indian MLAs, MLCs and MPs, RTI commissioners, scholars — and Nobel laureate Kailash Satyarthi — and broken investigative stories that prompted government scrutiny.",
+  "Harsh V Singh spent his twenties chasing chief ministers for a quote and hospital corridors for a story. Today he runs global project delivery for Rang Digitech LLC, Associate Director since April 2026, based out of Piscataway, New Jersey, running his team day-to-day from Rang's Vadodara and Ahmedabad offices in Gujarat, leading delivery for a cross-functional team that manages client relationships and campaign execution across the US, UK, Canada, UAE, and India.",
+  "Before any of that, he was a reporter, bylined stories for The Times of India, the International Business Times (Singapore Edition), NewsX and British Herald. Reporting that took him from hospital wards in Hyderabad to the floor of the Karnataka Vidhan Soudha, sitting across from sitting and former Chief Ministers, party spokespeople and civil servants to get the quote that mattered. That grounding, verify the fact, hit the deadline, say the complicated thing simply, still drives how he thinks about brand strategy and corporate communications now. Just aimed at a different kind of story.",
+  "Nine-plus years in, journalism and brand strategy still run on the same fuel: get the facts right, then make people care. He has interviewed sitting chief ministers, a former prime minister, Indian ambassadors, actors, singers, foreign MPs, Indian MLAs, MLCs and MPs, RTI commissioners, scholars, and Nobel laureate Kailash Satyarthi, and broken investigative stories that prompted government scrutiny.",
 ];
 
 export type Recognition = { title: string; context: string };
 export const recognition: Recognition[] = [
-  { title: "“Architect of Success”", context: "Rang Digitech AGM — Flare 2024" },
+  { title: "“Architect of Success”", context: "Rang Digitech AGM Flare 2024" },
   { title: "Closing speech", context: "Rang Group AGM 2025" },
   { title: "Promising Journalist Award", context: "Presidency College, 2018" },
   { title: "NCC “A” Certificate", context: "National Cadet Corps" },

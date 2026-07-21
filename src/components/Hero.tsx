@@ -50,7 +50,7 @@ export default function Hero() {
           <div className="masthead-rule">
             <span className="vol">Vol. IX · Est. 2017</span>
             <span className="spacer" />
-            <span>Now filing —&nbsp;</span>
+            <span>Now filing:&nbsp;</span>
             <span className="ticker" aria-live="off">
               {live}
               <span className="cursor" aria-hidden="true" />

@@ -13,7 +13,7 @@ export default function Journey() {
               A life in <em>datelines</em>
             </span>
           }
-          lede="From the floor of the Vidhan Soudha to global project delivery — read newest dispatch first."
+          lede="From the floor of the Vidhan Soudha to global project delivery, read newest dispatch first."
         />
         <div className="beat">
           {career.map((d) => (

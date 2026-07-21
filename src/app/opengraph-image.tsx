@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "Harsh V Singh — Reporter turned brand & delivery leader";
+export const alt = "Harsh V Singh · Reporter turned brand & delivery leader";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -68,7 +68,7 @@ export default function OgImage() {
               marginTop: 28,
             }}
           >
-            Get the facts right — then make people care.
+            Get the facts right, then make people care.
           </div>
         </div>
 
