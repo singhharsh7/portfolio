@@ -6,9 +6,16 @@ function RowInner({ p }: { p: (typeof press)[number] }) {
     <>
       <span
         className={`clip${p.img ? "" : " empty"}`}
-        style={p.img ? { backgroundImage: `url(${p.img})` } : undefined}
-        aria-hidden="true"
-      />
+        aria-hidden={p.img ? undefined : true}
+      >
+        {p.img ? (
+          <img
+            src={p.img}
+            alt={`${p.outlet} clipping: ${p.title}`}
+            loading="lazy"
+          />
+        ) : null}
+      </span>
       <span className="outlet">{p.outlet}</span>
       <span className="headline">{p.title}</span>
       <span className="meta">

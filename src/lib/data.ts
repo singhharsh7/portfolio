@@ -13,7 +13,7 @@ export const site = {
   email: "singhharsh_7@yahoo.in",
   phone: "+91 95387 86693",
   phoneHref: "+919538786693",
-  url: "https://harshvsingh.com",
+  url: "https://harshvsingh.in",
 } as const;
 
 // Teletype datelines that cycle in the hero ticker.

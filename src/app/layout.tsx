@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     template: "%s · Harsh V Singh",
   },
   description:
-    "Harsh V Singh is Associate Director of Project Delivery at Rang Digitech, a former Times of India / NewsX reporter now running global delivery across the US, UK, Canada, UAE, and India.",
+    "Harsh V Singh, Associate Director of Project Delivery at Rang Digitech: a former Times of India and NewsX reporter leading global digital marketing delivery.",
   keywords: [
     "Harsh V Singh",
     "Rang Digitech",
@@ -75,14 +75,15 @@ export const viewport: Viewport = {
 };
 
 const personJsonLd = {
-  "@context": "https://schema.org",
   "@type": "Person",
+  "@id": `${site.url}/#person`,
   name: "Harsh V Singh",
   jobTitle: "Associate Director, Project Delivery",
   worksFor: { "@type": "Organization", name: "Rang Digitech LLC" },
   email: `mailto:${site.email}`,
   telephone: site.phoneHref,
   url: site.url,
+  image: `${site.url}/avatar.jpg`,
   address: {
     "@type": "PostalAddress",
     addressLocality: "Vadodara",
@@ -97,7 +98,38 @@ const personJsonLd = {
     "Architect of Success, Rang Digitech AGM Flare 2024",
     "Promising Journalist Award, Presidency College, 2018",
   ],
+  knowsAbout: [
+    "Project delivery",
+    "Brand strategy",
+    "Digital marketing",
+    "SEO",
+    "Generative AI",
+    "Journalism",
+    "Corporate communications",
+  ],
   sameAs: socials.map((s) => s.href),
+};
+
+// Google's profile-page rich result: the page is a ProfilePage whose
+// main entity is the Person, on the site's WebSite.
+const profileJsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": `${site.url}/#website`,
+      url: site.url,
+      name: "Harsh V Singh",
+    },
+    {
+      "@type": "ProfilePage",
+      "@id": `${site.url}/#profile`,
+      url: site.url,
+      isPartOf: { "@id": `${site.url}/#website` },
+      mainEntity: { "@id": `${site.url}/#person` },
+    },
+    personJsonLd,
+  ],
 };
 
 const faqJsonLd = {
@@ -129,7 +161,7 @@ export default function RootLayout({
         />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(profileJsonLd) }}
         />
         <script
           type="application/ld+json"
