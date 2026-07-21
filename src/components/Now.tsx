@@ -6,7 +6,7 @@ export default function Now() {
     <section className="section" id="desk" aria-labelledby="desk-title">
       <div className="wrap">
         <SectionHead
-          index="01"
+          index="02"
           label="On the desk"
           title={
             <span id="desk-title">

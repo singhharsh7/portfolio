@@ -9,7 +9,7 @@ export default function Testimonials() {
     <section className="section" id="voices" aria-labelledby="voices-title">
       <div className="wrap">
         <SectionHead
-          index="04"
+          index="05"
           label="On the record"
           title={
             <span id="voices-title">

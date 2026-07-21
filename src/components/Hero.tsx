@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import HeroCanvas from "./HeroCanvas";
 import { site, ticker } from "@/lib/data";
 
 function useTicker() {
@@ -43,6 +44,7 @@ export default function Hero() {
 
   return (
     <section className="hero wrap" aria-label="Introduction">
+      <HeroCanvas />
       <div className="hero-grid">
         <div>
           <div className="masthead-rule">
@@ -104,10 +106,10 @@ export default function Hero() {
         >
           <div className="frame">
             <Image
-              src="/avatar.png"
+              src="/avatar.jpg"
               alt="Portrait of Harsh V Singh"
               fill
-              sizes="(max-width: 62rem) 80vw, 24rem"
+              sizes="(max-width: 62rem) 80vw, 27rem"
               priority
             />
             <span className="stamp">On the record</span>

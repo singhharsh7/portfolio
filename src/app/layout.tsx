@@ -4,7 +4,7 @@ import "./globals.css";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import Enhance from "@/components/Enhance";
-import { site, socials } from "@/lib/data";
+import { site, socials, faqs } from "@/lib/data";
 
 // Display — a characterful grotesque, set tight and heavy for the masthead.
 const display = Bricolage_Grotesque({
@@ -93,7 +93,21 @@ const personJsonLd = {
     { "@type": "CollegeOrUniversity", name: "COMMITS, Bangalore" },
     { "@type": "CollegeOrUniversity", name: "Presidency College, Bangalore" },
   ],
+  award: [
+    "Architect of Success — Rang Digitech AGM Flare 2024",
+    "Promising Journalist Award — Presidency College, 2018",
+  ],
   sameAs: socials.map((s) => s.href),
+};
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
 };
 
 export default function RootLayout({
@@ -116,6 +130,10 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
         />
         <div className="grain" aria-hidden="true" />
         <a href="#desk" className="skip-link">Skip to content</a>

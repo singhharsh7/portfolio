@@ -6,7 +6,7 @@ export default function Credentials() {
     <section className="section" id="credentials" aria-labelledby="cred-title">
       <div className="wrap">
         <SectionHead
-          index="03"
+          index="04"
           label="The file"
           title={
             <span id="cred-title">

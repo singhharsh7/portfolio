@@ -6,7 +6,7 @@ export default function Writing() {
     <section className="section" id="writing" aria-labelledby="writing-title">
       <div className="wrap">
         <SectionHead
-          index="05"
+          index="06"
           label="Dispatches"
           title={
             <span id="writing-title">

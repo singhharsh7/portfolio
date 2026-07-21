@@ -1,12 +1,30 @@
 import SectionHead from "./SectionHead";
 import { press } from "@/lib/data";
 
+function RowInner({ p }: { p: (typeof press)[number] }) {
+  return (
+    <>
+      <span
+        className={`clip${p.img ? "" : " empty"}`}
+        style={p.img ? { backgroundImage: `url(${p.img})` } : undefined}
+        aria-hidden="true"
+      />
+      <span className="outlet">{p.outlet}</span>
+      <span className="headline">{p.title}</span>
+      <span className="meta">
+        {p.meta}
+        {p.href ? " ↗" : ""}
+      </span>
+    </>
+  );
+}
+
 export default function Press() {
   return (
     <section className="section" id="press" aria-labelledby="press-title">
       <div className="wrap">
         <SectionHead
-          index="06"
+          index="07"
           label="In the press"
           title={
             <span id="press-title">
@@ -26,15 +44,11 @@ export default function Press() {
                 rel="noopener noreferrer"
                 data-reveal
               >
-                <span className="outlet">{p.outlet}</span>
-                <span className="headline">{p.title}</span>
-                <span className="meta">{p.meta} ↗</span>
+                <RowInner p={p} />
               </a>
             ) : (
               <div className="press-row" key={p.title} data-reveal>
-                <span className="outlet">{p.outlet}</span>
-                <span className="headline">{p.title}</span>
-                <span className="meta">{p.meta}</span>
+                <RowInner p={p} />
               </div>
             )
           )}

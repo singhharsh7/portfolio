@@ -1,5 +1,6 @@
 import SectionHead from "./SectionHead";
-import { fieldNotes } from "@/lib/data";
+import { journal } from "@/lib/data";
+import { photoDims } from "@/lib/photo-dims";
 
 export default function FieldNotes() {
   return (
@@ -10,21 +11,33 @@ export default function FieldNotes() {
           label="Field notes"
           title={
             <span id="fn-title">
-              A photograph, with <em>context</em>
+              The photo <em>journal</em>
             </span>
           }
-          lede="Frames from nine years of chasing the story — from the assembly floor to the brand studio. Hover to bring them to colour."
+          lede="Encounters from nine years of chasing the story — Supreme Court justices, chief ministers, authors, cricketers — each filed with the story behind it, not as a name list."
         />
-        <div className="plates">
-          {fieldNotes.map((p) => (
-            <figure className="plate" key={p.no} data-reveal>
-              <div
-                className="plate-frame"
-                style={{ backgroundImage: `url(${p.src})` }}
-              >
-                <span className="plate-no">Plate {p.no}</span>
-              </div>
-              <figcaption>{p.caption}</figcaption>
+
+        <div className="journal">
+          {journal.map((e) => (
+            <figure className="j-photo" key={e.name}>
+              {e.src ? (
+                <div className="j-frame">
+                  {/* Natural aspect ratio — frames are never cropped. Intrinsic
+                      width/height reserve the space before the lazy load lands. */}
+                  <img
+                    src={e.src}
+                    alt={e.name}
+                    loading="lazy"
+                    width={photoDims[e.src]?.w}
+                    height={photoDims[e.src]?.h}
+                  />
+                </div>
+              ) : null}
+              <figcaption>
+                <span className="j-meta">{e.meta}</span>
+                <b>{e.name}</b>
+                {e.story ? <p>{e.story}</p> : null}
+              </figcaption>
             </figure>
           ))}
         </div>
