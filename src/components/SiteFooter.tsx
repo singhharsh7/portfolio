@@ -6,7 +6,17 @@ export default function SiteFooter() {
       <div className="wrap row">
         <span className="mono-mark">{site.monogram}</span>
         <span>© Harsh V Singh · {site.role}</span>
-        <span>Set in Bricolage Grotesque, Hanken Grotesk &amp; IBM Plex Mono</span>
+        <span>
+          Designed by{" "}
+          <a
+            className="credit"
+            href="https://www.rangdigitech.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Rang Digitech
+          </a>
+        </span>
         <a className="to-top" href="#top">
           Back to top ↑
         </a>

@@ -13,6 +13,7 @@ function RowInner({ p }: { p: (typeof press)[number] }) {
             src={p.img}
             alt={`${p.outlet} clipping: ${p.title}`}
             loading="lazy"
+            style={p.imgPos ? { objectPosition: p.imgPos } : undefined}
           />
         ) : null}
       </span>

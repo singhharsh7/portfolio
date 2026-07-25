@@ -13,7 +13,7 @@ export default function Writing() {
               Still <em>filing</em>, on Substack &amp; Medium
             </span>
           }
-          lede="Nine years in, the fuel is unchanged: get the facts right, then make people care."
+          lede="9.5+ years in, the fuel is unchanged: get the facts right, then make people care."
         />
         <div className="two">
           {writing.map((c) => (

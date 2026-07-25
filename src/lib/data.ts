@@ -4,12 +4,18 @@
 export const site = {
   name: "Harsh V Singh",
   monogram: "HVS",
-  role: "Associate Director, Project Delivery",
+  role: "Associate Director - Project Delivery",
   org: "Rang Digitech LLC",
   tagline: "Get the facts right, then make people care.",
   support:
     "A reporter who chased chief ministers for a quote now runs global delivery for a digital agency. Same craft: verify the fact, hit the deadline, say the complicated thing simply.",
-  base: "Piscataway, New Jersey, filing daily from Vadodara & Ahmedabad, Gujarat",
+  base: "Vadodara, Gujarat · Leading delivery across the US, UK, Canada, UAE & India",
+  // The hero's standing bio, pipe-separated exactly as supplied.
+  heroBio: [
+    "Associate Director at Rang Digitech LLC",
+    "Worked with Rang Technologies, GoodFirms, Jindal, Times of India, and NewsX",
+    "Formerly in Journalism & Corporate Communications",
+  ],
   email: "singhharsh_7@yahoo.in",
   phone: "+91 95387 86693",
   phoneHref: "+919538786693",
@@ -40,12 +46,12 @@ export const nav: NavItem[] = [
 
 export type Stat = { figure: string; label: string; note: string };
 export const stats: Stat[] = [
-  { figure: "9+", label: "Years", note: "Newsroom to brand desk" },
-  { figure: "13", label: "Bylines", note: "Filed in 7 days at TOI" },
-  { figure: "4", label: "Continents", note: "US · UK · Canada · UAE · India" },
-  { figure: "8+", label: "Group brands", note: "Content led at once" },
-  { figure: "125+", label: "Certifications", note: "SEO, GenAI, brand, leadership" },
-  { figure: "600+", label: "Books", note: "And 600+ films, 150+ docs" },
+  { figure: "9.5+", label: "Years", note: "Newsroom to Associate Director" },
+  { figure: "3", label: "Newsrooms", note: "Times of India · IBT · NewsX" },
+  { figure: "5", label: "Markets", note: "US · UK · Canada · UAE · India" },
+  { figure: "125+", label: "Certifications", note: "SEO, GenAI, brand & leadership" },
+  { figure: "600+", label: "Books read", note: "Rated and reviewed on Goodreads" },
+  { figure: "Award", label: "Promising Journalist", note: "Presidency College, Bangalore, 2018" },
 ];
 
 export type Capability = { title: string; body: string };
@@ -80,7 +86,7 @@ export type Dispatch = {
 export const career: Dispatch[] = [
   {
     dateline: "PISCATAWAY ↔ VADODARA · 2026 - NOW · DELIVERY",
-    role: "Associate Director, Project Delivery",
+    role: "Associate Director - Project Delivery",
     org: "Rang Digitech LLC",
     body: "Owns end-to-end delivery for a portfolio of digital marketing accounts across the US, UK, Canada, UAE, and India, resourcing, coordinating teams through concurrent engagements, and protecting KPIs, brand compliance and online reputation.",
     era: "brand",
@@ -323,13 +329,13 @@ export const writing: Column[] = [
     name: "Substack",
     handle: "singhharsh7.substack.com",
     href: "https://singhharsh7.substack.com/",
-    body: "Long-form dispatches on brand, media and the craft of getting attention honestly.",
+    body: "Dispatches on life, people, and memory, and the lessons history still echoes. 8.5k+ subscribers.",
   },
   {
     name: "Medium",
     handle: "@singhharsh_7",
     href: "https://medium.com/@singhharsh_7",
-    body: "Essays and field notes from nine years across the newsroom and the brand desk.",
+    body: "Personal essays on marriage, memory, and the small moments that outlast the news cycle.",
   },
 ];
 
@@ -339,6 +345,7 @@ export type PressItem = {
   meta: string;
   href?: string;
   img?: string; // clipping thumbnail
+  imgPos?: string; // object-position, for scans with wide white margins
 };
 export const press: PressItem[] = [
   {
@@ -347,7 +354,6 @@ export const press: PressItem[] = [
       "Narendra Modi Wins Reader's Poll for World's Most Powerful Person 2019",
     meta: "Jun 16, 2019 · went viral",
     href: "https://web.archive.org/web/20190629011422/https://www.britishherald.com/narendra-modi-wins-readers-poll-for-worlds-most-powerful-person-2019/",
-    img: "/field-notes/press-british-herald.jpg",
   },
   {
     outlet: "International Business Times · Singapore",
@@ -375,6 +381,12 @@ export const press: PressItem[] = [
     meta: "Politics in government-school notebooks",
     href: "https://timesofindia.indiatimes.com/city/hyderabad/notebooks-with-kcrs-photo-draws-activists-ire/articleshow/70882866.cms",
     img: "/field-notes/press-toi-notebooks.jpg",
+  },
+  {
+    outlet: "Times of India · Hyderabad",
+    title: "Not enough organs despite increase in donations",
+    meta: "Aug 13, 2019 · print edition",
+    img: "/field-notes/press-toi-organs.jpg",
   },
 ];
 

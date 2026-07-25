@@ -121,10 +121,9 @@ export default function Enhance() {
             );
           }
 
-          tl.from(".hero .thesis", { autoAlpha: 0, y: 30 }, 1.0)
-            .from(".hero .lead", { autoAlpha: 0, y: 26 }, 1.18)
-            .from(".hero .btn-row", { autoAlpha: 0, y: 22 }, 1.36)
-            .from(".hero .whereami", { autoAlpha: 0, y: 16 }, 1.52)
+          tl.from(".hero .hero-about-title", { autoAlpha: 0, y: 30 }, 1.0)
+            .from(".hero .hero-bio", { autoAlpha: 0, y: 26 }, 1.18)
+            .from(".hero .hero-contact", { autoAlpha: 0, y: 22 }, 1.36)
             .from(
               ".portrait",
               { autoAlpha: 0, y: 40, scale: 0.965, duration: 1.5 },
@@ -232,7 +231,7 @@ export default function Enhance() {
           scrollTrigger: { trigger: ".caps", start: "top 80%", once: true },
         });
 
-        // ---------- The beat: a blue line draws down the timeline ----------
+        // ---------- The beat: an accent line draws down the timeline ----------
         const beat = document.querySelector<HTMLElement>(".beat");
         if (beat) {
           gsap.set(beat, { "--beat-p": 0 });
@@ -466,7 +465,7 @@ export default function Enhance() {
               0.8
             );
 
-          // the blue glow leans toward the cursor
+          // the accent glow leans toward the cursor
           const onMove = (e: PointerEvent) => {
             const r = shell.getBoundingClientRect();
             const gx = ((e.clientX - r.left) / r.width) * 100;

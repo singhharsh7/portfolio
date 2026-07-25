@@ -78,7 +78,7 @@ const personJsonLd = {
   "@type": "Person",
   "@id": `${site.url}/#person`,
   name: "Harsh V Singh",
-  jobTitle: "Associate Director, Project Delivery",
+  jobTitle: "Associate Director - Project Delivery",
   worksFor: { "@type": "Organization", name: "Rang Digitech LLC" },
   email: `mailto:${site.email}`,
   telephone: site.phoneHref,

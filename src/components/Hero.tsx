@@ -61,42 +61,39 @@ export default function Hero() {
             Harsh <span className="v">V</span> Singh
           </h1>
 
-          <p
-            className="thesis"
+          <h2
+            className="hero-about-title"
             data-reveal
             style={{ "--d": "0.08s" } as React.CSSProperties}
           >
-            {site.tagline}
-          </p>
+            About {site.name}
+          </h2>
 
           <p
-            className="lead"
+            className="hero-bio"
             data-reveal
             style={{ "--d": "0.16s" } as React.CSSProperties}
           >
-            {site.support}
+            {site.heroBio.map((part, i) => (
+              <span key={part}>
+                {i > 0 ? (
+                  <span className="sep" aria-hidden="true">
+                    |
+                  </span>
+                ) : null}
+                {part}
+              </span>
+            ))}
           </p>
 
           <div
-            className="btn-row"
+            className="hero-contact"
             data-reveal
             style={{ "--d": "0.24s" } as React.CSSProperties}
           >
-            <a className="btn btn-primary" href="#contact">
-              Get in touch <span className="arrow">→</span>
-            </a>
-            <a className="btn btn-ghost" href="#career">
-              Read the beat
-            </a>
+            <a href={`tel:${site.phoneHref}`}>{site.phone}</a>
+            <a href={`mailto:${site.email}`}>{site.email}</a>
           </div>
-
-          <p
-            className="whereami"
-            data-reveal
-            style={{ "--d": "0.3s" } as React.CSSProperties}
-          >
-            {site.base}
-          </p>
         </div>
 
         <div
@@ -112,7 +109,6 @@ export default function Hero() {
               sizes="(max-width: 62rem) 80vw, 27rem"
               priority
             />
-            <span className="stamp">On the record</span>
           </div>
           <div className="cap">
             <span>Harsh V Singh</span>

@@ -28,7 +28,7 @@ export default function OgImage() {
             fontSize: 22,
             letterSpacing: 4,
             textTransform: "uppercase",
-            color: "#2438cc",
+            color: "#f8652f",
             borderBottom: "1px solid #e6e2d9",
             paddingBottom: 20,
           }}
@@ -50,9 +50,9 @@ export default function OgImage() {
             <span>Harsh</span>
             <span
               style={{
-                color: "#2438cc",
+                color: "#f8652f",
                 margin: "0 0.24em",
-                borderBottom: "8px solid #2438cc",
+                borderBottom: "8px solid #f8652f",
               }}
             >
               V
@@ -84,7 +84,7 @@ export default function OgImage() {
           }}
         >
           <span>Associate Director, Project Delivery · Rang Digitech</span>
-          <span style={{ color: "#2438cc", fontSize: 20, letterSpacing: 3 }}>
+          <span style={{ color: "#f8652f", fontSize: 20, letterSpacing: 3 }}>
             ON THE RECORD
           </span>
         </div>

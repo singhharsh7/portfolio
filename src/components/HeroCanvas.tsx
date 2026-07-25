@@ -11,7 +11,7 @@ void main() {
 `;
 
 // Ink diffusing in water: domain-warped fbm noise, masked into two soft
-// blooms (top-right in the accent blue, a fainter echo lower-left), both
+// blooms (top-right in the brand orange, a fainter echo lower-left), both
 // breathing slowly and leaning toward the cursor.
 const FRAG = /* glsl */ `
 precision highp float;
@@ -66,9 +66,9 @@ void main() {
   float m2 = smoothstep(0.75, 0.05, distance(p, c2));
   float ink2 = smoothstep(0.4, 0.9, fbm(p * 1.8 - q + uTime * 0.01)) * m2;
 
-  vec3 blue = vec3(0.141, 0.220, 0.800);   // editor's blue
-  vec3 lite = vec3(0.580, 0.635, 1.000);   // its wash
-  vec3 col = mix(lite, blue, clamp(ink1 + ink2 * 0.5, 0.0, 1.0));
+  vec3 brand = vec3(0.973, 0.396, 0.184);  // brand orange
+  vec3 lite  = vec3(1.000, 0.686, 0.565);  // its wash
+  vec3 col = mix(lite, brand, clamp(ink1 + ink2 * 0.5, 0.0, 1.0));
 
   float a = clamp(ink1 * 0.30 + ink2 * 0.14, 0.0, 0.34);
   gl_FragColor = vec4(col, a);
