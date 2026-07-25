@@ -8,20 +8,36 @@ export default function SiteHeader() {
   const [stuck, setStuck] = useState(false);
   const [active, setActive] = useState<string>("");
 
-  // Sticky background + scroll-progress rail
+  // Sticky background + scroll-progress rail. The document height can't
+  // change while scrolling, so it's measured on resize/load instead of on
+  // every scroll event - reading scrollHeight there forces a reflow per frame.
   useEffect(() => {
     const bar = document.getElementById("scroll-progress");
+    let max = 0;
+
+    const measure = () => {
+      max = document.documentElement.scrollHeight - window.innerHeight;
+    };
+
     const onScroll = () => {
       const y = window.scrollY;
       setStuck(y > 12);
       if (bar) {
-        const h = document.documentElement.scrollHeight - window.innerHeight;
-        bar.style.width = `${h > 0 ? Math.min(100, (y / h) * 100) : 0}%`;
+        const p = max > 0 ? Math.min(1, Math.max(0, y / max)) : 0;
+        bar.style.transform = `scaleX(${p})`;
       }
     };
+
+    measure();
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    window.addEventListener("resize", measure);
+    window.addEventListener("load", measure);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", measure);
+      window.removeEventListener("load", measure);
+    };
   }, []);
 
   // Scroll-spy: which section is in the reading band

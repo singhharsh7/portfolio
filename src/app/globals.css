@@ -46,7 +46,15 @@
   --r: 14px;
   --r-lg: 20px;
   --pill: 999px;
+  /* ---- Motion ----
+     One curve, four speeds. Decorative motion (the portrait scale, the
+     journal frame lift, the scroll reveals) sits outside this scale
+     deliberately - these four are the UI-feedback budget. */
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --dur-press: 160ms; /* press feedback */
+  --dur-fast: 200ms; /* colour, small state */
+  --dur-base: 250ms; /* chevrons, backgrounds, cards */
+  --dur-slow: 350ms; /* panels, drawers */
   --shadow: 0 1px 2px rgba(24, 21, 15, 0.04),
     0 18px 40px -28px rgba(24, 21, 15, 0.24);
 }
@@ -100,6 +108,10 @@ body::before {
   opacity: 0.028;
   mix-blend-mode: multiply;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  /* A viewport-sized blend layer over a page that scrolls every frame:
+     promote it and tell the browser nothing inside affects the outside. */
+  will-change: opacity;
+  contain: strict;
 }
 
 img {
@@ -137,7 +149,7 @@ a {
   letter-spacing: 0.06em;
   padding: 0.55rem 0.9rem;
   border-radius: var(--r-sm);
-  transition: transform 0.2s var(--ease);
+  transition: transform var(--dur-fast) var(--ease);
 }
 .skip-link:focus {
   transform: translateY(0);
@@ -156,9 +168,11 @@ a {
 .scroll-rail span {
   display: block;
   height: 100%;
-  width: 0%;
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
   background: var(--accent);
-  transition: width 0.1s linear;
+  will-change: transform;
 }
 
 /* ---------- Shared layout ---------- */
@@ -238,8 +252,10 @@ a {
   left: 0;
   right: 0;
   z-index: 55;
-  transition: background 0.3s var(--ease), border-color 0.3s var(--ease),
-    backdrop-filter 0.3s var(--ease);
+  /* backdrop-filter is deliberately NOT transitioned - animating a blur
+     radius recomputes the backdrop every frame. The background fade masks
+     the blur arriving instantly. */
+  transition: background var(--dur-base) var(--ease), border-color var(--dur-base) var(--ease);
   border-bottom: 1px solid transparent;
 }
 .site-header.stuck {
@@ -295,17 +311,22 @@ a {
   color: var(--ink-2);
   padding: 0.4rem 0;
   position: relative;
-  transition: color 0.2s var(--ease);
+  transition: color var(--dur-fast) var(--ease);
 }
+/* One accent that hands off along the nav rather than eight underlines
+   that each dissolve in place: the bar grows from the left when a link
+   becomes current, and collapses to the right when it stops being. */
 .nav a::after {
   content: "";
   position: absolute;
   left: 0;
   bottom: -1px;
   height: 2px;
-  width: 0;
+  width: 100%;
   background: var(--accent);
-  transition: width 0.25s var(--ease);
+  transform: scaleX(0);
+  transform-origin: 100% 50%;
+  transition: transform var(--dur-base) var(--ease);
 }
 .nav a:hover,
 .nav a[aria-current="true"] {
@@ -313,7 +334,8 @@ a {
 }
 .nav a:hover::after,
 .nav a[aria-current="true"]::after {
-  width: 100%;
+  transform: scaleX(1);
+  transform-origin: 0 50%;
 }
 /* Eight items need a gentler footprint before the wide breakpoint */
 @media (min-width: 52rem) and (max-width: 74rem) {
@@ -338,6 +360,7 @@ a {
   letter-spacing: 0.1em;
   text-transform: uppercase;
   cursor: pointer;
+  transition: transform var(--dur-press) var(--ease);
 }
 
 /* ---------- Buttons ---------- */
@@ -358,11 +381,11 @@ a {
   border-radius: var(--pill);
   border: 1px solid transparent;
   cursor: pointer;
-  transition: transform 0.18s var(--ease), background 0.2s var(--ease),
-    color 0.2s var(--ease), border-color 0.2s var(--ease);
+  transition: transform var(--dur-press) var(--ease), background var(--dur-fast) var(--ease),
+    color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease);
 }
 .btn .arrow {
-  transition: transform 0.2s var(--ease);
+  transition: transform var(--dur-fast) var(--ease);
 }
 .btn:hover .arrow {
   transform: translateX(3px);
@@ -557,7 +580,7 @@ html.lenis body {
   background-repeat: no-repeat;
   background-position: 0 100%;
   background-size: 0% 1px;
-  transition: background-size 0.35s var(--ease), color 0.2s var(--ease);
+  transition: background-size 0.35s var(--ease), color var(--dur-fast) var(--ease);
 }
 .hero .hero-contact a:hover {
   color: var(--accent);
@@ -598,8 +621,10 @@ html.lenis body {
   filter: saturate(1.02);
   transition: transform 0.6s var(--ease);
 }
-.portrait:hover .frame img {
-  transform: scale(1.03);
+@media (hover: hover) and (pointer: fine) {
+  .portrait:hover .frame img {
+    transform: scale(1.03);
+  }
 }
 .portrait .cap {
   display: flex;
@@ -714,13 +739,17 @@ html.lenis body {
   border: 1px solid var(--line);
   border-radius: var(--r-lg);
   padding: clamp(1.7rem, 3vw, 2.6rem);
-  transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease),
-    border-color 0.3s var(--ease);
+  transition: transform var(--dur-base) var(--ease), box-shadow var(--dur-base) var(--ease),
+    border-color var(--dur-base) var(--ease);
 }
 .caps .cap:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow);
   border-color: var(--line-2);
+}
+@media (hover: hover) and (pointer: fine) {
+  .caps .cap:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow);
+  }
 }
 .caps .cap-i {
   font-family: var(--font-mono);
@@ -813,7 +842,7 @@ html.lenis body {
   border-radius: 50%;
   background: var(--line-2);
   box-shadow: 0 0 0 3px var(--paper);
-  transition: background 0.3s var(--ease), transform 0.3s var(--ease);
+  transition: background var(--dur-base) var(--ease), transform var(--dur-base) var(--ease);
 }
 .dispatch.news .d-line::before {
   background: var(--accent-lite);
@@ -876,7 +905,7 @@ details.folder > summary {
   font-weight: 600;
   letter-spacing: -0.01em;
   color: var(--ink);
-  transition: color 0.2s var(--ease);
+  transition: color var(--dur-fast) var(--ease), transform var(--dur-press) var(--ease);
 }
 details.folder > summary::-webkit-details-marker {
   display: none;
@@ -893,7 +922,7 @@ details.folder > summary .count {
 details.folder > summary .sign {
   font-family: var(--font-mono);
   color: var(--accent);
-  transition: transform 0.25s var(--ease);
+  transition: transform var(--dur-base) var(--ease);
   margin-left: auto;
   padding-left: 0.8rem;
   font-size: 1.2rem;
@@ -1022,13 +1051,17 @@ details.folder[open] > summary .sign {
   padding: 1.5rem;
   margin-bottom: 1.1rem;
   background: var(--card);
-  transition: border-color 0.3s var(--ease), transform 0.3s var(--ease),
-    box-shadow 0.3s var(--ease);
+  transition: border-color var(--dur-base) var(--ease), transform var(--dur-base) var(--ease),
+    box-shadow var(--dur-base) var(--ease);
 }
 .quote:hover {
   border-color: var(--line-2);
-  transform: translateY(-3px);
-  box-shadow: var(--shadow);
+}
+@media (hover: hover) and (pointer: fine) {
+  .quote:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow);
+  }
 }
 .quote .mark {
   font-family: var(--font-display);
@@ -1084,13 +1117,17 @@ details.folder[open] > summary .sign {
   display: flex;
   flex-direction: column;
   gap: 0.7rem;
-  transition: border-color 0.3s var(--ease), transform 0.3s var(--ease),
-    box-shadow 0.3s var(--ease);
+  transition: border-color var(--dur-base) var(--ease), transform var(--dur-base) var(--ease),
+    box-shadow var(--dur-base) var(--ease);
 }
 .column-card:hover {
   border-color: var(--line-2);
-  transform: translateY(-4px);
-  box-shadow: var(--shadow);
+}
+@media (hover: hover) and (pointer: fine) {
+  .column-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow);
+  }
 }
 .column-card .plat {
   font-family: var(--font-mono);
@@ -1133,7 +1170,12 @@ details.folder[open] > summary .sign {
   gap: 0.55rem;
   padding: 1.4rem 0.25rem;
   border-bottom: 1px solid var(--line);
-  transition: background 0.25s var(--ease), padding-left 0.25s var(--ease);
+  transition: background var(--dur-base) var(--ease);
+}
+/* The hover indent moves the contents, not the box: animating padding
+   would reflow all four grid tracks and re-wrap the headline. */
+.press-row > * {
+  transition: transform var(--dur-base) var(--ease);
 }
 @media (min-width: 52rem) {
   .press-row {
@@ -1152,7 +1194,7 @@ details.folder[open] > summary .sign {
   background-color: var(--wash);
   overflow: hidden;
   filter: grayscale(1);
-  transition: filter 0.4s var(--ease);
+  transition: filter 0.4s var(--ease), transform var(--dur-base) var(--ease);
   flex-shrink: 0;
 }
 /* no scan on file: hold the column, show nothing */
@@ -1172,12 +1214,16 @@ details.folder[open] > summary .sign {
   object-fit: cover;
   object-position: top;
 }
-a.press-row:hover .clip {
-  filter: grayscale(0);
-}
 a.press-row:hover {
   background: var(--wash);
-  padding-left: 0.9rem;
+}
+@media (hover: hover) and (pointer: fine) {
+  a.press-row:hover .clip {
+    filter: grayscale(0);
+  }
+  a.press-row:hover > * {
+    transform: translateX(0.65rem);
+  }
 }
 .press-row .outlet {
   font-family: var(--font-mono);
@@ -1223,13 +1269,17 @@ a.press-row:hover .headline {
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
-  transition: border-color 0.3s var(--ease), transform 0.3s var(--ease),
-    box-shadow 0.3s var(--ease);
+  transition: border-color var(--dur-base) var(--ease), transform var(--dur-base) var(--ease),
+    box-shadow var(--dur-base) var(--ease);
 }
 .cur:hover {
   border-color: var(--line-2);
-  transform: translateY(-4px);
-  box-shadow: var(--shadow);
+}
+@media (hover: hover) and (pointer: fine) {
+  .cur:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow);
+  }
 }
 .cur .fig {
   font-family: var(--font-display);
@@ -1357,6 +1407,7 @@ a.press-row:hover .headline {
   cursor: zoom-in;
   border-radius: var(--r);
   text-align: inherit;
+  transition: transform var(--dur-press) var(--ease);
 }
 .j-open:focus-visible {
   outline: 2px solid var(--accent);
@@ -1377,13 +1428,17 @@ a.press-row:hover .headline {
   border-radius: var(--r);
   padding: 1.5rem;
   background: var(--card);
-  transition: border-color 0.3s var(--ease), transform 0.3s var(--ease),
-    box-shadow 0.3s var(--ease);
+  transition: border-color var(--dur-base) var(--ease), transform var(--dur-base) var(--ease),
+    box-shadow var(--dur-base) var(--ease);
 }
 .j-card:hover {
   border-color: var(--line-2);
-  transform: translateY(-3px);
-  box-shadow: var(--shadow);
+}
+@media (hover: hover) and (pointer: fine) {
+  .j-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow);
+  }
 }
 .j-meta {
   display: block;
@@ -1414,7 +1469,7 @@ a.press-row:hover .headline {
   border-radius: var(--r);
   background-color: var(--wash);
   overflow: hidden;
-  transition: transform 0.5s var(--ease), box-shadow 0.4s var(--ease);
+  transition: transform 0.45s var(--ease), box-shadow 0.45s var(--ease);
 }
 /* Natural aspect ratio - the frame takes the photo's own shape, never crops. */
 .j-frame img {
@@ -1423,14 +1478,32 @@ a.press-row:hover .headline {
   height: auto;
   /* Filed in monochrome; comes to colour on hover. */
   filter: grayscale(1) contrast(1.03);
-  transition: filter 0.5s var(--ease);
 }
-.j-photo:hover .j-frame {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow);
+@media (hover: hover) and (pointer: fine) {
+  .j-photo:hover .j-frame {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow);
+  }
 }
-.j-photo:hover .j-frame img {
-  filter: grayscale(0) contrast(1);
+/* The WebGL halftone owns the colour reveal on hover-capable pointers
+   (see HalftoneHover.tsx, which bails on touch and reduced motion).
+   Everywhere else, fall back to a plain grayscale fade so the frames
+   still come to colour. */
+@media (hover: none) {
+  .j-frame img {
+    transition: filter 0.45s var(--ease);
+  }
+  .j-photo:hover .j-frame img {
+    filter: grayscale(0) contrast(1);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .j-frame img {
+    transition: filter 0.45s var(--ease);
+  }
+  .j-photo:hover .j-frame img {
+    filter: grayscale(0) contrast(1);
+  }
 }
 .j-photo figcaption {
   margin-top: 0.7rem;
@@ -1503,6 +1576,17 @@ a.press-row:hover .headline {
   line-height: 1.6;
   max-width: 58ch;
 }
+/* Swipe to step, flick down to dismiss. Sits between the centring flex
+   container and the figure, so it takes the figure's own width and the
+   absolutely-positioned .lb-btn controls still resolve against .lightbox. */
+.lb-drag {
+  max-width: 100%;
+  touch-action: none;
+  cursor: grab;
+}
+.lb-drag:active {
+  cursor: grabbing;
+}
 .lb-btn {
   position: absolute;
   display: grid;
@@ -1515,7 +1599,7 @@ a.press-row:hover .headline {
   color: var(--paper);
   font-size: 1.15rem;
   cursor: pointer;
-  transition: background 0.2s var(--ease), border-color 0.2s var(--ease);
+  transition: background var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease);
 }
 .lb-btn:hover {
   background: rgba(255, 255, 255, 0.12);
@@ -1559,7 +1643,7 @@ details.qa > summary {
   font-weight: 600;
   letter-spacing: -0.01em;
   color: var(--ink);
-  transition: color 0.2s var(--ease);
+  transition: color var(--dur-fast) var(--ease), transform var(--dur-press) var(--ease);
 }
 details.qa > summary::-webkit-details-marker {
   display: none;
@@ -1570,7 +1654,7 @@ details.qa > summary:hover {
 details.qa > summary .sign {
   font-family: var(--font-mono);
   color: var(--accent);
-  transition: transform 0.25s var(--ease);
+  transition: transform var(--dur-base) var(--ease);
   flex-shrink: 0;
   font-size: 1.2rem;
 }
@@ -1656,13 +1740,17 @@ details.qa .ans {
   border-radius: var(--pill);
   padding: 1rem 1.4rem;
   background: rgba(255, 255, 255, 0.03);
-  transition: border-color 0.25s var(--ease), transform 0.2s var(--ease),
-    background 0.25s var(--ease);
+  transition: border-color var(--dur-base) var(--ease), transform var(--dur-fast) var(--ease),
+    background var(--dur-base) var(--ease);
 }
 .contact-lines a:hover {
   border-color: var(--accent-lite);
   background: rgba(255, 255, 255, 0.06);
-  transform: translateX(4px);
+}
+@media (hover: hover) and (pointer: fine) {
+  .contact-lines a:hover {
+    transform: translateX(4px);
+  }
 }
 .contact-lines .k {
   font-family: var(--font-mono);
@@ -1688,8 +1776,8 @@ details.qa .ans {
   border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: var(--pill);
   padding: 0.55rem 1rem;
-  transition: color 0.2s var(--ease), border-color 0.2s var(--ease),
-    background 0.2s var(--ease);
+  transition: color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease),
+    background var(--dur-fast) var(--ease), transform var(--dur-press) var(--ease);
 }
 .socials a:hover {
   color: var(--ink);
@@ -1732,16 +1820,37 @@ details.qa .ans {
   background-repeat: no-repeat;
   background-position: 0 100%;
   background-size: 100% 1px;
-  transition: color 0.2s var(--ease);
+  transition: color var(--dur-fast) var(--ease);
 }
 .site-footer .credit:hover {
   color: var(--accent);
 }
 .site-footer .to-top {
-  transition: color 0.2s var(--ease);
+  transition: color var(--dur-fast) var(--ease);
 }
 .site-footer .to-top:hover {
   color: var(--accent);
+}
+
+/* ============================================================
+   PRESS FEEDBACK
+   Every pressable acknowledges the press itself, not just its result.
+   The lightbox buttons are deliberately absent - Motion drives those
+   (see FieldNotes.tsx) and a second scale here would double-apply.
+   ============================================================ */
+.btn:active,
+.menu-btn:active,
+.j-open:active,
+.socials a:active,
+.contact-lines a:active,
+details.folder > summary:active,
+details.qa > summary:active {
+  transform: scale(0.97);
+}
+/* A press row is a wide target; scaling it would look wrong, so it
+   flashes its background instead. */
+a.press-row:active {
+  background: var(--wash);
 }
 
 /* ============================================================
@@ -1785,7 +1894,7 @@ details.qa .ans {
     border-bottom: 1px solid var(--line);
     padding: 0.5rem var(--pad-x) 1.5rem;
     transform: translateY(-120%);
-    transition: transform 0.35s var(--ease);
+    transition: transform var(--dur-slow) var(--ease);
     max-height: calc(100svh - 4.4rem);
     overflow-y: auto;
   }
@@ -1807,13 +1916,56 @@ details.qa .ans {
   html {
     scroll-behavior: auto;
   }
+
+  /* Infinite decorative animation stops. Transitions are NOT nuked
+     wholesale - reduced motion means fewer and gentler animations, not
+     none: colour and opacity feedback still aids comprehension. */
   *,
   *::before,
   *::after {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.001ms !important;
   }
+
+  /* Drop movement, keep colour, background, border and shadow. */
+  .btn,
+  .btn .arrow,
+  .caps .cap,
+  .quote,
+  .column-card,
+  .cur,
+  .j-card,
+  .j-frame,
+  .contact-lines a,
+  .portrait .frame img,
+  details.folder > summary .sign,
+  details.qa > summary .sign {
+    transition-property: color, background-color, border-color, box-shadow,
+      opacity !important;
+  }
+  .btn:hover,
+  .btn:active,
+  .menu-btn:active,
+  .j-open:active,
+  .lb-btn:active,
+  .socials a:active,
+  .contact-lines a:active,
+  details.folder > summary:active,
+  details.qa > summary:active,
+  .caps .cap:hover,
+  .quote:hover,
+  .column-card:hover,
+  .cur:hover,
+  .j-card:hover,
+  .j-photo:hover .j-frame,
+  .contact-lines a:hover,
+  .portrait:hover .frame img {
+    transform: none !important;
+  }
+  a.press-row:hover > * {
+    transform: none !important;
+  }
+
   .js [data-reveal] {
     opacity: 1 !important;
     transform: none !important;
@@ -1821,5 +1973,13 @@ details.qa .ans {
   }
   .ticker .cursor {
     opacity: 1;
+  }
+
+  /* The nav panel keeps its slide - it explains where the menu came from -
+     just faster. */
+  @media (max-width: 52rem) {
+    .nav {
+      transition-duration: 0.15s;
+    }
   }
 }

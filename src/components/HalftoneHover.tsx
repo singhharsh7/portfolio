@@ -167,8 +167,8 @@ export default function HalftoneHover() {
         // ink dots dissolve into the full-colour photo
         tween = gsap.to(state.uniforms.uMix, {
           value: 1,
-          duration: 0.85,
-          ease: "power2.inOut",
+          duration: 0.45,
+          ease: "power2.out",
           onUpdate: render,
         });
         render();
@@ -193,8 +193,8 @@ export default function HalftoneHover() {
       tween?.kill();
       tween = gsap.to(state.uniforms.uMix, {
         value: 0,
-        duration: 0.3,
-        ease: "power1.in",
+        duration: 0.25,
+        ease: "power2.out",
         onUpdate: render,
         onComplete: () => canvas.remove(),
       });

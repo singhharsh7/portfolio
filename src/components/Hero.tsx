@@ -1,25 +1,32 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 import Image from "next/image";
 import HeroCanvas from "./HeroCanvas";
 import { site, ticker } from "@/lib/data";
 
-function useTicker() {
-  const [text, setText] = useState(ticker[0]);
-
+/**
+ * The masthead types itself. Writes straight to the text node rather than
+ * through state - at 34-62ms a tick, setState would reconcile the whole hero
+ * ~25x a second - and only files copy while the masthead is on screen.
+ */
+function useTicker(ref: React.RefObject<HTMLSpanElement | null>) {
   useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    el.textContent = ticker[0];
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     let idx = 0;
     let char = ticker[0].length;
     let deleting = false;
-    let timer: ReturnType<typeof setTimeout>;
+    let timer: ReturnType<typeof setTimeout> | null = null;
+    let running = false;
 
     const tick = () => {
       const word = ticker[idx];
       char += deleting ? -1 : 1;
-      setText(word.slice(0, char));
+      el.textContent = word.slice(0, char);
 
       let delay = deleting ? 34 : 62;
       if (!deleting && char === word.length) {
@@ -32,15 +39,29 @@ function useTicker() {
       }
       timer = setTimeout(tick, delay);
     };
-    timer = setTimeout(tick, 1600);
-    return () => clearTimeout(timer);
-  }, []);
 
-  return text;
+    const io = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting && !running) {
+        running = true;
+        timer = setTimeout(tick, 1600);
+      } else if (!entry.isIntersecting && running) {
+        running = false;
+        if (timer) clearTimeout(timer);
+        timer = null;
+      }
+    });
+    io.observe(el);
+
+    return () => {
+      io.disconnect();
+      if (timer) clearTimeout(timer);
+    };
+  }, [ref]);
 }
 
 export default function Hero() {
-  const live = useTicker();
+  const tickerRef = useRef<HTMLSpanElement>(null);
+  useTicker(tickerRef);
 
   return (
     <section className="hero wrap" aria-label="Introduction">
@@ -52,7 +73,7 @@ export default function Hero() {
             <span className="spacer" />
             <span>Now filing:&nbsp;</span>
             <span className="ticker" aria-live="off">
-              {live}
+              <span ref={tickerRef} />
               <span className="cursor" aria-hidden="true" />
             </span>
           </div>

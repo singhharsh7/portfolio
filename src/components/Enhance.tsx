@@ -5,6 +5,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
 import Lenis from "lenis";
+import { setLenis } from "@/lib/lenis-store";
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
@@ -67,9 +68,13 @@ export default function Enhance() {
         const raf = (time: number) => lenis.raf(time * 1000);
         gsap.ticker.add(raf);
         gsap.ticker.lagSmoothing(0);
+        // Publish it so the lightbox can stop scrolling through the library
+        // rather than clamping overflow behind its back.
+        setLenis(lenis);
         cleanups.push(() => {
           gsap.ticker.remove(raf);
           lenis.destroy();
+          setLenis(null);
           gsap.ticker.lagSmoothing(500, 33);
         });
 
@@ -83,8 +88,8 @@ export default function Enhance() {
             const c = { v: 0 };
             gsap.to(c, {
               v: target,
-              duration: 2.2,
-              delay: i * 0.12,
+              duration: 1.2,
+              delay: i * 0.08,
               ease: "power2.out",
               onUpdate: () => {
                 fig.textContent = `${Math.round(c.v)}${suffix}`;
@@ -92,6 +97,77 @@ export default function Enhance() {
               scrollTrigger: { trigger, start: "top 82%", once: true },
             });
           });
+        };
+
+        // <details> has to be animated both ways by hand: the browser tears
+        // the content out the instant `open` flips, so closing must be
+        // intercepted on the summary click, before the flip happens.
+        const animateDetails = (
+          selector: string,
+          bodySelector: string,
+          staggerSelector?: string
+        ) => {
+          document
+            .querySelectorAll<HTMLDetailsElement>(selector)
+            .forEach((d) => {
+              const summary = d.querySelector("summary");
+              const body = d.querySelector<HTMLElement>(bodySelector);
+              if (!summary || !body) return;
+
+              let closing = false;
+
+              const onClick = (e: MouseEvent) => {
+                if (!d.open) return; // opening: the toggle handler takes it
+                e.preventDefault();
+                if (closing) return;
+                closing = true;
+                gsap.set(body, { overflow: "hidden" });
+                gsap.to(body, {
+                  height: 0,
+                  autoAlpha: 0,
+                  duration: 0.35,
+                  ease: "power2.out",
+                  overwrite: "auto",
+                  onComplete: () => {
+                    d.open = false;
+                    closing = false;
+                    gsap.set(body, {
+                      clearProps: "height,opacity,visibility,overflow",
+                    });
+                  },
+                });
+              };
+
+              const onToggle = () => {
+                if (!d.open) return;
+                gsap.set(body, { overflow: "hidden" });
+                gsap.from(body, {
+                  height: 0,
+                  autoAlpha: 0,
+                  duration: 0.35,
+                  ease: "power2.out",
+                  clearProps: "height,overflow",
+                  overwrite: "auto",
+                });
+                if (staggerSelector) {
+                  gsap.from(body.querySelectorAll(staggerSelector), {
+                    autoAlpha: 0,
+                    x: -16,
+                    stagger: 0.06,
+                    duration: 0.55,
+                    ease: "power2.out",
+                    overwrite: "auto",
+                  });
+                }
+              };
+
+              summary.addEventListener("click", onClick);
+              d.addEventListener("toggle", onToggle);
+              cleanups.push(() => {
+                summary.removeEventListener("click", onClick);
+                d.removeEventListener("toggle", onToggle);
+              });
+            });
         };
 
         // ---------- Header: the masthead bar drops in ----------
@@ -277,23 +353,7 @@ export default function Enhance() {
           autoAlpha: 0,
           scrollTrigger: { trigger: ".edu", start: "top 82%", once: true },
         });
-        document
-          .querySelectorAll<HTMLDetailsElement>("details.folder")
-          .forEach((d) => {
-            const onToggle = () => {
-              if (!d.open) return;
-              gsap.from(d.querySelectorAll(".folder-body li"), {
-                autoAlpha: 0,
-                x: -16,
-                stagger: 0.06,
-                duration: 0.55,
-                ease: "power2.out",
-                overwrite: "auto",
-              });
-            };
-            d.addEventListener("toggle", onToggle);
-            cleanups.push(() => d.removeEventListener("toggle", onToggle));
-          });
+        animateDetails("details.folder", ".folder-body", "li");
 
         // ---------- On the record: feature wipes in, quotes shuffle ----------
         gsap.from(".feature-quote", {
@@ -399,24 +459,7 @@ export default function Enhance() {
           stagger: 0.08,
           scrollTrigger: { trigger: ".faq", start: "top 80%", once: true },
         });
-        document
-          .querySelectorAll<HTMLDetailsElement>("details.qa")
-          .forEach((d) => {
-            const onToggle = () => {
-              const ans = d.querySelector<HTMLElement>(".ans");
-              if (!d.open || !ans) return;
-              gsap.from(ans, {
-                height: 0,
-                autoAlpha: 0,
-                duration: 0.6,
-                ease: "power2.out",
-                clearProps: "height",
-                overwrite: "auto",
-              });
-            };
-            d.addEventListener("toggle", onToggle);
-            cleanups.push(() => d.removeEventListener("toggle", onToggle));
-          });
+        animateDetails("details.qa", ".ans");
 
         // ---------- Contact: words rise, pills file in, chips pop ----------
         const shell = document.querySelector<HTMLElement>(".contact-shell");
