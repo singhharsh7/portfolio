@@ -366,29 +366,11 @@ export default function Enhance() {
             once: true,
           },
         });
-        const quotes = gsap.utils.toArray<HTMLElement>(".quote");
-        if (quotes.length) {
-          quotes.forEach((q) =>
-            gsap.set(q, {
-              autoAlpha: 0,
-              y: 30,
-              rotation: gsap.utils.random(-2.5, 2.5),
-            })
-          );
-          ScrollTrigger.batch(quotes, {
-            start: "top 87%",
-            once: true,
-            onEnter: (batch) =>
-              gsap.to(batch, {
-                autoAlpha: 1,
-                y: 0,
-                rotation: 0,
-                duration: 1.1,
-                stagger: { each: 0.12, from: "random" },
-                overwrite: true,
-              }),
-          });
-        }
+        // The quote cards themselves are no longer choreographed here: they
+        // ride a Motion marquee (`ui/testimonials-columns-1`), and a
+        // ScrollTrigger per card would both fight that transform and never
+        // settle, since the cards never stop moving. The `.tcols` wall is
+        // revealed once, by the catch-all below.
 
         // ---------- Dispatches: the two columns meet in the middle ----------
         gsap.from(".two .column-card:nth-child(odd)", {
@@ -528,7 +510,7 @@ export default function Enhance() {
         // ---------- Catch-all for anything not choreographed above ----------
         const dedicated = new Set<Element>(
           document.querySelectorAll(
-            ".stat, .caps .cap, .dispatch, details.folder, .edu, .feature-quote, .quote, .column-card, .press-row, .cur, .about-copy p, .recognition, details.qa, .contact-shell [data-reveal]"
+            ".stat, .caps .cap, .dispatch, details.folder, .edu, .feature-quote, .column-card, .press-row, .cur, .about-copy p, .recognition, details.qa, .contact-shell [data-reveal]"
           )
         );
         const rest = reveals.filter(

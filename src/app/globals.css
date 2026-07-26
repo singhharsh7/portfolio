@@ -1030,40 +1030,70 @@ details.folder[open] > summary .sign {
   font-weight: 600;
 }
 
-.quotes {
-  columns: 1;
-  column-gap: 1.1rem;
+/* ---------- The wall: columns of quotes drifting upward ----------
+   Motion owns the drift (see ui/testimonials-columns-1). The mask dissolves
+   both ends into the paper so nothing is ever seen to pop in or out, and the
+   clipped height is what makes an endless list finite on the page. */
+.tcols {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 1.1rem;
+  max-height: 38rem;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    #000 14%,
+    #000 86%,
+    transparent
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    #000 14%,
+    #000 86%,
+    transparent
+  );
 }
 @media (min-width: 48rem) {
-  .quotes {
-    columns: 2;
+  .tcols {
+    max-height: 46rem;
   }
 }
-@media (min-width: 72rem) {
-  .quotes {
-    columns: 3;
-  }
+
+.tcol {
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 23rem;
 }
-.quote {
-  break-inside: avoid;
+/* The trailing pad is the gap the -50% translate has to swallow for the
+   seam to land exactly on the second pass. Keep it equal to the row gap. */
+.tcol-track {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  padding-bottom: 1.1rem;
+  will-change: transform;
+}
+
+.tcol-card {
   border: 1px solid var(--line);
   border-radius: var(--r);
   padding: 1.5rem;
-  margin-bottom: 1.1rem;
   background: var(--card);
-  transition: border-color var(--dur-base) var(--ease), transform var(--dur-base) var(--ease),
+  transition: border-color var(--dur-base) var(--ease),
     box-shadow var(--dur-base) var(--ease);
 }
-.quote:hover {
-  border-color: var(--line-2);
-}
+/* No hover transform here on purpose: the ancestor track is mid-translate,
+   and a second transform on the card would fight it. Border and shadow only. */
 @media (hover: hover) and (pointer: fine) {
-  .quote:hover {
-    transform: translateY(-3px);
+  .tcol-card:hover {
+    border-color: var(--line-2);
     box-shadow: var(--shadow);
   }
 }
-.quote .mark {
+.tcol-card .mark {
   font-family: var(--font-display);
   font-size: 2.6rem;
   line-height: 0.4;
@@ -1071,22 +1101,46 @@ details.folder[open] > summary .sign {
   display: block;
   height: 0.85rem;
 }
-.quote p {
+.tcol-card blockquote {
   color: var(--ink);
   font-size: 1rem;
 }
-.quote .by {
+.tcol-card .by {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
   margin-top: 1.1rem;
   padding-top: 1rem;
   border-top: 1px solid var(--line);
 }
-.quote .by .n {
+/* Initials, not a borrowed stock headshot: these are real, named people. */
+.tcol-avatar {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 2.15rem;
+  height: 2.15rem;
+  border: 1px solid var(--line);
+  border-radius: var(--pill);
+  background: var(--wash);
+  color: var(--ink-2);
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+.tcol-who {
+  min-width: 0;
+}
+.tcol-card .by .n {
+  display: block;
   font-family: var(--font-display);
   font-weight: 600;
   color: var(--ink);
   font-size: 1.02rem;
 }
-.quote .by .t {
+.tcol-card .by .t {
+  display: block;
   font-family: var(--font-mono);
   font-size: 0.68rem;
   letter-spacing: 0.03em;
@@ -1094,6 +1148,20 @@ details.folder[open] > summary .sign {
   text-transform: uppercase;
   margin-top: 0.3rem;
   line-height: 1.5;
+}
+
+/* Nothing drifts, so nothing may be clipped either - the component drops its
+   duplicate pass to match and the full roster is simply set as columns. */
+@media (prefers-reduced-motion: reduce) {
+  .tcols {
+    max-height: none;
+    overflow: visible;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+  .tcol-track {
+    will-change: auto;
+  }
 }
 
 /* ============================================================
@@ -1931,7 +1999,7 @@ a.press-row:active {
   .btn,
   .btn .arrow,
   .caps .cap,
-  .quote,
+  .tcol-card,
   .column-card,
   .cur,
   .j-card,
@@ -1953,7 +2021,6 @@ a.press-row:active {
   details.folder > summary:active,
   details.qa > summary:active,
   .caps .cap:hover,
-  .quote:hover,
   .column-card:hover,
   .cur:hover,
   .j-card:hover,
