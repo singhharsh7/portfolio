@@ -98,7 +98,12 @@ export const capabilities: Capability[] = [
 ];
 
 export type Dispatch = {
-  dateline: string;
+  /** Start year, set large as the timeline's anchor. */
+  from?: string;
+  /** End year, or "Now". Only read when `from` is present. */
+  to?: string;
+  place: string;
+  desk: string;
   role: string;
   org: string;
   body: string;
@@ -108,70 +113,90 @@ export type Dispatch = {
 // Reverse-chronological, the latest dispatch first.
 export const career: Dispatch[] = [
   {
-    dateline: "PISCATAWAY ↔ VADODARA · 2026 - NOW · DELIVERY",
+    from: "2026",
+    to: "Now",
+    place: "Piscataway ↔ Vadodara",
+    desk: "Delivery",
     role: "Associate Director - Project Delivery",
     org: "Rang Digitech LLC",
     body: "Owns end-to-end delivery for a portfolio of digital marketing accounts across the US, UK, Canada, UAE, and India, resourcing, coordinating teams through concurrent engagements, and protecting KPIs, brand compliance and online reputation.",
     era: "brand",
   },
   {
-    dateline: "VADODARA · 2024 - 2026 · BRAND",
+    from: "2024",
+    to: "2026",
+    place: "Vadodara",
+    desk: "Brand",
     role: "Brand Manager",
     org: "Rang Digitech",
     body: "Set brand strategy at the intersection of storytelling, SEO, and applied AI, building campaigns measured on real numbers rather than vanity metrics.",
     era: "brand",
   },
   {
-    dateline: "VADODARA · 2023 - 2024 · CONTENT",
+    from: "2023",
+    to: "2024",
+    place: "Vadodara",
+    desk: "Content",
     role: "Senior Content Writer & Head of Content",
     org: "Rang Technologies / Rang Digitech",
     body: "Led a team of SEO, social media and design professionals across eight-plus companies inside the group.",
     era: "brand",
   },
   {
-    dateline: "AHMEDABAD · CONTENT DESK",
+    place: "Ahmedabad",
+    desk: "Content desk",
     role: "Content Writer, pen name “Ryan Allen”",
     org: "GoodFirms (OpenXcell)",
     body: "Wrote for a global client base across software development, mobile apps, SEO, blockchain and digital marketing.",
     era: "brand",
   },
   {
-    dateline: "STUDY-ABROAD DESK · EDTECH",
+    place: "Study-abroad desk",
+    desk: "EdTech",
     role: "Manager, Creative Content & Social Media",
     org: "Kanan.Co",
     body: "Led content for Visa Crunch and academic content for KananPrep and its franchises; ran campaigns that lifted brand engagement by 40 percent.",
     era: "brand",
   },
   {
-    dateline: "COMMERCIAL FUNCTION · PUBLIC RELATIONS",
+    place: "Commercial function",
+    desk: "Public relations",
     role: "Public Relations",
     org: "Jindal Saw Limited",
     body: "Coordinated with 15-plus commercial-function departments on company literature, CSR campaigns and internal communications.",
     era: "brand",
   },
   {
-    dateline: "BENGALURU · NEWS VENTURE",
+    place: "Bengaluru",
+    desk: "News venture",
     role: "Co-founder & Editorial Head",
     org: "Brifly News",
     body: "Curated the news into 60-word summaries and trained a team of writers on SEO-friendly reporting.",
     era: "news",
   },
   {
-    dateline: "BENGALURU · ENTERTAINMENT BUREAU",
+    place: "Bengaluru",
+    desk: "Entertainment bureau",
     role: "Reporter, Hollywood beat",
     org: "International Business Times, Singapore Edition",
     body: "Covered the Hollywood beat out of Bangalore for IBT's Singapore edition.",
     era: "news",
   },
   {
-    dateline: "HYDERABAD · 2018 - 2019 · CIVIC DESK",
+    from: "2018",
+    to: "2019",
+    place: "Hyderabad",
+    desk: "Civic desk",
     role: "Civic Affairs & Public-Health Reporter",
     org: "The Times of India",
     body: "Thirteen published bylines in seven days, a hospital sanitation investigation that prompted government scrutiny, organ-donation shortfalls, road safety on Necklace Road, and political messaging in government-school notebooks.",
     era: "news",
   },
   {
-    dateline: "BENGALURU · 2017 - 2019 · POLITICS BUREAU",
+    from: "2017",
+    to: "2019",
+    place: "Bengaluru",
+    desk: "Politics bureau",
     role: "Political Reporter, Karnataka",
     org: "NewsX (Bangalore Bureau)",
     body: "Ran camera and OB-van operations and landed on-camera interviews with CM Siddaramaiah, former CM B. S. Yeddyurappa, KPCC president Dr. G. Parameshwara and JD(S) spokesperson Tanveer Ahmed, reporting live from the Vidhan Soudha during the presidential-election proceedings for Ram Nath Kovind.",
@@ -346,6 +371,8 @@ export type Column = {
   handle: string;
   href: string;
   body: string;
+  /** The platform's own mark colour, used for its logo, label and hover edge. */
+  brand: string;
 };
 export const writing: Column[] = [
   {
@@ -353,12 +380,16 @@ export const writing: Column[] = [
     handle: "singhharsh7.substack.com",
     href: "https://singhharsh7.substack.com/",
     body: "Dispatches on life, people, and memory, and the lessons history still echoes. 8.5k+ subscribers.",
+    // Substack's orange sits within a hair of this site's own accent, so it
+    // costs the palette nothing.
+    brand: "#ff6719",
   },
   {
     name: "Medium",
     handle: "@singhharsh_7",
     href: "https://medium.com/@singhharsh_7",
     body: "Personal essays on marriage, memory, and the small moments that outlast the news cycle.",
+    brand: "#191919",
   },
 ];
 

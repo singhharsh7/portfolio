@@ -920,7 +920,7 @@ html.lenis body {
 .dispatch {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 0.4rem 2.5rem;
+  gap: 0.9rem 2.5rem;
   padding-block: clamp(1.8rem, 3vw, 2.6rem);
   padding-left: 1.7rem;
   border-bottom: 1px solid var(--line);
@@ -931,21 +931,54 @@ html.lenis body {
     grid-template-columns: 14rem 1fr;
   }
 }
+/* The year is the anchor: it is what the eye should land on when scanning a
+   career, so it is set in display type at the head of each entry and the
+   place/desk string demoted beneath it. Five roles predate any recorded
+   dates - they simply run without a year rather than carry a guess. */
+.dispatch .d-year {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  margin-bottom: 0.4rem;
+}
+.dispatch.news .d-year {
+  color: var(--accent-deep);
+}
+.dispatch .d-year .to {
+  display: block;
+  margin-top: 0.2rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
 .dispatch .d-line {
+  display: block;
   font-family: var(--font-mono);
   font-size: 0.7rem;
   letter-spacing: 0.11em;
   text-transform: uppercase;
   color: var(--faint);
+}
+.dispatch .d-when {
   padding-top: 0.45rem;
   position: relative;
 }
 /* The era dot sits on the wire and lights up as the line passes */
-.dispatch .d-line::before {
+.dispatch .d-when::before {
   content: "";
   position: absolute;
   left: -1.7rem;
-  top: 0.55rem;
+  /* Sits on the first line of whatever leads the entry - the mono place
+     string, or the year when there is one. */
+  top: 0.5rem;
   width: 9px;
   height: 9px;
   border-radius: 50%;
@@ -953,10 +986,13 @@ html.lenis body {
   box-shadow: 0 0 0 3px var(--paper);
   transition: background var(--dur-base) var(--ease), transform var(--dur-base) var(--ease);
 }
-.dispatch.news .d-line::before {
+.dispatch:has(.d-year) .d-when::before {
+  top: 0.95rem;
+}
+.dispatch.news .d-when::before {
   background: var(--accent-lite);
 }
-.dispatch.lit .d-line::before {
+.dispatch.lit .d-when::before {
   background: var(--accent);
   transform: scale(1.25);
 }
@@ -1281,6 +1317,8 @@ details.folder[open] > summary .sign {
   }
 }
 .column-card {
+  position: relative;
+  overflow: hidden;
   border: 1px solid var(--line);
   border-radius: var(--r-lg);
   padding: clamp(1.7rem, 3vw, 2.4rem);
@@ -1291,8 +1329,25 @@ details.folder[open] > summary .sign {
   transition: border-color var(--dur-base) var(--ease), transform var(--dur-base) var(--ease),
     box-shadow var(--dur-base) var(--ease);
 }
+/* Each card carries its publisher's own colour in --brand (set inline from
+   the data). It is spent only on the mark, the label and the edge the card
+   picks up on hover - the headline and body stay in the site's ink, so the
+   cards read as this site quoting two mastheads, not as two foreign widgets. */
+.column-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 3px;
+  border-radius: var(--r-lg) var(--r-lg) 0 0;
+  background: var(--brand);
+  opacity: 0;
+  transition: opacity var(--dur-base) var(--ease);
+}
 .column-card:hover {
-  border-color: var(--line-2);
+  border-color: var(--brand);
+}
+.column-card:hover::before {
+  opacity: 1;
 }
 @media (hover: hover) and (pointer: fine) {
   .column-card:hover {
@@ -1301,11 +1356,19 @@ details.folder[open] > summary .sign {
   }
 }
 .column-card .plat {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
   font-family: var(--font-mono);
   font-size: 0.72rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: var(--brand);
+}
+.column-card .plat-mark {
+  width: 1.05rem;
+  height: 1.05rem;
+  flex: 0 0 auto;
 }
 .column-card h3 {
   font-family: var(--font-display);

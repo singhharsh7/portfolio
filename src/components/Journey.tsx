@@ -22,10 +22,22 @@ export default function Journey() {
               key={d.role}
               data-reveal
             >
-              <div className="d-line">{d.dateline}</div>
-              <h3>{d.role}</h3>
-              <div className="org">{d.org}</div>
-              <p>{d.body}</p>
+              <div className="d-when">
+                {d.from ? (
+                  <span className="d-year">
+                    {d.from}
+                    {d.to ? <span className="to">&ndash; {d.to}</span> : null}
+                  </span>
+                ) : null}
+                <span className="d-line">
+                  {d.place} · {d.desk}
+                </span>
+              </div>
+              <div className="d-what">
+                <h3>{d.role}</h3>
+                <div className="org">{d.org}</div>
+                <p>{d.body}</p>
+              </div>
             </article>
           ))}
         </div>

@@ -8,7 +8,8 @@ export default function SectionHead({
 }: {
   index: string;
   label: string;
-  title: ReactNode;
+  /** Optional: a section may run on its kicker alone. */
+  title?: ReactNode;
   lede?: string;
 }) {
   return (
@@ -17,7 +18,7 @@ export default function SectionHead({
         <span className="num">{index}</span>
         {label}
       </span>
-      <h2 className="section-title">{title}</h2>
+      {title ? <h2 className="section-title">{title}</h2> : null}
       {lede ? <p className="section-lede">{lede}</p> : null}
     </div>
   );

@@ -1,4 +1,5 @@
 import SectionHead from "./SectionHead";
+import PlatformMark from "./PlatformMark";
 import { writing } from "@/lib/data";
 
 export default function Writing() {
@@ -24,8 +25,12 @@ export default function Writing() {
               target="_blank"
               rel="noopener noreferrer"
               data-reveal
+              style={{ "--brand": c.brand } as React.CSSProperties}
             >
-              <span className="plat">{c.name}</span>
+              <span className="plat">
+                <PlatformMark name={c.name} />
+                {c.name}
+              </span>
               <h3>{c.handle}</h3>
               <p>{c.body}</p>
               <span className="go">
