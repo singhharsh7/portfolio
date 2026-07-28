@@ -1,6 +1,10 @@
-import { site, socials } from "@/lib/data";
+import Image from "next/image";
+import { contactPhoto, site, socials } from "@/lib/data";
+import { photoDims } from "@/lib/photo-dims";
 
 export default function Contact() {
+  const dims = photoDims[contactPhoto.src];
+
   return (
     <section
       className="contact-shell"
@@ -15,7 +19,7 @@ export default function Contact() {
               Get in touch
             </span>
             <h2 id="contact-title">
-              Let&apos;s talk. A byline, a brief, or a <em>brand</em>.
+              Let&apos;s <em>talk</em>.
             </h2>
 
             <div className="contact-lines">
@@ -39,21 +43,35 @@ export default function Contact() {
             </div>
           </div>
 
-          <div data-reveal>
-            <span className="kicker" style={{ marginBottom: "1.1rem" }}>
-              Elsewhere
-            </span>
-            <div className="socials" style={{ marginTop: "1.1rem" }}>
-              {socials.map((s) => (
-                <a
-                  key={s.label}
-                  href={s.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {s.label}
-                </a>
-              ))}
+          <div className="contact-aside">
+            {dims ? (
+              <div className="contact-photo" data-reveal>
+                <Image
+                  src={contactPhoto.src}
+                  alt={contactPhoto.alt}
+                  width={dims.w}
+                  height={dims.h}
+                  sizes="(max-width: 60rem) 90vw, 26rem"
+                />
+              </div>
+            ) : null}
+
+            <div data-reveal>
+              <span className="kicker" style={{ marginBottom: "1.1rem" }}>
+                Elsewhere
+              </span>
+              <div className="socials" style={{ marginTop: "1.1rem" }}>
+                {socials.map((s) => (
+                  <a
+                    key={s.label}
+                    href={s.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {s.label}
+                  </a>
+                ))}
+              </div>
             </div>
           </div>
         </div>

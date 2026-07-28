@@ -175,6 +175,96 @@ a {
   will-change: transform;
 }
 
+/* ---------- The scroll dial ----------
+   Bottom-right: a ring that fills as the page is read, the percentage set
+   in the middle, and the whole thing is the way back to the top. Swaps the
+   numerals for an arrow on hover, since by then you know what it does. */
+.scroll-dial {
+  position: fixed;
+  right: clamp(1rem, 3vw, 2rem);
+  bottom: clamp(1rem, 3vw, 2rem);
+  z-index: 55;
+  display: grid;
+  place-items: center;
+  width: 3.4rem;
+  height: 3.4rem;
+  padding: 0;
+  border: 1px solid var(--line-2);
+  border-radius: var(--pill);
+  background: rgba(251, 250, 248, 0.86);
+  backdrop-filter: blur(8px);
+  color: var(--ink);
+  cursor: pointer;
+  /* Out of the way until it is earned. `visibility` rather than `display`
+     so it can transition, and so it stays out of the a11y tree while gone. */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(0.6rem) scale(0.92);
+  transition: opacity var(--dur-base) var(--ease),
+    transform var(--dur-base) var(--ease), visibility 0s linear var(--dur-base),
+    border-color var(--dur-fast) var(--ease);
+}
+.scroll-dial[data-shown] {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition: opacity var(--dur-base) var(--ease),
+    transform var(--dur-base) var(--ease), visibility 0s,
+    border-color var(--dur-fast) var(--ease);
+}
+.scroll-dial > * {
+  grid-area: 1 / 1;
+}
+.scroll-dial svg {
+  width: 100%;
+  height: 100%;
+  /* 12 o'clock, clockwise */
+  transform: rotate(-90deg);
+  overflow: visible;
+}
+.scroll-dial circle {
+  fill: none;
+  stroke-width: 2;
+}
+.scroll-dial .dial-track {
+  stroke: var(--line);
+}
+.scroll-dial .dial-fill {
+  stroke: var(--accent);
+  stroke-linecap: round;
+}
+.scroll-dial .dial-pct,
+.scroll-dial .dial-arrow {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  transition: opacity var(--dur-fast) var(--ease);
+}
+.scroll-dial .dial-arrow {
+  font-size: 0.95rem;
+  opacity: 0;
+}
+@media (hover: hover) and (pointer: fine) {
+  .scroll-dial:hover {
+    border-color: var(--accent);
+  }
+  .scroll-dial:hover .dial-pct {
+    opacity: 0;
+  }
+  .scroll-dial:hover .dial-arrow {
+    opacity: 1;
+  }
+}
+/* Keyboard focus gets the arrow too - the hover swap is information, not
+   decoration, and it should not be mouse-only. */
+.scroll-dial:focus-visible .dial-pct {
+  opacity: 0;
+}
+.scroll-dial:focus-visible .dial-arrow {
+  opacity: 1;
+}
+
 /* ---------- Shared layout ---------- */
 .wrap {
   width: 100%;
@@ -185,8 +275,12 @@ a {
   z-index: 2;
 }
 
+/* Sections pad top and bottom, so the gap a reader actually sees between two
+   of them is double this. At the old clamp(4.5rem, 9vw, 8rem) that was 9-16rem
+   of dead paper on every seam - generous past the point of feeling composed.
+   Tightened by roughly a third; the rules still breathe, they just don't drift. */
 .section {
-  padding-block: clamp(4.5rem, 9vw, 8rem);
+  padding-block: clamp(3.1rem, 5.8vw, 5.25rem);
   border-top: 1px solid var(--line);
   position: relative;
   z-index: 2;
@@ -216,7 +310,7 @@ a {
 }
 
 .section-head {
-  margin-bottom: clamp(2.4rem, 4.5vw, 3.6rem);
+  margin-bottom: clamp(1.9rem, 3.4vw, 2.7rem);
   max-width: 52rem;
 }
 .section-title {
@@ -612,14 +706,29 @@ html.lenis body {
     radial-gradient(120% 90% at 50% 0%, rgba(248, 101, 47, 0.14), transparent 60%),
     linear-gradient(180deg, #fdefe8, var(--wash));
 }
+/* The frames are stacked and cross-faded, so the blend lives here, on the
+   composite, rather than on each photograph. Multiplying them individually
+   would double-darken wherever the two subjects overlap mid-dissolve. */
+.portrait .frame-stack {
+  position: absolute;
+  inset: 0;
+  isolation: isolate;
+  mix-blend-mode: multiply;
+}
 .portrait .frame img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center;
-  mix-blend-mode: multiply;
   filter: saturate(1.02);
-  transition: transform 0.6s var(--ease);
+  opacity: 0;
+  /* A portrait dissolve is decorative motion, which the duration scale
+     deliberately excludes; long enough to read as a dissolve, short enough
+     to sit well inside the interval between swaps. */
+  transition: opacity 0.8s var(--ease), transform 0.6s var(--ease);
+}
+.portrait .frame img.is-current {
+  opacity: 1;
 }
 @media (hover: hover) and (pointer: fine) {
   .portrait:hover .frame img {
@@ -912,12 +1021,6 @@ details.folder > summary::-webkit-details-marker {
 }
 details.folder > summary:hover {
   color: var(--accent);
-}
-details.folder > summary .count {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.08em;
-  color: var(--faint);
 }
 details.folder > summary .sign {
   font-family: var(--font-mono);
@@ -1743,7 +1846,9 @@ details.qa .ans {
   z-index: 2;
   background: var(--ink);
   color: var(--paper);
-  padding-block: clamp(5rem, 10vw, 9rem);
+  /* Kept a touch roomier than .section: this is the closing spread and the
+     dark field needs margin around it to read as deliberate. */
+  padding-block: clamp(3.75rem, 7vw, 6.5rem);
   overflow: hidden;
 }
 .contact-shell::before {
@@ -1766,21 +1871,49 @@ details.qa .ans {
 @media (min-width: 60rem) {
   .contact-grid {
     grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
-    align-items: end;
+    /* Was `end`, which bottom-aligned a short socials column against the
+       contact lines. The aside now carries a photograph and is the taller
+       of the two, so the heading has to anchor the top instead. */
+    align-items: start;
   }
 }
+.contact-aside {
+  display: grid;
+  gap: clamp(1.5rem, 3vw, 2.2rem);
+}
+/* A print pinned to the dark shell: hairline mount, no drop shadow - there
+   is no paper here for a shadow to fall on. Uncaptioned, so the mount is
+   even on all four sides. */
+.contact-photo {
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: var(--r);
+  padding: 0.55rem;
+  background: rgba(255, 255, 255, 0.04);
+  max-width: 26rem;
+}
+.contact-photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: var(--r-sm);
+}
+
 .contact-shell .kicker {
   color: var(--accent-lite);
 }
 .contact-shell .kicker::after {
   background: rgba(255, 255, 255, 0.16);
 }
+/* Two words carry this section now, so they are set larger than a section
+   title - a short headline at --step-1 reads as an offcut of a longer one. */
 .contact-shell h2 {
   font-family: var(--font-display);
-  font-size: var(--step-1);
+  font-size: clamp(2.9rem, 7vw, 5.25rem);
   font-weight: 600;
-  line-height: 1.0;
-  letter-spacing: -0.03em;
+  line-height: 0.98;
+  letter-spacing: -0.035em;
   color: var(--paper);
   margin-top: 1.2rem;
 }
@@ -1831,19 +1964,25 @@ details.qa .ans {
   color: var(--paper);
   font-size: 1rem;
 }
+/* A grid, not wrapped flex: nine pills of differing widths were breaking
+   into ragged rows against the photograph above them. Even columns settle
+   the block down without regimenting the pill shape itself. */
 .socials {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.6rem;
+  display: grid;
+  /* 8.5rem lands the nine pills on a 3x3 at the aside's ~445px desktop
+     width; narrower viewports fall to two columns on their own. */
+  grid-template-columns: repeat(auto-fill, minmax(8.5rem, 1fr));
+  gap: 0.55rem;
 }
 .socials a {
+  text-align: center;
   font-family: var(--font-mono);
   font-size: 0.74rem;
   letter-spacing: 0.04em;
   color: #c9c4ba;
   border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: var(--pill);
-  padding: 0.55rem 1rem;
+  padding: 0.55rem 0.85rem;
   transition: color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease),
     background var(--dur-fast) var(--ease), transform var(--dur-press) var(--ease);
 }
@@ -1863,6 +2002,9 @@ details.qa .ans {
   padding-block: 2.6rem;
   background: var(--paper);
 }
+/* Two anchored ends, not four floating items. Four things under
+   space-between left three ragged gaps across a 76rem measure and read as
+   scattered; the byline belongs at one end and the credit at the other. */
 .site-footer .row {
   display: flex;
   flex-wrap: wrap;
@@ -1875,6 +2017,20 @@ details.qa .ans {
   text-transform: uppercase;
   color: var(--faint);
 }
+.site-footer .side {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+.site-footer .by {
+  color: var(--faint);
+}
+/* Stacked and centred once the two ends would otherwise be a hair apart. */
+@media (max-width: 40rem) {
+  .site-footer .row {
+    justify-content: center;
+  }
+}
 .site-footer .row .mono-mark {
   color: var(--paper);
   background: var(--ink);
@@ -1883,20 +2039,27 @@ details.qa .ans {
   font-weight: 600;
 }
 .site-footer .credit {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
   color: var(--ink-2);
+  transition: color var(--dur-fast) var(--ease);
+}
+/* The rule sits under the wordmark only - dragging it beneath the logo too
+   would read as a box around the mark rather than an underlined link. */
+.site-footer .credit > span {
   background-image: linear-gradient(var(--accent), var(--accent));
   background-repeat: no-repeat;
   background-position: 0 100%;
   background-size: 100% 1px;
-  transition: color var(--dur-fast) var(--ease);
+}
+.site-footer .credit-logo {
+  width: 1.3rem;
+  height: 1.3rem;
+  border-radius: 4px;
+  object-fit: contain;
 }
 .site-footer .credit:hover {
-  color: var(--accent);
-}
-.site-footer .to-top {
-  transition: color var(--dur-fast) var(--ease);
-}
-.site-footer .to-top:hover {
   color: var(--accent);
 }
 
@@ -1914,6 +2077,11 @@ details.qa .ans {
 details.folder > summary:active,
 details.qa > summary:active {
   transform: scale(0.97);
+}
+/* Its resting state is already `transform: none`, so the press has to be
+   written on its own rather than folded into the group above. */
+.scroll-dial[data-shown]:active {
+  transform: scale(0.94);
 }
 /* A press row is a wide target; scaling it would look wrong, so it
    flashes its background instead. */
@@ -2020,6 +2188,10 @@ a.press-row:active {
   .contact-lines a:active,
   details.folder > summary:active,
   details.qa > summary:active,
+  /* The dial still arrives and still departs, it just does it by fading -
+     no rise, no scale, and no press rebound. */
+  .scroll-dial,
+  .scroll-dial[data-shown]:active,
   .caps .cap:hover,
   .column-card:hover,
   .cur:hover,

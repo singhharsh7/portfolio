@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import HeroCanvas from "./HeroCanvas";
-import { site, ticker } from "@/lib/data";
+import { PORTRAIT_INTERVAL, portraits, site, ticker } from "@/lib/data";
 
 /**
  * The masthead types itself. Writes straight to the text node rather than
@@ -59,9 +59,73 @@ function useTicker(ref: React.RefObject<HTMLSpanElement | null>) {
   }, [ref]);
 }
 
+/**
+ * The portrait cross-fades between frames on a timer. Same two rules the
+ * masthead ticker follows: nothing runs while the hero is off screen, and
+ * nothing runs at all under reduced motion - a photograph that swaps itself
+ * every few seconds is precisely the unrequested movement that setting is
+ * asking us to stop.
+ */
+function usePortraitCycle(
+  ref: React.RefObject<HTMLElement | null>,
+  count: number
+) {
+  const [active, setActive] = useState(0);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || count < 2) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    let timer: ReturnType<typeof setInterval> | null = null;
+    const stop = () => {
+      if (timer) clearInterval(timer);
+      timer = null;
+    };
+
+    const io = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting && !timer) {
+        timer = setInterval(
+          () => setActive((i) => (i + 1) % count),
+          PORTRAIT_INTERVAL
+        );
+      } else if (!entry.isIntersecting) {
+        stop();
+      }
+    });
+    io.observe(el);
+
+    return () => {
+      io.disconnect();
+      stop();
+    };
+  }, [ref, count]);
+
+  return active;
+}
+
+const ROMAN = [
+  "", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X",
+  "XI", "XII", "XIII", "XIV", "XV", "XVI", "XVII", "XVIII", "XIX", "XX",
+];
+
+/**
+ * Masthead volume, counted the way a masthead counts: Vol. I runs through
+ * the founding year, so the volume is the number of years the title has
+ * been publishing. Derived rather than typed in, because the page is
+ * statically prerendered and a literal goes quietly stale each January.
+ */
+function volume() {
+  const n = new Date().getFullYear() - site.established + 1;
+  return ROMAN[n] ?? String(n);
+}
+
 export default function Hero() {
   const tickerRef = useRef<HTMLSpanElement>(null);
   useTicker(tickerRef);
+
+  const portraitRef = useRef<HTMLDivElement>(null);
+  const frame = usePortraitCycle(portraitRef, portraits.length);
 
   return (
     <section className="hero wrap" aria-label="Introduction">
@@ -69,7 +133,12 @@ export default function Hero() {
       <div className="hero-grid">
         <div>
           <div className="masthead-rule">
-            <span className="vol">Vol. IX · Est. 2017</span>
+            {/* The build stamps its own year into the static HTML; on a
+                reader arriving after the turn of the year, the client's
+                clock wins and the numeral corrects itself. */}
+            <span className="vol" suppressHydrationWarning>
+              Vol. {volume()} · Est. {site.established}
+            </span>
             <span className="spacer" />
             <span>Now filing:&nbsp;</span>
             <span className="ticker" aria-live="off">
@@ -119,17 +188,31 @@ export default function Hero() {
 
         <div
           className="portrait"
+          ref={portraitRef}
           data-reveal
           style={{ "--d": "0.18s" } as React.CSSProperties}
         >
           <div className="frame">
-            <Image
-              src="/avatar.jpg"
-              alt="Portrait of Harsh V Singh"
-              fill
-              sizes="(max-width: 62rem) 80vw, 27rem"
-              priority
-            />
+            {/* The stack carries the multiply blend, not the frames
+                themselves: two multiplied portraits overlapping mid-fade
+                would darken each other into a double exposure. Blending the
+                composite once keeps the dissolve clean. */}
+            <div className="frame-stack">
+              {portraits.map((p, i) => (
+                <Image
+                  key={p.src}
+                  src={p.src}
+                  alt={p.alt}
+                  fill
+                  sizes="(max-width: 62rem) 80vw, 27rem"
+                  // Only the first frame is the LCP candidate; the others
+                  // still load eagerly so the first swap never shows a gap.
+                  priority={i === 0}
+                  loading={i === 0 ? undefined : "eager"}
+                  className={i === frame ? "is-current" : undefined}
+                />
+              ))}
+            </div>
           </div>
           <div className="cap">
             <span>Harsh V Singh</span>

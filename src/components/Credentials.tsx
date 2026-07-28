@@ -22,7 +22,6 @@ export default function Credentials() {
               <details className="folder" key={g.title} data-reveal>
                 <summary>
                   <span>{g.title}</span>
-                  <span className="count">{g.items.length}</span>
                   <span className="sign" aria-hidden="true">
                     +
                   </span>

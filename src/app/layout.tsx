@@ -4,6 +4,7 @@ import "./globals.css";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import Enhance from "@/components/Enhance";
+import ScrollTop from "@/components/ScrollTop";
 import { site, socials, faqs } from "@/lib/data";
 
 // Display, a characterful grotesque, set tight and heavy for the masthead.
@@ -175,6 +176,7 @@ export default function RootLayout({
         <SiteHeader />
         <main id="top">{children}</main>
         <SiteFooter />
+        <ScrollTop />
         <Enhance />
       </body>
     </html>

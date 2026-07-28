@@ -10,6 +10,9 @@ export const site = {
   support:
     "A reporter who chased chief ministers for a quote now runs global delivery for a digital agency. Same craft: verify the fact, hit the deadline, say the complicated thing simply.",
   base: "Vadodara, Gujarat · Leading delivery across the US, UK, Canada, UAE & India",
+  // First professional dateline (NewsX politics bureau, Bengaluru), and the
+  // year the masthead counts its volumes from.
+  established: 2017,
   // The hero's standing bio, pipe-separated exactly as supplied.
   heroBio: [
     "Associate Director at Rang Digitech LLC",
@@ -22,15 +25,28 @@ export const site = {
   url: "https://harshvsingh.in",
 } as const;
 
-// Teletype datelines that cycle in the hero ticker.
+// Teletype datelines that cycle in the hero ticker, newest first. The order
+// matters: the masthead label reads "Now filing", the ticker rests on the
+// first entry before it starts, and reduced-motion and no-JS readers never
+// see past it - so the current posting has to lead. From there it walks back
+// through the career.
 export const ticker = [
-  "BENGALURU · VIDHAN SOUDHA",
-  "HYDERABAD · CIVIC DESK",
-  "SINGAPORE EDITION · HOLLYWOOD BEAT",
-  "AHMEDABAD · CONTENT DESK",
-  "VADODARA · BRAND STUDIO",
   "PISCATAWAY · GLOBAL DELIVERY",
+  "VADODARA · BRAND STUDIO",
+  "AHMEDABAD · CONTENT DESK",
+  "SINGAPORE EDITION · HOLLYWOOD BEAT",
+  "HYDERABAD · CIVIC DESK",
+  "BENGALURU · VIDHAN SOUDHA",
 ];
+
+// Hero portrait frames, cross-faded in order. The first is the one that ships
+// in the static HTML and carries the alt text; the rest are the same subject,
+// so they are marked decorative rather than announced again.
+export const portraits = [
+  { src: "/avatar.jpg", alt: "Portrait of Harsh V Singh" },
+  { src: "/avatar1.png", alt: "" },
+];
+export const PORTRAIT_INTERVAL = 3000;
 
 export type NavItem = { id: string; label: string; index: string };
 export const nav: NavItem[] = [
@@ -51,7 +67,14 @@ export const stats: Stat[] = [
   { figure: "5", label: "Markets", note: "US · UK · Canada · UAE · India" },
   { figure: "125+", label: "Certifications", note: "SEO, GenAI, brand & leadership" },
   { figure: "600+", label: "Books read", note: "Rated and reviewed on Goodreads" },
-  { figure: "Award", label: "Promising Journalist", note: "Presidency College, Bangalore, 2018" },
+  // Two honours in one cell rather than a seventh column: the strip is a
+  // six-up grid at desktop and a seventh would orphan itself on every
+  // smaller breakpoint.
+  {
+    figure: "2",
+    label: "Awards",
+    note: "Architect of Success, Rang Digitech 2024 · Promising Journalist, Presidency College 2018",
+  },
 ];
 
 export type Capability = { title: string; body: string };
@@ -424,6 +447,10 @@ export const socials: Social[] = [
   { label: "Instagram", href: "https://www.instagram.com/singhharsh_7/" },
   { label: "Facebook", href: "https://www.facebook.com/HarshOnRocks" },
   { label: "Quora", href: "https://www.quora.com/profile/Harsh-V-Singh-9" },
+  // Canonical /user/ form, not the /u/<name>/s/<token> share link: this array
+  // is also the JSON-LD `sameAs` set, and a share token is a redirect that can
+  // rot, not a stable identity URL.
+  { label: "Reddit", href: "https://www.reddit.com/user/singhharsh7/" },
   { label: "Substack", href: "https://singhharsh7.substack.com/" },
   { label: "Medium", href: "https://medium.com/@singhharsh_7" },
   {
@@ -758,12 +785,15 @@ export const journal: JournalEntry[] = [
       "Met the director who has worked across Kannada, Tamil, Telugu and Malayalam cinema and rose to prominence with Cyanide, then at work on a biopic of Bengaluru DIG (Prisons) D. Roopa.",
     src: "/field-notes/amr-ramesh.jpg",
   },
-  {
-    meta: "On assignment",
-    name: "With the camera",
-    src: "/field-notes/with-the-camera.jpg",
-  },
 ];
+
+// The frame the Get in touch section closes on. Deliberately not a journal
+// entry - it earns its place there instead of in the gallery, so it is
+// declared on its own rather than filtered back out at render time.
+export const contactPhoto = {
+  src: "/field-notes/with-the-camera.jpg",
+  alt: "Harsh V Singh on assignment, seated with a camera among a press pack",
+};
 
 // ---------------------------------------------------------------
 // ABOUT, the long version
