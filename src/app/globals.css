@@ -681,6 +681,105 @@ html.lenis body {
   background-size: 100% 1px;
 }
 
+/* ---------- Scroll cue ----------
+   One object, not a stack of parts: a ring with the arrow falling through it
+   and the label set beside it, close enough to read as a single control.
+
+   Centred on the wrap rather than parked on the left margin - it lands in the
+   gutter between the text and the portrait, which is the one column of the
+   fold with nothing in it, and it keeps clear of the bottom-left corner where
+   the dev overlay sits. Centring is done with auto margins, not a translate,
+   because the hero timeline animates this element's transform on arrival and
+   would wipe a translateX(-50%) out from under it.
+
+   Hidden below the two-column breakpoint by design: stacked, the hero runs
+   past the fold and there is no quiet space left at its foot to put this in
+   without landing it on the portrait - and a thumb already knows the page
+   scrolls. The height floor is the same argument for short windows. */
+.scroll-cue {
+  display: none;
+}
+@media (min-width: 62rem) and (min-height: 42rem) {
+  .scroll-cue {
+    position: absolute;
+    inset-inline: 0;
+    width: fit-content;
+    margin-inline: auto;
+    bottom: clamp(1.6rem, 4vh, 2.8rem);
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.85rem;
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+    transition: color var(--dur-fast) var(--ease);
+  }
+}
+.scroll-cue .cue-ring {
+  display: grid;
+  place-items: center;
+  width: 2.45rem;
+  height: 2.45rem;
+  flex: none;
+  border: 1px solid var(--line-2);
+  border-radius: var(--pill);
+  background: var(--card);
+  /* Clips the arrow at both ends of its fall, so it leaves the ring and
+     returns rather than sliding about inside it. */
+  overflow: hidden;
+  transition: border-color var(--dur-fast) var(--ease),
+    background-color var(--dur-fast) var(--ease);
+}
+.scroll-cue .cue-arrow {
+  /* The mono arrow is a hairline at label weight; 500 is the lightest cut
+     that still reads as an arrow rather than a tick inside the ring. */
+  font-size: 1.05rem;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--accent);
+  animation: cue-fall 2.6s var(--ease) infinite;
+}
+@media (hover: hover) and (pointer: fine) {
+  .scroll-cue:hover {
+    color: var(--accent);
+  }
+  .scroll-cue:hover .cue-ring {
+    border-color: var(--accent);
+    background: var(--accent-wash);
+  }
+}
+/* Rests centred for most of the loop, drops out of the ring, and is back at
+   the top before it reappears - the jump is made on the invisible frame at
+   70.01%, so the return reads as a new arrow arriving rather than the same
+   one flying back up. Resting is the default state on purpose: an arrow that
+   is away more than it is home leaves an empty ring, which reads as a
+   loading spinner rather than a control. Under reduced motion the global
+   rule collapses this to one instant pass, settling on the base style - a
+   still, centred arrow. */
+@keyframes cue-fall {
+  0%,
+  58% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  70% {
+    transform: translateY(150%);
+    opacity: 0;
+  }
+  70.01% {
+    transform: translateY(-150%);
+    opacity: 0;
+  }
+  84%,
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
 /* Press-photo portrait */
 .portrait {
   position: relative;
@@ -711,24 +810,23 @@ html.lenis body {
    would double-darken wherever the two subjects overlap mid-dissolve. */
 .portrait .frame-stack {
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
+  height: 100%;
   isolation: isolate;
   mix-blend-mode: multiply;
 }
+/* The frames are pre-cut to the same 4:5 as this box (see portraits in
+   lib/data.ts), so cover fills it edge to edge without cropping anything the
+   crop did not already decide - and leaves no letterbox for the hover scale
+   to pull away from. */
 .portrait .frame img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center;
   filter: saturate(1.02);
-  opacity: 0;
-  /* A portrait dissolve is decorative motion, which the duration scale
-     deliberately excludes; long enough to read as a dissolve, short enough
-     to sit well inside the interval between swaps. */
-  transition: opacity 0.8s var(--ease), transform 0.6s var(--ease);
-}
-.portrait .frame img.is-current {
-  opacity: 1;
+  transition: transform 0.6s var(--ease);
 }
 @media (hover: hover) and (pointer: fine) {
   .portrait:hover .frame img {
@@ -761,6 +859,12 @@ html.lenis body {
 .ledger-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  /* Three shared bands - figure, label, note - that every cell subgrids
+     onto, so a label that wraps pushes the notes of its whole row down
+     together. This replaces a reserved min-height on the label, which
+     held two lines open under every one-line label whether it needed
+     them or not. */
+  grid-template-rows: repeat(3, auto);
 }
 @media (min-width: 48rem) {
   .ledger-grid {
@@ -772,129 +876,108 @@ html.lenis body {
     grid-template-columns: repeat(6, 1fr);
   }
 }
+
 .stat {
-  padding: clamp(1.7rem, 3vw, 2.5rem) 1.2rem clamp(1.7rem, 3vw, 2.5rem) 0;
+  display: grid;
+  grid-row: span 3;
+  grid-template-rows: subgrid;
+  padding-block: clamp(1.7rem, 3vw, 2.5rem);
+  padding-inline: 1.3rem 1.2rem;
+  /* Every cell rules off from its neighbours above and to the left; the
+     rules below hand those back where a cell opens a row or a column. */
   border-left: 1px solid var(--line-2);
-  padding-left: 1.3rem;
-  margin-left: -1px;
+  border-top: 1px solid var(--line-2);
 }
-.stat:first-child {
-  border-left: none;
+/* Rules between cells, keyed to the column count. Every breakpoint is
+   min-width and every selector carries the same specificity, so the last
+   match wins cleanly - the old min/max pair both matched at exactly 48rem
+   and 64rem and dropped a hairline at each. The cell opening a row also
+   loses its inline padding so its figure sits flush to the page margin. */
+.stat:nth-child(2n + 1) {
+  border-left: 0;
   padding-left: 0;
 }
-@media (max-width: 64rem) {
-  .stat:nth-child(3n + 1) {
-    border-left: none;
-    padding-left: 0;
-  }
+.stat:nth-child(-n + 2) {
+  border-top: 0;
 }
-@media (max-width: 48rem) {
-  .stat {
-    padding-left: 1.3rem;
+@media (min-width: 48rem) {
+  .stat:nth-child(2n + 1) {
     border-left: 1px solid var(--line-2);
+    padding-left: 1.3rem;
   }
-  .stat:nth-child(odd) {
-    border-left: none;
+  .stat:nth-child(-n + 2) {
+    border-top: 1px solid var(--line-2);
+  }
+  .stat:nth-child(3n + 1) {
+    border-left: 0;
     padding-left: 0;
   }
+  .stat:nth-child(-n + 3) {
+    border-top: 0;
+  }
 }
+@media (min-width: 64rem) {
+  .stat:nth-child(3n + 1) {
+    border-left: 1px solid var(--line-2);
+    padding-left: 1.3rem;
+  }
+  .stat:nth-child(6n + 1) {
+    border-left: 0;
+    padding-left: 0;
+  }
+  /* single row at 6-up: nothing carries a rule above it */
+  .stat:nth-child(-n + 6) {
+    border-top: 0;
+  }
+}
+
+/* The DOM order is dt, dd, dd - a real description list. Naming the row on
+   each child puts the strip back into reading order (figure, label, note)
+   without reordering the markup a screen reader follows. */
 .stat .fig {
+  grid-row: 1;
+  display: flex;
+  /* top-aligned, so the suffix hangs off the cap line rather than sinking
+     to the baseline where it reads as a speck */
+  align-items: flex-start;
+  gap: 0.04em;
+  min-width: 0;
   font-family: var(--font-display);
   font-size: clamp(2.4rem, 4.5vw, 3.3rem);
   line-height: 1;
   font-weight: 600;
   color: var(--ink);
   letter-spacing: -0.03em;
+  /* fixed-width digits: the count-up runs 0 -> 600 through every width in
+     between, and proportional figures make the whole cell twitch */
+  font-variant-numeric: tabular-nums lining-nums;
+}
+/* The "+" qualifies the number, it isn't part of it - set well down in size
+   and into the accent so the numeral keeps the full weight. */
+.stat .suf {
+  font-size: 0.58em;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0;
+  color: var(--accent);
 }
 .stat .lab {
-  margin-top: 0.6rem;
+  grid-row: 2;
+  margin-top: 0.7rem;
   font-family: var(--font-mono);
   font-size: 0.72rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--accent);
-}
-/* at 6-up a two-line label ("Promising Journalist") would drop its note
-   below the others - reserve the second line so the row stays aligned */
-@media (min-width: 64rem) {
-  .stat .lab {
-    min-height: 3.24em;
-  }
+  text-wrap: balance;
 }
 .stat .note {
-  margin-top: 0.3rem;
+  grid-row: 3;
+  margin-top: 0.35rem;
   font-size: 0.85rem;
   color: var(--ink-2);
-  line-height: 1.4;
-}
-
-/* ============================================================
-   ON THE DESK - capabilities (services grid, one dark card)
-   ============================================================ */
-.caps {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1rem;
-  /* depth for the dealt-onto-the-desk entrance */
-  perspective: 1000px;
-}
-@media (min-width: 48rem) {
-  .caps {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-.caps .cap {
-  background: var(--card);
-  border: 1px solid var(--line);
-  border-radius: var(--r-lg);
-  padding: clamp(1.7rem, 3vw, 2.6rem);
-  transition: transform var(--dur-base) var(--ease), box-shadow var(--dur-base) var(--ease),
-    border-color var(--dur-base) var(--ease);
-}
-.caps .cap:hover {
-  border-color: var(--line-2);
-}
-@media (hover: hover) and (pointer: fine) {
-  .caps .cap:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow);
-  }
-}
-.caps .cap-i {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  color: var(--accent);
-  letter-spacing: 0.1em;
-}
-.caps .cap h3 {
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--step-3);
-  line-height: 1.15;
-  margin-top: 0.9rem;
-  color: var(--ink);
-}
-.caps .cap p {
-  margin-top: 0.8rem;
-  color: var(--ink-2);
-  font-size: 1rem;
-}
-/* the one inverted card - the signature contrast */
-.caps .cap:last-child {
-  background: var(--ink);
-  border-color: var(--ink);
-}
-.caps .cap:last-child .cap-i {
-  color: var(--accent-lite);
-}
-.caps .cap:last-child h3 {
-  color: var(--paper);
-}
-.caps .cap:last-child p {
-  color: #c9c4ba;
-}
-.caps .cap:last-child:hover {
-  border-color: var(--ink);
+  line-height: 1.45;
+  text-wrap: pretty;
 }
 
 /* ============================================================
@@ -946,9 +1029,7 @@ html.lenis body {
   font-variant-numeric: tabular-nums;
   margin-bottom: 0.4rem;
 }
-.dispatch.news .d-year {
-  color: var(--accent-deep);
-}
+
 .dispatch .d-year .to {
   display: block;
   margin-top: 0.2rem;
@@ -996,9 +1077,7 @@ html.lenis body {
   background: var(--accent);
   transform: scale(1.25);
 }
-.dispatch.news .d-line {
-  color: var(--accent);
-}
+
 .dispatch h3 {
   font-family: var(--font-display);
   font-weight: 600;
@@ -1095,6 +1174,8 @@ details.folder[open] > summary .sign {
   background: var(--card);
   align-self: start;
   box-shadow: var(--shadow);
+  position: sticky;
+  top: 6.5rem;
 }
 .edu .edu-h {
   font-family: var(--font-mono);
@@ -1169,138 +1250,138 @@ details.folder[open] > summary .sign {
   font-weight: 600;
 }
 
-/* ---------- The wall: columns of quotes drifting upward ----------
-   Motion owns the drift (see ui/testimonials-columns-1). The mask dissolves
-   both ends into the paper so nothing is ever seen to pop in or out, and the
-   clipped height is what makes an endless list finite on the page. */
-.tcols {
+/* ---------- The slider: a horizontal scrolling track ---------- */
+.t-slider-wrap {
+  position: relative;
+  margin-top: 2rem;
+}
+.t-slider {
   display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  gap: 1.1rem;
-  max-height: 38rem;
-  overflow: hidden;
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    transparent,
-    #000 14%,
-    #000 86%,
-    transparent
-  );
-  mask-image: linear-gradient(
-    to bottom,
-    transparent,
-    #000 14%,
-    #000 86%,
-    transparent
-  );
+  gap: 1.5rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 2rem;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  scroll-behavior: smooth;
 }
-@media (min-width: 48rem) {
-  .tcols {
-    max-height: 46rem;
-  }
+.t-slider::-webkit-scrollbar {
+  display: none;
 }
-
-.tcol {
-  flex: 1 1 0;
-  min-width: 0;
-  max-width: 23rem;
-}
-/* The trailing pad is the gap the -50% translate has to swallow for the
-   seam to land exactly on the second pass. Keep it equal to the row gap. */
-.tcol-track {
-  display: flex;
-  flex-direction: column;
-  gap: 1.1rem;
-  padding-bottom: 1.1rem;
-  will-change: transform;
-}
-
-.tcol-card {
+.t-card {
+  flex: 0 0 85%;
+  scroll-snap-align: center;
   border: 1px solid var(--line);
   border-radius: var(--r);
-  padding: 1.5rem;
+  padding: 1.8rem;
   background: var(--card);
+  display: flex;
+  flex-direction: column;
   transition: border-color var(--dur-base) var(--ease),
     box-shadow var(--dur-base) var(--ease);
 }
-/* No hover transform here on purpose: the ancestor track is mid-translate,
-   and a second transform on the card would fight it. Border and shadow only. */
+@media (min-width: 48rem) {
+  .t-card {
+    flex: 0 0 45%;
+    scroll-snap-align: start;
+  }
+}
+@media (min-width: 72rem) {
+  .t-card {
+    flex: 0 0 31%;
+  }
+}
 @media (hover: hover) and (pointer: fine) {
-  .tcol-card:hover {
+  .t-card:hover {
     border-color: var(--line-2);
     box-shadow: var(--shadow);
   }
 }
-.tcol-card .mark {
+.t-card .mark {
   font-family: var(--font-display);
-  font-size: 2.6rem;
+  font-size: 3rem;
   line-height: 0.4;
   color: var(--accent);
   display: block;
-  height: 0.85rem;
+  height: 1rem;
 }
-.tcol-card blockquote {
+.t-card blockquote {
   color: var(--ink);
-  font-size: 1rem;
+  font-size: 1.05rem;
+  line-height: 1.5;
+  flex: 1;
 }
-.tcol-card .by {
+.t-card .by {
   display: flex;
   align-items: flex-start;
-  gap: 0.75rem;
-  margin-top: 1.1rem;
-  padding-top: 1rem;
+  gap: 0.8rem;
+  margin-top: 1.5rem;
+  padding-top: 1.2rem;
   border-top: 1px solid var(--line);
 }
-/* Initials, not a borrowed stock headshot: these are real, named people. */
-.tcol-avatar {
+/* Initials avatar */
+.t-avatar {
   flex: 0 0 auto;
   display: grid;
   place-items: center;
-  width: 2.15rem;
-  height: 2.15rem;
+  width: 2.4rem;
+  height: 2.4rem;
   border: 1px solid var(--line);
   border-radius: var(--pill);
   background: var(--wash);
   color: var(--ink-2);
   font-family: var(--font-mono);
-  font-size: 0.66rem;
+  font-size: 0.75rem;
   font-weight: 500;
   letter-spacing: 0.04em;
 }
-.tcol-who {
+.t-who {
   min-width: 0;
 }
-.tcol-card .by .n {
+.t-card .by .n {
   display: block;
   font-family: var(--font-display);
   font-weight: 600;
   color: var(--ink);
-  font-size: 1.02rem;
+  font-size: 1.1rem;
 }
-.tcol-card .by .t {
+.t-card .by .t {
   display: block;
   font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-size: 0.72rem;
   letter-spacing: 0.03em;
   color: var(--faint);
   text-transform: uppercase;
-  margin-top: 0.3rem;
+  margin-top: 0.35rem;
   line-height: 1.5;
 }
 
-/* Nothing drifts, so nothing may be clipped either - the component drops its
-   duplicate pass to match and the full roster is simply set as columns. */
-@media (prefers-reduced-motion: reduce) {
-  .tcols {
-    max-height: none;
-    overflow: visible;
-    -webkit-mask-image: none;
-    mask-image: none;
-  }
-  .tcol-track {
-    will-change: auto;
-  }
+.t-nav {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+  margin-top: -1rem;
+  margin-bottom: 1rem;
+}
+.t-nav button {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--pill);
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--ink);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: all var(--dur-base) var(--ease);
+}
+.t-nav button:hover {
+  border-color: var(--line-2);
+  background: var(--wash);
+}
+.t-nav button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 
 /* ============================================================
@@ -1580,6 +1661,9 @@ a.press-row:hover .headline {
   padding: clamp(1.6rem, 3vw, 2.3rem);
   background: var(--card);
   box-shadow: var(--shadow);
+  align-self: start;
+  position: sticky;
+  top: 6.5rem;
 }
 .recognition .rec-h {
   font-family: var(--font-mono);
@@ -1962,6 +2046,11 @@ details.qa .ans {
   object-fit: cover;
   border-radius: var(--r-sm);
 }
+@media (min-width: 60rem) {
+  .contact-photo {
+    margin-top: 3.8rem;
+  }
+}
 
 .contact-shell .kicker {
   color: var(--accent-lite);
@@ -2031,13 +2120,18 @@ details.qa .ans {
    into ragged rows against the photograph above them. Even columns settle
    the block down without regimenting the pill shape itself. */
 .socials {
-  display: grid;
-  /* 8.5rem lands the nine pills on a 3x3 at the aside's ~445px desktop
-     width; narrower viewports fall to two columns on their own. */
-  grid-template-columns: repeat(auto-fill, minmax(8.5rem, 1fr));
+  display: flex;
   gap: 0.55rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding-bottom: 0.5rem; /* breathing room at the bottom */
+}
+.socials::-webkit-scrollbar {
+  display: none;
 }
 .socials a {
+  flex: 0 0 auto;
   text-align: center;
   font-family: var(--font-mono);
   font-size: 0.74rem;
@@ -2229,7 +2323,6 @@ a.press-row:active {
   /* Drop movement, keep colour, background, border and shadow. */
   .btn,
   .btn .arrow,
-  .caps .cap,
   .tcol-card,
   .column-card,
   .cur,
@@ -2255,7 +2348,6 @@ a.press-row:active {
      no rise, no scale, and no press rebound. */
   .scroll-dial,
   .scroll-dial[data-shown]:active,
-  .caps .cap:hover,
   .column-card:hover,
   .cur:hover,
   .j-card:hover,

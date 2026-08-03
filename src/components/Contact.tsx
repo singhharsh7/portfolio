@@ -55,24 +55,24 @@ export default function Contact() {
                 />
               </div>
             ) : null}
+          </div>
+        </div>
 
-            <div data-reveal>
-              <span className="kicker" style={{ marginBottom: "1.1rem" }}>
-                Elsewhere
-              </span>
-              <div className="socials" style={{ marginTop: "1.1rem" }}>
-                {socials.map((s) => (
-                  <a
-                    key={s.label}
-                    href={s.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {s.label}
-                  </a>
-                ))}
-              </div>
-            </div>
+        <div className="elsewhere-full" data-reveal style={{ marginTop: "4rem" }}>
+          <span className="kicker" style={{ marginBottom: "1.1rem" }}>
+            Elsewhere
+          </span>
+          <div className="socials" style={{ marginTop: "1.1rem" }}>
+            {socials.map((s) => (
+              <a
+                key={s.label}
+                href={s.href}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {s.label}
+              </a>
+            ))}
           </div>
         </div>
       </div>

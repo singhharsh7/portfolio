@@ -6,11 +6,11 @@ export default function Journey() {
     <section className="section" id="career" aria-labelledby="career-title">
       <div className="wrap">
         <SectionHead
-          index="03"
+          index="02"
           label="The beat"
           title={
             <span id="career-title">
-              A life in <em>datelines</em>
+              The Career <em>Timeline</em>
             </span>
           }
           lede="From the floor of the Vidhan Soudha to global project delivery, read newest dispatch first."

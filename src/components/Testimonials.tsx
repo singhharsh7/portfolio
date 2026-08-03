@@ -1,27 +1,56 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import SectionHead from "./SectionHead";
-import { TestimonialsColumn } from "@/components/ui/testimonials-columns-1";
 import { testimonials } from "@/lib/data";
 
-// Slow, and deliberately coprime-ish so the three columns never fall into
-// step with one another.
-const DURATIONS = [38, 46, 42];
+function initials(name: string) {
+  const parts = name.split(" ");
+  return parts[0][0] + (parts.length > 1 ? parts[parts.length - 1][0] : "");
+}
 
 export default function Testimonials() {
   const feature = testimonials.find((t) => t.feature);
   const rest = testimonials.filter((t) => !t.feature);
 
-  const count = useColumnCount();
-  const columns = intoColumns(rest, count);
-  const [paused, setPaused] = useState(false);
+  const sliderRef = useRef<HTMLDivElement>(null);
+  const [isPaused, setIsPaused] = useState(false);
+
+  const scrollLeft = () => {
+    if (sliderRef.current) {
+      const cardWidth = sliderRef.current.firstElementChild?.clientWidth || 300;
+      sliderRef.current.scrollBy({ left: -(cardWidth + 24), behavior: "smooth" });
+    }
+  };
+
+  const scrollRight = () => {
+    if (sliderRef.current) {
+      const el = sliderRef.current;
+      const cardWidth = el.firstElementChild?.clientWidth || 300;
+      
+      // If we are at the end, scroll back to the start
+      if (el.scrollLeft + el.clientWidth >= el.scrollWidth - 10) {
+        el.scrollTo({ left: 0, behavior: "smooth" });
+      } else {
+        el.scrollBy({ left: cardWidth + 24, behavior: "smooth" });
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (isPaused) return;
+    const interval = setInterval(() => {
+      scrollRight();
+    }, 4500); // Auto-slide every 4.5 seconds
+
+    return () => clearInterval(interval);
+  }, [isPaused]);
 
   return (
     <section className="section" id="voices" aria-labelledby="voices-title">
       <div className="wrap">
         <SectionHead
-          index="05"
+          index="04"
           label="On the record"
           title={
             <span id="voices-title">
@@ -40,65 +69,42 @@ export default function Testimonials() {
           </figure>
         ) : null}
 
-        <div
-          className="tcols"
+        <div 
+          className="t-slider-wrap" 
           data-reveal
-          // Hover is a mouse affordance; a tap must not leave the wall frozen.
           onPointerEnter={(e) => {
-            if (e.pointerType === "mouse") setPaused(true);
+            if (e.pointerType === "mouse") setIsPaused(true);
           }}
           onPointerLeave={(e) => {
-            if (e.pointerType === "mouse") setPaused(false);
+            if (e.pointerType === "mouse") setIsPaused(false);
           }}
         >
-          {columns.map((column, i) => (
-            <TestimonialsColumn
-              key={i}
-              testimonials={column}
-              duration={DURATIONS[i % DURATIONS.length]}
-              paused={paused}
-            />
-          ))}
+          <div className="t-nav">
+            <button onClick={scrollLeft} aria-label="Previous testimonials" type="button">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+            </button>
+            <button onClick={scrollRight} aria-label="Next testimonials" type="button">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+            </button>
+          </div>
+          
+          <div className="t-slider" ref={sliderRef}>
+            {rest.map((t) => (
+              <figure className="t-card" key={t.name}>
+                <span className="mark" aria-hidden="true">&ldquo;</span>
+                <blockquote>{t.quote}</blockquote>
+                <figcaption className="by">
+                  <span className="t-avatar" aria-hidden="true">{initials(t.name)}</span>
+                  <span className="t-who">
+                    <span className="n">{t.name}</span>
+                    <span className="t">{t.title}</span>
+                  </span>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
         </div>
       </div>
     </section>
   );
-}
-
-/**
- * Three columns on desktop, two on tablet, one on a phone -- matching the
- * breakpoints the rest of the stylesheet uses.
- *
- * It starts at three to match the server pass, then corrects on mount. No
- * flash: the section is the fifth on the page and its GSAP reveal keeps it
- * at `autoAlpha: 0` until it is scrolled to, long after this has settled.
- */
-function useColumnCount() {
-  const [count, setCount] = useState(3);
-
-  useEffect(() => {
-    const md = window.matchMedia("(min-width: 48rem)");
-    const lg = window.matchMedia("(min-width: 72rem)");
-    const sync = () => setCount(lg.matches ? 3 : md.matches ? 2 : 1);
-    sync();
-    md.addEventListener("change", sync);
-    lg.addEventListener("change", sync);
-    return () => {
-      md.removeEventListener("change", sync);
-      lg.removeEventListener("change", sync);
-    };
-  }, []);
-
-  return count;
-}
-
-/**
- * Round-robin rather than slice: every column carries a spread of the roster
- * instead of one column getting the leftovers, and the columns come out close
- * to the same height, so a single duration reads as the same speed in each.
- */
-function intoColumns<T>(items: T[], count: number): T[][] {
-  const columns: T[][] = Array.from({ length: count }, () => []);
-  items.forEach((item, i) => columns[i % count].push(item));
-  return columns;
 }

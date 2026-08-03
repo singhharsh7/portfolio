@@ -7,14 +7,13 @@ export default function Writing() {
     <section className="section" id="writing" aria-labelledby="writing-title">
       <div className="wrap">
         <SectionHead
-          index="06"
+          index="05"
           label="Dispatches"
           title={
             <span id="writing-title">
               Still <em>filing</em>, on Substack &amp; Medium
             </span>
           }
-          lede="9.5+ years in, the fuel is unchanged: get the facts right, then make people care."
         />
         <div className="two">
           {writing.map((c) => (

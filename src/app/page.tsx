@@ -1,7 +1,6 @@
 import Hero from "@/components/Hero";
 import Ledger from "@/components/Ledger";
 import About from "@/components/About";
-import Now from "@/components/Now";
 import Journey from "@/components/Journey";
 import Credentials from "@/components/Credentials";
 import Testimonials from "@/components/Testimonials";
@@ -18,7 +17,6 @@ export default function Home() {
       <Hero />
       <Ledger />
       <About />
-      <Now />
       <Journey />
       <Credentials />
       <Testimonials />

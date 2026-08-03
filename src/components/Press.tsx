@@ -32,14 +32,14 @@ export default function Press() {
     <section className="section" id="press" aria-labelledby="press-title">
       <div className="wrap">
         <SectionHead
-          index="07"
+          index="06"
           label="In the press"
           title={
             <span id="press-title">
               Bylines &amp; <em>bureaus</em>
             </span>
           }
-          lede="Reporting that took him from hospital wards in Hyderabad to the floor of the Karnataka Vidhan Soudha."
+          lede="Reporting that took me from hospital wards in Hyderabad to the floor of the Karnataka Vidhan Soudha."
         />
         <div className="press-list">
           {press.map((p) =>

@@ -3,61 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import HeroCanvas from "./HeroCanvas";
-import { PORTRAIT_INTERVAL, portraits, site, ticker } from "@/lib/data";
-
-/**
- * The masthead types itself. Writes straight to the text node rather than
- * through state - at 34-62ms a tick, setState would reconcile the whole hero
- * ~25x a second - and only files copy while the masthead is on screen.
- */
-function useTicker(ref: React.RefObject<HTMLSpanElement | null>) {
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    el.textContent = ticker[0];
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-    let idx = 0;
-    let char = ticker[0].length;
-    let deleting = false;
-    let timer: ReturnType<typeof setTimeout> | null = null;
-    let running = false;
-
-    const tick = () => {
-      const word = ticker[idx];
-      char += deleting ? -1 : 1;
-      el.textContent = word.slice(0, char);
-
-      let delay = deleting ? 34 : 62;
-      if (!deleting && char === word.length) {
-        delay = 1600;
-        deleting = true;
-      } else if (deleting && char === 0) {
-        deleting = false;
-        idx = (idx + 1) % ticker.length;
-        delay = 260;
-      }
-      timer = setTimeout(tick, delay);
-    };
-
-    const io = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting && !running) {
-        running = true;
-        timer = setTimeout(tick, 1600);
-      } else if (!entry.isIntersecting && running) {
-        running = false;
-        if (timer) clearTimeout(timer);
-        timer = null;
-      }
-    });
-    io.observe(el);
-
-    return () => {
-      io.disconnect();
-      if (timer) clearTimeout(timer);
-    };
-  }, [ref]);
-}
+import { PORTRAIT_INTERVAL, portraits, site } from "@/lib/data";
 
 /**
  * The portrait cross-fades between frames on a timer. Same two rules the
@@ -104,25 +50,7 @@ function usePortraitCycle(
   return active;
 }
 
-const ROMAN = [
-  "", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X",
-  "XI", "XII", "XIII", "XIV", "XV", "XVI", "XVII", "XVIII", "XIX", "XX",
-];
-
-/**
- * Masthead volume, counted the way a masthead counts: Vol. I runs through
- * the founding year, so the volume is the number of years the title has
- * been publishing. Derived rather than typed in, because the page is
- * statically prerendered and a literal goes quietly stale each January.
- */
-function volume() {
-  const n = new Date().getFullYear() - site.established + 1;
-  return ROMAN[n] ?? String(n);
-}
-
 export default function Hero() {
-  const tickerRef = useRef<HTMLSpanElement>(null);
-  useTicker(tickerRef);
 
   const portraitRef = useRef<HTMLDivElement>(null);
   const frame = usePortraitCycle(portraitRef, portraits.length);
@@ -132,20 +60,6 @@ export default function Hero() {
       <HeroCanvas />
       <div className="hero-grid">
         <div>
-          <div className="masthead-rule">
-            {/* The build stamps its own year into the static HTML; on a
-                reader arriving after the turn of the year, the client's
-                clock wins and the numeral corrects itself. */}
-            <span className="vol" suppressHydrationWarning>
-              Vol. {volume()} · Est. {site.established}
-            </span>
-            <span className="spacer" />
-            <span>Now filing:&nbsp;</span>
-            <span className="ticker" aria-live="off">
-              <span ref={tickerRef} />
-              <span className="cursor" aria-hidden="true" />
-            </span>
-          </div>
 
           <h1 data-reveal>
             Harsh <span className="v">V</span> Singh
@@ -197,29 +111,52 @@ export default function Hero() {
                 themselves: two multiplied portraits overlapping mid-fade
                 would darken each other into a double exposure. Blending the
                 composite once keeps the dissolve clean. */}
-            <div className="frame-stack">
+            <div 
+              className="frame-stack"
+              style={{
+                display: "flex",
+                width: `${portraits.length * 100}%`,
+                transform: `translateX(-${(frame * 100) / portraits.length}%)`,
+                transition: "transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)"
+              }}
+            >
               {portraits.map((p, i) => (
-                <Image
-                  key={p.src}
-                  src={p.src}
-                  alt={p.alt}
-                  fill
-                  sizes="(max-width: 62rem) 80vw, 27rem"
-                  // Only the first frame is the LCP candidate; the others
-                  // still load eagerly so the first swap never shows a gap.
-                  priority={i === 0}
-                  loading={i === 0 ? undefined : "eager"}
-                  className={i === frame ? "is-current" : undefined}
-                />
+                <div key={p.src} style={{ width: `${100 / portraits.length}%`, position: "relative", height: "100%" }}>
+                  <Image
+                    src={p.src}
+                    alt={p.alt}
+                    fill
+                    sizes="(max-width: 62rem) 80vw, 27rem"
+                    // Only the first frame is the LCP candidate; the others
+                    // still load eagerly so the first swap never shows a gap.
+                    priority={i === 0}
+                    loading={i === 0 ? undefined : "eager"}
+                  />
+                </div>
               ))}
             </div>
           </div>
           <div className="cap">
             <span>Harsh V Singh</span>
-            <span>Assoc. Director</span>
+            <span>Associate Director</span>
           </div>
         </div>
       </div>
+
+      {/* The fold's one instruction. A plain anchor on purpose: Lenis is
+          configured with `anchors`, so it inherits the same eased travel and
+          header offset every nav link gets, and it still works - as a jump -
+          before the JS lands or if it never does. No data-reveal either; the
+          hero timeline animates it by class, which leaves it plainly visible
+          rather than stuck at opacity 0 should GSAP fail to load. */}
+      <a className="scroll-cue" href="#ledger" aria-label="Scroll to the next section">
+        <span className="cue-ring" aria-hidden="true">
+          <span className="cue-arrow">↓</span>
+        </span>
+        <span className="cue-label" aria-hidden="true">
+          Read on
+        </span>
+      </a>
     </section>
   );
 }

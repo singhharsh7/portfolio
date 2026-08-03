@@ -28,12 +28,12 @@ export default function SiteFooter() {
                 so a described logo would read the name out twice. */}
             <Image
               className="credit-logo"
-              src="/Rangdigitech_fevicon.webp"
+              src="/Rang-Digitech-Animated-GIF-1.gif"
               alt=""
               width={20}
               height={20}
             />
-            <span>Rang Digitech</span>
+            <span>Rang Digitech LLC</span>
           </a>
         </div>
       </div>

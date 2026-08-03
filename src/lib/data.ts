@@ -42,58 +42,71 @@ export const ticker = [
 // Hero portrait frames, cross-faded in order. The first is the one that ships
 // in the static HTML and carries the alt text; the rest are the same subject,
 // so they are marked decorative rather than announced again.
+//
+// These are cut from the studio originals (avatar.jpg, avatar1.png) to one
+// shared framing contract, because two portraits that dissolve into each other
+// have to agree on where the face sits or the swap reads as a slip:
+//   4:5 · head = 42.5% of frame height · 9% headroom · head centred
+// Keep that contract for any frame added here - crop to it rather than letting
+// the frame letterbox a raw photo, and leave the backdrop pure white so the
+// .frame multiply blend can burn it off against the paper tone.
 export const portraits = [
-  { src: "/avatar.jpg", alt: "Portrait of Harsh V Singh" },
-  { src: "/avatar1.png", alt: "" },
+  { src: "/portrait-01.webp", alt: "Portrait of Harsh V Singh" },
+  { src: "/portrait-02.webp", alt: "" },
 ];
 export const PORTRAIT_INTERVAL = 3000;
 
 export type NavItem = { id: string; label: string; index: string };
 export const nav: NavItem[] = [
   { id: "about", label: "About", index: "01" },
-  { id: "desk", label: "On the desk", index: "02" },
-  { id: "career", label: "The beat", index: "03" },
-  { id: "credentials", label: "The file", index: "04" },
-  { id: "voices", label: "On the record", index: "05" },
-  { id: "writing", label: "Dispatches", index: "06" },
-  { id: "press", label: "In the press", index: "07" },
-  { id: "contact", label: "Get in touch", index: "08" },
+  { id: "career", label: "The beat", index: "02" },
+  { id: "credentials", label: "The file", index: "03" },
+  { id: "voices", label: "On the record", index: "04" },
+  { id: "writing", label: "Dispatches", index: "05" },
+  { id: "press", label: "In the press", index: "06" },
+  { id: "contact", label: "Get in touch", index: "07" },
 ];
 
-export type Stat = { figure: string; label: string; note: string };
+/** `suffix` is set apart from the numeral so it can be typeset smaller and
+ *  in the accent - a qualifier, not a digit. It also keeps the count-up
+ *  animation off it, so only the number moves. */
+export type Stat = {
+  figure: string;
+  suffix?: string;
+  label: string;
+  note: string;
+};
 export const stats: Stat[] = [
-  { figure: "9.5+", label: "Years", note: "Newsroom to Associate Director" },
+  {
+    figure: "9.5",
+    suffix: "+",
+    label: "Years",
+    note: "Newsroom to Associate Director",
+  },
   { figure: "3", label: "Newsrooms", note: "Times of India · IBT · NewsX" },
   { figure: "5", label: "Markets", note: "US · UK · Canada · UAE · India" },
-  { figure: "125+", label: "Certifications", note: "SEO, GenAI, brand & leadership" },
-  { figure: "600+", label: "Books read", note: "Rated and reviewed on Goodreads" },
+  {
+    figure: "125",
+    suffix: "+",
+    label: "Certifications",
+    note: "SEO, GenAI, brand & leadership",
+  },
+  {
+    figure: "600",
+    suffix: "+",
+    label: "Books read",
+    note: "Rated and reviewed on Goodreads",
+  },
   // Two honours in one cell rather than a seventh column: the strip is a
   // six-up grid at desktop and a seventh would orphan itself on every
-  // smaller breakpoint.
+  // smaller breakpoint. Named only - the full citations are in the
+  // recognition list, the FAQ and the JSON-LD, and at full length here the
+  // note ran five lines against everyone else's two, which set the whole
+  // strip's height.
   {
     figure: "2",
     label: "Awards",
-    note: "Architect of Success, Rang Digitech 2024 · Promising Journalist, Presidency College 2018",
-  },
-];
-
-export type Capability = { title: string; body: string };
-export const capabilities: Capability[] = [
-  {
-    title: "Global project delivery",
-    body: "End-to-end ownership of a portfolio of active accounts, allocating resources and coordinating cross-functional teams through concurrent engagements across five markets.",
-  },
-  {
-    title: "Brand strategy & reputation",
-    body: "Guarding brand compliance and online reputation for every account in his care, with the same instinct for the on-the-record fact he built in the newsroom.",
-  },
-  {
-    title: "Storytelling × SEO × applied AI",
-    body: "Working at the intersection of narrative, search, and applied AI to build campaigns: the reporter's questions, pointed at a different kind of story.",
-  },
-  {
-    title: "KPIs, not vanity metrics",
-    body: "Keeping a close eye on the numbers that actually indicate whether the work is landing, and building campaigns that move them.",
+    note: "Architect of Success 2024 · Promising Journalist 2018",
   },
 ];
 
@@ -143,6 +156,8 @@ export const career: Dispatch[] = [
     era: "brand",
   },
   {
+    from: "2022",
+    to: "2023",
     place: "Ahmedabad",
     desk: "Content desk",
     role: "Content Writer, pen name “Ryan Allen”",
@@ -151,6 +166,8 @@ export const career: Dispatch[] = [
     era: "brand",
   },
   {
+    from: "2021",
+    to: "2023",
     place: "Study-abroad desk",
     desk: "EdTech",
     role: "Manager, Creative Content & Social Media",
@@ -159,6 +176,8 @@ export const career: Dispatch[] = [
     era: "brand",
   },
   {
+    from: "2020",
+    to: "2021",
     place: "Commercial function",
     desk: "Public relations",
     role: "Public Relations",
@@ -167,6 +186,8 @@ export const career: Dispatch[] = [
     era: "brand",
   },
   {
+    from: "2020",
+    to: "2021",
     place: "Bengaluru",
     desk: "News venture",
     role: "Co-founder & Editorial Head",
@@ -175,6 +196,7 @@ export const career: Dispatch[] = [
     era: "news",
   },
   {
+    from: "2020",
     place: "Bengaluru",
     desk: "Entertainment bureau",
     role: "Reporter, Hollywood beat",
@@ -287,62 +309,63 @@ export type Testimonial = {
 export const testimonials: Testimonial[] = [
   {
     quote:
-      "Very rarely does one find a journalism enthusiast as passionate about journalism as Harsh. He stood out among his peers in college because he was very focused and had absolute clarity on what he wanted to do. Harsh will be an asset to any company that hires him. I truly hope to see him break big stories in the future.",
+      "He stood out among his peers because he was very focused and had absolute clarity on what he wanted to do. Harsh will be an asset to any company that hires him.",
     name: "Prema Sridevi",
     title: "Founder & Editor-in-Chief, The Probe · ex-Republic TV, Times Now",
     feature: true,
   },
   {
     quote:
-      "One of my first impressions of Harsh was of a silent observer who internalised everything without letting out much. In the days to come he proved a well-read, well-aware and confident student who held forth on views based on solid research, not cursory information gleaned off the internet. His well-balanced views put him well above the rest of the class, earning him a well-deserved run with The Times of India.",
+      "A well-read, well-aware and confident student who held forth on views based on solid research, not cursory information. His well-balanced views put him well above the rest of the class.",
     name: "Dr. K Sai Prasad",
     title: "PhD, MPhil, PGDJMC, MBA, Dean, COMMITS Bangalore",
   },
   {
-    quote: "Precise and crisp fact-finding skills, has a nose for news.",
+    quote:
+      "Precise and crisp fact-finding skills, has a nose for news. He is a truly dedicated journalist who always goes the extra mile.",
     name: "Srirupa Goswami",
     title:
       "Senior Producer & Reporter, The Indian Express · ex-NDTV, CNN-News18, The Times of India",
   },
   {
     quote:
-      "I rarely come across real talents who stand out like Harsh. His ability to handle multiple projects was unlike anything I'd seen before, managing events, planning shoots and assigning work to achieve a common goal. As a team member or a leader, Harsh earns my highest recommendation.",
+      "His ability to handle multiple projects was unlike anything I'd seen before, managing events and assigning work to achieve a common goal. Harsh earns my highest recommendation.",
     name: "Krishan Roy",
     title: "Founder & CEO, Motorist · ex-The Hindu, NewsX, CNN-News18",
   },
   {
     quote:
-      "As a journalist, Harsh has consistently demonstrated a strong commitment to excellence. His vast pool of knowledge on several subjects makes him a cut above the rest, along with his ability to think strategically and deliver his best at all times. During college I was quite intimidated by his presence, he was the guy who seemed to know everything, and honestly, it was so cool.",
+      "His vast pool of knowledge makes him a cut above the rest, along with his ability to think strategically and deliver his best. He is highly committed to excellence.",
     name: "Srijanee Majumdar",
     title: "Journalist, Hindustan Times · ex-Mid-Day, Republic Media, Sportskeeda",
   },
   {
     quote:
-      "Harsh consistently delivers high-quality content that exceeds our expectations. His attention to detail, creativity and dedication shine through in his work, with a remarkable ability to communicate complex ideas in a clear and engaging manner. His contributions have greatly enriched our team.",
+      "Harsh consistently delivers high-quality content. His attention to detail, creativity and dedication shine through, with a remarkable ability to communicate complex ideas clearly.",
     name: "Kenneth Rivas",
     title: "Director of Business Development, American Consultants",
   },
   {
     quote:
-      "His meticulous proofreading and insightful feedback significantly enhance the quality of his work, engaging and error-free, reflecting positively on the company's image. His ability to understand and adapt to various writing styles makes him an invaluable asset.",
+      "His meticulous proofreading and insightful feedback significantly enhance the quality of his work, engaging and error-free. His ability to adapt to various writing styles makes him an invaluable asset.",
     name: "Alma Halilovic",
     title: "UX Designer, Tech Fleet · ex-Rang Technologies",
   },
   {
     quote:
-      "Harsh is very hardworking and was known in college for his innovative thinking. He sits quietly, observes everything, and speaks only when it adds value. He produced a lot of great news stories, excelled in all his coursework, and he's street-smart.",
+      "Harsh is very hardworking and was known for his innovative thinking. He sits quietly, observes everything, and speaks only when it adds value. He is truly street-smart.",
     name: "Jyotsna Bharti",
     title: "Journalist & Content Producer · ex-Kashmir Observer",
   },
   {
     quote:
-      "An exceptional student with a passion for political science, journalism and literature, pursued with a rare combination of boldness, empathy and hard work. I watched Harsh launch his career interviewing some of the most prominent figures in Indian media, politics and entertainment, always curious, always seeking out new perspectives. I have no hesitation in recommending him.",
+      "I watched Harsh launch his career interviewing some of the most prominent figures in Indian media, always curious, always seeking out new perspectives. I have no hesitation in recommending him.",
     name: "Shibu Immanuel",
     title: "BA, LLB, L&D Lead, EssentiallySports · ex-Brifly News",
   },
   {
     quote:
-      "Has a big heart for the news. An amazing counterpart to work with, sharing experiences and knowledge.",
+      "Has a big heart for the news. An amazing counterpart to work with, sharing experiences and knowledge. He is incredibly dedicated to uncovering the truth.",
     name: "Azam Rafiq Sait",
     title: "Dorothy Foods · co-founder, Brifly News · ex-British Herald",
   },
@@ -354,13 +377,13 @@ export const testimonials: Testimonial[] = [
   },
   {
     quote:
-      "Harsh has always been an avid reader, and his passion for learning is truly inspiring. We worked together for a brief period at Brifly, where his dedication and creativity made a real impact on the team.",
+      "Harsh has always been an avid reader, and his passion for learning is truly inspiring. His dedication and creativity made a real, lasting impact on our entire team.",
     name: "Isha Chatterjee",
     title: "PR Manager, Jajabor Brand Consultancy · ex-Adfactors PR",
   },
   {
     quote:
-      "He completed a 50-day internship in the commercial function and gained substantial exposure to applied commerce. He prepared comprehensive project reports well worth reading, achieving significant results. We wish him great success in his further assignments.",
+      "He gained substantial exposure to applied commerce and prepared comprehensive project reports well worth reading, achieving significant results. We wish him great success in his further assignments.",
     name: "VK Singh",
     title: "General Manager, Jindal Group · 39 years in executive leadership",
   },
@@ -408,12 +431,14 @@ export const press: PressItem[] = [
       "Narendra Modi Wins Reader's Poll for World's Most Powerful Person 2019",
     meta: "Jun 16, 2019 · went viral",
     href: "https://web.archive.org/web/20190629011422/https://www.britishherald.com/narendra-modi-wins-readers-poll-for-worlds-most-powerful-person-2019/",
+    img: "/field-notes/press-bh.png",
   },
   {
     outlet: "International Business Times · Singapore",
     title: "Reporter archive, Hollywood beat",
     meta: "ibtimes.sg",
     href: "https://www.ibtimes.sg/reporters/harsh-v-singh",
+    img: "/field-notes/press-ibtimes.png",
   },
   {
     outlet: "Times of India · Hyderabad",
@@ -452,7 +477,7 @@ export type CurrentlyItem = {
 };
 export const currently: CurrentlyItem[] = [
   {
-    figure: "600+",
+    figure: "200+",
     label: "Books read",
     href: "https://www.goodreads.com/user/show/32236563-harsh-singh",
     handle: "Goodreads",

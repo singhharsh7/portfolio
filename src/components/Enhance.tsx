@@ -81,7 +81,11 @@ export default function Enhance() {
         // Numbers that count themselves up when their section arrives.
         const countUp = (selector: string, trigger: string) => {
           gsap.utils.toArray<HTMLElement>(selector).forEach((fig, i) => {
-            const m = (fig.textContent ?? "").match(/^(\d+)(.*)$/);
+            // The ledger sets its "+" in a sibling span so it can be typeset
+            // smaller; count into the numeral only, or writing textContent
+            // on the cell would tear that span out on the first frame.
+            const el = fig.querySelector<HTMLElement>(".num") ?? fig;
+            const m = (el.textContent ?? "").match(/^(\d+)(.*)$/);
             if (!m) return;
             const target = parseInt(m[1], 10);
             const suffix = m[2] ?? "";
@@ -92,7 +96,7 @@ export default function Enhance() {
               delay: i * 0.08,
               ease: "power2.out",
               onUpdate: () => {
-                fig.textContent = `${Math.round(c.v)}${suffix}`;
+                el.textContent = `${Math.round(c.v)}${suffix}`;
               },
               scrollTrigger: { trigger, start: "top 82%", once: true },
             });
@@ -176,7 +180,6 @@ export default function Enhance() {
         // ---------- Hero: one unhurried arrival ----------
         if (hero) {
           const tl = gsap.timeline();
-          tl.from(".masthead-rule", { autoAlpha: 0, y: -16, duration: 1 }, 0);
 
           const h1 = hero.querySelector("h1");
           if (h1) {
@@ -200,6 +203,9 @@ export default function Enhance() {
           tl.from(".hero .hero-about-title", { autoAlpha: 0, y: 30 }, 1.0)
             .from(".hero .hero-bio", { autoAlpha: 0, y: 26 }, 1.18)
             .from(".hero .hero-contact", { autoAlpha: 0, y: 22 }, 1.36)
+            // The cue arrives last - it is an invitation to leave, so it has
+            // no business showing up before there is anything to stay for.
+            .from(".scroll-cue", { autoAlpha: 0, y: 14 }, 1.54)
             .from(
               ".portrait",
               { autoAlpha: 0, y: 40, scale: 0.965, duration: 1.5 },
@@ -262,50 +268,42 @@ export default function Enhance() {
             if (lede) tl.from(lede, { autoAlpha: 0, y: 20, duration: 1 }, 0.45);
           });
 
-        // ---------- About: copy rises, recognition stamps in ----------
-        gsap.from(".about-copy p", {
-          y: 32,
-          autoAlpha: 0,
-          stagger: 0.2,
-          duration: 1.2,
-          scrollTrigger: {
-            trigger: ".about-grid",
-            start: "top 78%",
-            once: true,
-          },
-        });
-        gsap
-          .timeline({
+        if (document.querySelector(".about-grid") && document.querySelectorAll(".about-copy p").length > 0) {
+          gsap.from(".about-copy p", {
+            y: 32,
+            autoAlpha: 0,
+            stagger: 0.2,
+            duration: 1.2,
             scrollTrigger: {
-              trigger: ".recognition",
-              start: "top 82%",
+              trigger: ".about-grid",
+              start: "top 78%",
               once: true,
             },
-          })
-          .from(".recognition", { y: 34, autoAlpha: 0, duration: 1.1 })
-          .from(
-            ".rec-item",
-            {
-              autoAlpha: 0,
-              scale: 1.07,
-              y: 10,
-              stagger: 0.15,
-              duration: 0.7,
-              ease: "power2.out",
-            },
-            0.35
-          );
-
-        // ---------- On the desk: cards dealt onto the desk ----------
-        gsap.from(".caps .cap", {
-          rotationX: 9,
-          y: 40,
-          autoAlpha: 0,
-          transformOrigin: "center top",
-          stagger: 0.18,
-          duration: 1.2,
-          scrollTrigger: { trigger: ".caps", start: "top 80%", once: true },
-        });
+          });
+        }
+        if (document.querySelector(".recognition")) {
+          gsap
+            .timeline({
+              scrollTrigger: {
+                trigger: ".recognition",
+                start: "top 82%",
+                once: true,
+              },
+            })
+            .from(".recognition", { y: 34, autoAlpha: 0, duration: 1.1 })
+            .from(
+              ".rec-item",
+              {
+                autoAlpha: 0,
+                scale: 1.07,
+                y: 10,
+                stagger: 0.15,
+                duration: 0.7,
+                ease: "back.out(1.5)",
+              },
+              0.4
+            );
+        }
 
         // ---------- The beat: an accent line draws down the timeline ----------
         const beat = document.querySelector<HTMLElement>(".beat");
@@ -510,7 +508,7 @@ export default function Enhance() {
         // ---------- Catch-all for anything not choreographed above ----------
         const dedicated = new Set<Element>(
           document.querySelectorAll(
-            ".stat, .caps .cap, .dispatch, details.folder, .edu, .feature-quote, .column-card, .press-row, .cur, .about-copy p, .recognition, details.qa, .contact-shell [data-reveal]"
+            ".stat, .dispatch, details.folder, .edu, .feature-quote, .column-card, .press-row, .cur, .about-copy p, .recognition, details.qa, .contact-shell [data-reveal]"
           )
         );
         const rest = reveals.filter(

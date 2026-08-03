@@ -84,7 +84,7 @@ const personJsonLd = {
   email: `mailto:${site.email}`,
   telephone: site.phoneHref,
   url: site.url,
-  image: `${site.url}/avatar.jpg`,
+  image: `${site.url}/portrait-01.webp`,
   address: {
     "@type": "PostalAddress",
     addressLocality: "Vadodara",
@@ -169,7 +169,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
         />
         <div className="grain" aria-hidden="true" />
-        <a href="#desk" className="skip-link">Skip to content</a>
+        <a href="#about" className="skip-link">Skip to content</a>
         <div className="scroll-rail" aria-hidden="true">
           <span id="scroll-progress" />
         </div>

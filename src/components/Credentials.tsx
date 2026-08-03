@@ -5,19 +5,18 @@ export default function Credentials() {
   return (
     <section className="section" id="credentials" aria-labelledby="cred-title">
       <div className="wrap">
-        <SectionHead
-          index="04"
-          label="The file"
-          title={
-            <span id="cred-title">
-              125+ <em>certifications</em>, and the schooling behind them
-            </span>
-          }
-          lede="Journalism, brand, SEO, generative AI, leadership and DEI, through Reuters, Semrush, HubSpot, Google and LinkedIn Learning."
-        />
-
         <div className="file-grid">
           <div>
+            <SectionHead
+              index="04"
+              label="The file"
+              title={
+                <span id="cred-title">
+                  125+ <em>certifications</em>, and the schooling behind them
+                </span>
+              }
+              lede="Journalism, brand, SEO, generative AI, leadership and DEI, through Reuters, Semrush, HubSpot, Google and LinkedIn Learning."
+            />
             {credentials.map((g) => (
               <details className="folder" key={g.title} data-reveal>
                 <summary>
