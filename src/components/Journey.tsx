@@ -3,7 +3,11 @@ import { career } from "@/lib/data";
 
 export default function Journey() {
   return (
-    <section className="section" id="career" aria-labelledby="career-title">
+    <section
+      className="section inverted"
+      id="career"
+      aria-labelledby="career-title"
+    >
       <div className="wrap">
         <SectionHead
           index="02"

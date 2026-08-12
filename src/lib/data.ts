@@ -3,7 +3,6 @@
 
 export const site = {
   name: "Harsh V Singh",
-  monogram: "HVS",
   role: "Associate Director - Project Delivery",
   org: "Rang Digitech LLC",
   tagline: "Get the facts right, then make people care.",

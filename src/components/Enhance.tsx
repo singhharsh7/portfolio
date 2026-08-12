@@ -487,23 +487,33 @@ export default function Enhance() {
               },
               0.8
             );
-
-          // the accent glow leans toward the cursor
-          const onMove = (e: PointerEvent) => {
-            const r = shell.getBoundingClientRect();
-            const gx = ((e.clientX - r.left) / r.width) * 100;
-            const gy = ((e.clientY - r.top) / r.height) * 100;
-            gsap.to(shell, {
-              "--gx": `${gx}%`,
-              "--gy": `${gy}%`,
-              duration: 1,
-              ease: "power3.out",
-              overwrite: "auto",
-            });
-          };
-          shell.addEventListener("pointermove", onMove, { passive: true });
-          cleanups.push(() => shell.removeEventListener("pointermove", onMove));
         }
+
+        // ---------- Ink plates: the glow leans toward the cursor ----------
+        // Every plate on the page, not just the closing one - the alternating
+        // bands run the same gradient off the same two properties, so they
+        // track the same way. Each listens for itself, so only the band the
+        // pointer is actually over does any work.
+        gsap.utils
+          .toArray<HTMLElement>(".contact-shell, .section.inverted")
+          .forEach((plate) => {
+            const onMove = (e: PointerEvent) => {
+              const r = plate.getBoundingClientRect();
+              const gx = ((e.clientX - r.left) / r.width) * 100;
+              const gy = ((e.clientY - r.top) / r.height) * 100;
+              gsap.to(plate, {
+                "--gx": `${gx}%`,
+                "--gy": `${gy}%`,
+                duration: 1,
+                ease: "power3.out",
+                overwrite: "auto",
+              });
+            };
+            plate.addEventListener("pointermove", onMove, { passive: true });
+            cleanups.push(() =>
+              plate.removeEventListener("pointermove", onMove)
+            );
+          });
 
         // ---------- Catch-all for anything not choreographed above ----------
         const dedicated = new Set<Element>(

@@ -47,7 +47,11 @@ export default function Testimonials() {
   }, [isPaused]);
 
   return (
-    <section className="section" id="voices" aria-labelledby="voices-title">
+    <section
+      className="section inverted"
+      id="voices"
+      aria-labelledby="voices-title"
+    >
       <div className="wrap">
         <SectionHead
           index="04"

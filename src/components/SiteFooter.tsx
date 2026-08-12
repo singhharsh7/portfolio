@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Monogram from "@/components/Monogram";
 import { site } from "@/lib/data";
 
 export default function SiteFooter() {
@@ -10,7 +11,7 @@ export default function SiteFooter() {
     <footer className="site-footer">
       <div className="wrap row">
         <div className="side">
-          <span className="mono-mark">{site.monogram}</span>
+          <Monogram className="brand-mark" />
           <span>
             © {year} {site.name}
           </span>

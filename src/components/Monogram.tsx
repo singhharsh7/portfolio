@@ -1,0 +1,23 @@
+/**
+ * The HVS mark. Inlined rather than fetched as a file: it is two shapes, so
+ * the request would cost more than the markup, and it can then take its
+ * colour from whatever it sits in. Decorative wherever it appears - the
+ * wordmark or the copyright line beside it already names him.
+ *
+ * The viewBox is cropped to the artwork itself, so the mark can be sized by
+ * height alone and the width follows.
+ */
+export default function Monogram({ className }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="170 253 739 573"
+      fill="currentColor"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path d="M645.81,341.59c0-2.84.17-5.65.51-8.43.08-.73.17-1.43.31-2.13,5.45-36.6,39.94-66.23,104.04-66.23,78.42,0,111.45,36.32,111.45,82.55,0,15.7-4.94,26.43-9.07,33.03l9.07,4.94c5.79-9.07,9.91-20.62,9.91-37.97,0-51.18-37.16-92.47-121.37-92.47-69.24,0-112.6,35-128.11,80.72l-58.34,155.02c-34.94,68.23-109.94,85.72-182.74,89.35l-53.62-144.43c-15.56-41.85-5.53-85.53,24.07-117.69,6.12-6.63,9.04-14.24,6.77-22.7l-8.06-29.89c-26.96,31.54-39.91,70.42-38.31,112.1,1.18,30.53,5.14,60.42,15.36,89.18l40.76,114.54-76.2-.56-80.67-.79-16.46,1.74-.06-317.99-23.2,7.11v535.79l23.26-8.2-.11-200.15,162.1.34,17.53-1.21,86.34,228.07,158.44-420.64c30.39,124.06,260.88,63.98,260.88,190.44,0,53.68-44.6,106.51-129.63,106.51s-142.01-59.43-142.01-142.01h-9.89c0,89.99,58.62,151.93,153.56,151.93,103.19,0,155.21-78.45,155.21-157.69,0-159.34-261.72-93.31-261.72-212.18ZM456.07,777.17l-68.48-181c32.64-3.37,61.88-8.74,92.27-19.55,26.35-10.14,45.47-24.38,67.97-43.11l-91.76,243.66Z" />
+      <rect x="596.03" y="765.5" width="311.5" height="28.19" />
+    </svg>
+  );
+}

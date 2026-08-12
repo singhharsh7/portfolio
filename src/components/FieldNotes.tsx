@@ -77,7 +77,11 @@ export default function FieldNotes() {
       reducedMotion="user"
       transition={{ layout: { type: "spring", stiffness: 260, damping: 30 } }}
     >
-      <section className="section" id="field-notes" aria-labelledby="fn-title">
+      <section
+        className="section inverted"
+        id="field-notes"
+        aria-labelledby="fn-title"
+      >
         <div className="wrap">
           <SectionHead
             index="-"

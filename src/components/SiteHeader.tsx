@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { nav, site } from "@/lib/data";
+import Monogram from "@/components/Monogram";
+import { nav } from "@/lib/data";
 
 export default function SiteHeader() {
   const [open, setOpen] = useState(false);
@@ -71,7 +72,7 @@ export default function SiteHeader() {
     <header className={`site-header${stuck ? " stuck" : ""}`}>
       <div className="wrap bar">
         <a className="brand" href="#top" aria-label="Harsh V Singh, home">
-          <span className="mono-mark">{site.monogram}</span>
+          <Monogram className="brand-mark" />
           <span className="full">
             Harsh <em>V</em> Singh
           </span>

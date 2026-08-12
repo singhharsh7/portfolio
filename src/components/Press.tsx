@@ -29,7 +29,11 @@ function RowInner({ p }: { p: (typeof press)[number] }) {
 
 export default function Press() {
   return (
-    <section className="section" id="press" aria-labelledby="press-title">
+    <section
+      className="section inverted"
+      id="press"
+      aria-labelledby="press-title"
+    >
       <div className="wrap">
         <SectionHead
           index="06"

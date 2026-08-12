@@ -276,11 +276,12 @@ a {
 }
 
 /* Sections pad top and bottom, so the gap a reader actually sees between two
-   of them is double this. At the old clamp(4.5rem, 9vw, 8rem) that was 9-16rem
-   of dead paper on every seam - generous past the point of feeling composed.
-   Tightened by roughly a third; the rules still breathe, they just don't drift. */
+   of them is double this. At the original clamp(4.5rem, 9vw, 8rem) that was
+   9-16rem of dead paper on every seam - generous past the point of feeling
+   composed. Tightened twice since, to a 4.4-7.2rem seam: enough air that the
+   rules still separate two ideas, not so much that the page drifts apart. */
 .section {
-  padding-block: clamp(3.1rem, 5.8vw, 5.25rem);
+  padding-block: clamp(2.2rem, 4.1vw, 3.6rem);
   border-top: 1px solid var(--line);
   position: relative;
   z-index: 2;
@@ -310,7 +311,7 @@ a {
 }
 
 .section-head {
-  margin-bottom: clamp(1.9rem, 3.4vw, 2.7rem);
+  margin-bottom: clamp(1.5rem, 2.6vw, 2.1rem);
   max-width: 52rem;
 }
 .section-title {
@@ -337,6 +338,78 @@ a {
   color: var(--ink-2);
   font-size: 1.12rem;
   max-width: 44ch;
+}
+
+/* ============================================================
+   INVERTED BANDS
+   The closing "Let's talk" spread reads as a plate in a magazine: ink field,
+   paper type, one blue glow leaning in from the corner. Alternate bands carry
+   that plate up the page, so the reader passes through light and dark instead
+   of down one continuous sheet.
+
+   Every colour in this file resolves through a token, so a band only has to
+   re-map the palette and each descendant inverts on its own. --ink and --paper
+   swap roles wholesale rather than being replaced piecemeal: the file uses
+   them as "the dark one" and "the light one", so a swap comes out right way
+   round everywhere they are paired - a dark chip on paper becomes a paper chip
+   on ink without a single override.
+   ============================================================ */
+.section.inverted {
+  --paper: #18150f;
+  --card: #211d17;
+  --wash: #262119;
+  --ink: #f7f5f1;
+  --ink-2: #b9b3a7;
+  --faint: #8d8578;
+  --line: rgba(255, 255, 255, 0.12);
+  --line-2: rgba(255, 255, 255, 0.2);
+  --accent-wash: rgba(248, 101, 47, 0.14);
+  /* Cards on the plate lift by tone - --card is a step lighter than the band -
+     so the shadow only has to seat them. Dropped to black and deepened; the
+     paper shadow's warm ink tint is invisible against ink. */
+  --shadow: 0 2px 4px rgba(0, 0, 0, 0.5), 0 20px 44px -28px rgba(0, 0, 0, 0.9);
+  background: var(--paper);
+  color: var(--ink);
+}
+/* The tone change is the seam. Keeping .section's hairline as well would
+   draw a rule along an edge that already has one, both above and below. */
+.section.inverted,
+.section.inverted + .section {
+  border-top-color: transparent;
+}
+/* The same glow as the contact shell, and it leans toward the cursor the same
+   way (Enhance drives --gx / --gy on every plate). Held a shade softer here:
+   it appears four times up the page rather than once at the end, so the
+   closing spread stays the brightest of them. */
+.section.inverted::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    80% 100% at var(--gx, 12%) var(--gy, 0%),
+    rgba(36, 56, 204, 0.2),
+    transparent 55%
+  );
+}
+/* Matching the contact shell, where the orange proper is heavy against ink. */
+.section.inverted .kicker {
+  color: var(--accent-lite);
+}
+/* The feature quote is a plate set against the sheet it lies on. On paper it
+   drops to ink; on an inverted band the sheet is already ink, so it lifts a
+   step instead. Its byline is the one hard-coded colour in the file that the
+   swap can't reach, so it hands over to the token here. */
+.section.inverted .feature-quote {
+  background: var(--card);
+  border: 1px solid var(--line);
+}
+.section.inverted .feature-quote,
+.section.inverted .feature-quote blockquote {
+  color: var(--ink);
+}
+.section.inverted .feature-quote .by {
+  color: var(--faint);
 }
 
 /* ---------- Header ---------- */
@@ -370,15 +443,15 @@ a {
   gap: 0.65rem;
   white-space: nowrap;
 }
-.brand .mono-mark {
-  font-family: var(--font-mono);
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  color: var(--paper);
-  background: var(--ink);
-  font-size: 0.72rem;
-  padding: 0.34rem 0.46rem;
-  border-radius: var(--r-sm);
+/* Sized by height only - the mark is landscape, so a fixed width would
+   letterbox it. It carries the site's one orange rather than its own, a
+   shade off, so the header holds a single accent. */
+.brand-mark {
+  display: block;
+  height: 1.5rem;
+  width: auto;
+  flex: none;
+  color: var(--accent);
 }
 .brand .full {
   font-family: var(--font-display);
@@ -1849,7 +1922,13 @@ a.press-row:hover .headline {
 /* ============================================================
    LIGHTBOX - a print, viewed large
    ============================================================ */
+/* The overlay is fixed, but it still sits inside the field-notes band in the
+   DOM and so inherits that band's inverted tokens. It is its own dark field
+   using the light palette as foreground, so it takes the root values back
+   rather than inverting along with whatever section opened it. */
 .lightbox {
+  --paper: #fbfaf8;
+  --wash: #f1eee7;
   position: fixed;
   inset: 0;
   z-index: 300;
@@ -1994,8 +2073,9 @@ details.qa .ans {
   background: var(--ink);
   color: var(--paper);
   /* Kept a touch roomier than .section: this is the closing spread and the
-     dark field needs margin around it to read as deliberate. */
-  padding-block: clamp(3.75rem, 7vw, 6.5rem);
+     dark field needs margin around it to read as deliberate. Tracks .section
+     down, or the tightened page would end on a disproportionate slab. */
+  padding-block: clamp(2.7rem, 5vw, 4.5rem);
   overflow: hidden;
 }
 .contact-shell::before {
@@ -2188,12 +2268,10 @@ details.qa .ans {
     justify-content: center;
   }
 }
-.site-footer .row .mono-mark {
-  color: var(--paper);
-  background: var(--ink);
-  padding: 0.32rem 0.5rem;
-  border-radius: var(--r-sm);
-  font-weight: 600;
+/* A shade smaller downstairs - the footer sets its type at 0.72rem, and a
+   header-sized mark would outweigh the line it signs. */
+.site-footer .row .brand-mark {
+  height: 1.25rem;
 }
 .site-footer .credit {
   display: inline-flex;
