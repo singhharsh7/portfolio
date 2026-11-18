@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef } from "react";
 import Image from "next/image";
 import type { Perspective } from "@/lib/data";
 import { lockScroll } from "@/lib/lenis-store";
+import { renderInline } from "@/lib/inline-links";
 
 /**
  * "Continue reading" opens the full piece in a native modal <dialog>.
@@ -90,7 +91,7 @@ export default function PerspectiveReader({
               </div>
               <div className="reader-body">
                 <div className="perspective-meta">
-                  <span className="perspective-kicker">My weekly perspective</span>
+                  <span className="perspective-kicker">The Weekly Perspective</span>
                   <span className="perspective-read">{readMinutes} min read</span>
                 </div>
                 <h2 id="reader-title">{piece.title}</h2>
@@ -98,7 +99,7 @@ export default function PerspectiveReader({
                   By <strong>Harsh V Singh</strong>
                 </p>
                 {piece.paragraphs.map((p, i) => (
-                  <p key={i}>{p}</p>
+                  <p key={i}>{renderInline(p)}</p>
                 ))}
                 {piece.pullQuote && (
                   <blockquote className="reader-quote reader-quote--end">

@@ -1471,7 +1471,7 @@ details.folder[open] > summary .sign {
   }
 }
 
-/* My Weekly Perspective - the latest piece, under the platform cards.
+/* The Weekly Perspective - the latest piece, under the platform cards.
    Reads as an editorial feature: cover left, column right, opening at
    excerpt length so the two sides sit level; the full piece opens in the
    reader dialog (PerspectiveReader). */
@@ -1499,20 +1499,16 @@ details.folder[open] > summary .sign {
 }
 /* The pull quote fills the column under the cover on wide screens only;
    stacked on a phone it would just repeat the text that follows. */
+/* Set as plain body text, the same as the article paragraphs. */
 .perspective-quote {
   display: none;
   margin: 0;
-  padding: 0 0.4rem 0 1.2rem;
-  border-left: 2px solid var(--accent);
+  padding: 0;
+  border: 0;
 }
 .perspective-quote p {
-  font-family: var(--font-display);
-  font-size: clamp(1.15rem, 1.6vw, 1.4rem);
-  font-weight: 500;
-  line-height: 1.35;
-  letter-spacing: -0.01em;
-  color: var(--ink);
-  text-wrap: balance;
+  color: var(--ink-2);
+  line-height: 1.7;
 }
 @media (min-width: 48rem) {
   .perspective-quote {
@@ -1705,22 +1701,39 @@ details.folder[open] > summary .sign {
   color: var(--ink);
   font-weight: 500;
 }
+/* Plain body text, matching the article paragraphs. */
 .reader-quote {
-  margin: 0.6rem 0 0;
-  padding: 0.2rem 0 0.2rem 1.25rem;
-  border-left: 2px solid var(--accent);
+  margin: 0;
+  padding: 0;
+  border: 0;
 }
 .reader-quote p {
-  font-family: var(--font-display);
-  font-size: clamp(1.2rem, 2.2vw, 1.5rem);
-  font-weight: 500;
-  line-height: 1.35;
-  letter-spacing: -0.01em;
-  color: var(--ink);
-  text-wrap: balance;
+  font-size: 1.06rem;
+  line-height: 1.8;
+  color: var(--ink-2);
 }
 .reader-quote--aside {
   display: none;
+}
+/* Source links inside the article text, on the card and in the reader. */
+.perspective-body p a,
+.reader-body p a {
+  color: var(--accent-deep);
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition: color var(--dur-base) var(--ease);
+}
+.perspective-body p a:hover,
+.reader-body p a:hover {
+  color: var(--accent);
+}
+.perspective-body p a:focus-visible,
+.reader-body p a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 2px;
 }
 .reader-foot {
   margin-top: 0.8rem;

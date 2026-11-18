@@ -3,11 +3,12 @@ import SectionHead from "./SectionHead";
 import PlatformMark from "./PlatformMark";
 import PerspectiveReader from "./PerspectiveReader";
 import { perspectives, writing } from "@/lib/data";
+import { plainText, renderInline } from "@/lib/inline-links";
 
 export default function Writing() {
   const latest = perspectives[0];
   const lead = latest?.paragraphs[0] ?? "";
-  const words = (latest?.paragraphs ?? []).join(" ").split(/\s+/).length;
+  const words = plainText((latest?.paragraphs ?? []).join(" ")).split(/\s+/).length;
   const readMinutes = Math.max(1, Math.round(words / 200));
   return (
     <section className="section" id="writing" aria-labelledby="writing-title">
@@ -69,11 +70,11 @@ export default function Writing() {
             </div>
             <div className="perspective-body">
               <div className="perspective-meta">
-                <span className="perspective-kicker">My weekly perspective</span>
+                <span className="perspective-kicker">The Weekly Perspective</span>
                 <span className="perspective-read">{readMinutes} min read</span>
               </div>
               <h3 id="perspective-title">{latest.title}</h3>
-              <p className="perspective-lead">{lead}</p>
+              <p className="perspective-lead">{renderInline(lead)}</p>
               <PerspectiveReader piece={latest} readMinutes={readMinutes} />
               <p className="perspective-byline">
                 By <strong>Harsh V Singh</strong>
