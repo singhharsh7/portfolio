@@ -1,13 +1,10 @@
-import Image from "next/image";
 import SectionHead from "./SectionHead";
 import PlatformMark from "./PlatformMark";
-import PerspectiveReader from "./PerspectiveReader";
 import { perspectives, writing } from "@/lib/data";
 import { plainText, renderInline } from "@/lib/inline-links";
 
 export default function Writing() {
   const latest = perspectives[0];
-  const lead = latest?.paragraphs[0] ?? "";
   const words = plainText((latest?.paragraphs ?? []).join(" ")).split(/\s+/).length;
   const readMinutes = Math.max(1, Math.round(words / 200));
   return (
@@ -52,30 +49,15 @@ export default function Writing() {
             aria-labelledby="perspective-title"
             data-reveal
           >
-            <div className="perspective-aside">
-              <div className="perspective-cover">
-                <Image
-                  src={latest.image}
-                  alt={latest.imageAlt}
-                  width={1448}
-                  height={1086}
-                  sizes="(max-width: 48rem) 92vw, 34rem"
-                />
-              </div>
-              {latest.pullQuote && (
-                <blockquote className="perspective-quote">
-                  <p>{latest.pullQuote}</p>
-                </blockquote>
-              )}
-            </div>
             <div className="perspective-body">
               <div className="perspective-meta">
                 <span className="perspective-kicker">The Weekly Perspective</span>
                 <span className="perspective-read">{readMinutes} min read</span>
               </div>
               <h3 id="perspective-title">{latest.title}</h3>
-              <p className="perspective-lead">{renderInline(lead)}</p>
-              <PerspectiveReader piece={latest} readMinutes={readMinutes} />
+              {latest.paragraphs.map((p, i) => (
+                <p key={i}>{renderInline(p)}</p>
+              ))}
               <p className="perspective-byline">
                 By <strong>Harsh V Singh</strong>
               </p>
