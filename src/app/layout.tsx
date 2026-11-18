@@ -85,7 +85,7 @@ const personJsonLd = {
   email: `mailto:${site.email}`,
   telephone: site.phoneHref,
   url: site.url,
-  image: `${site.url}/portrait-01.webp`,
+  image: `${site.url}/harsh-v-singh-professional-portrait.webp`,
   address: {
     "@type": "PostalAddress",
     addressLocality: "Vadodara",

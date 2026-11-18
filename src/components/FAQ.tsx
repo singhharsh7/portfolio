@@ -7,7 +7,7 @@ export default function FAQ() {
       <div className="wrap">
         <SectionHead
           index="-"
-          label="Frequently asked"
+          label="Frequently Asked Questions"
           title={<span id="faq-title">Straight answers</span>}
         />
         <div className="faq">

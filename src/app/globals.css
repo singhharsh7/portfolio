@@ -1470,6 +1470,416 @@ details.folder[open] > summary .sign {
     grid-template-columns: 1fr 1fr;
   }
 }
+
+/* My Weekly Perspective - the latest piece, under the platform cards.
+   Reads as an editorial feature: cover left, column right, opening at
+   excerpt length so the two sides sit level; the full piece opens in the
+   reader dialog (PerspectiveReader). */
+.perspective {
+  margin-top: 1.1rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(1.4rem, 3.4vw, 2.8rem);
+  align-items: start;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  padding: clamp(1.1rem, 2.2vw, 1.6rem);
+  background: var(--card);
+}
+@media (min-width: 48rem) {
+  .perspective {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    padding-right: clamp(1.6rem, 3.4vw, 2.8rem);
+  }
+}
+.perspective-aside {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.4rem, 2.6vw, 2rem);
+}
+/* The pull quote fills the column under the cover on wide screens only;
+   stacked on a phone it would just repeat the text that follows. */
+.perspective-quote {
+  display: none;
+  margin: 0;
+  padding: 0 0.4rem 0 1.2rem;
+  border-left: 2px solid var(--accent);
+}
+.perspective-quote p {
+  font-family: var(--font-display);
+  font-size: clamp(1.15rem, 1.6vw, 1.4rem);
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  text-wrap: balance;
+}
+@media (min-width: 48rem) {
+  .perspective-quote {
+    display: block;
+  }
+}
+.perspective-cover {
+  border-radius: calc(var(--r-lg) - 8px);
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  background: var(--line);
+}
+.perspective-cover img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--dur-base) var(--ease);
+}
+@media (hover: hover) {
+  .perspective:hover .perspective-cover img {
+    transform: scale(1.02);
+  }
+}
+.perspective-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-block: 0.3rem;
+}
+.perspective-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.perspective-kicker {
+  color: var(--accent);
+}
+.perspective-read {
+  color: var(--ink-2);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.9rem;
+}
+.perspective-read::before {
+  content: "";
+  width: 1.4rem;
+  height: 1px;
+  background: var(--line-2);
+}
+.perspective-body h3 {
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.12;
+  color: var(--ink);
+  text-wrap: balance;
+}
+.perspective-body p {
+  color: var(--ink-2);
+  line-height: 1.7;
+}
+.perspective-body .perspective-lead {
+  color: var(--ink);
+}
+/* The card's teaser stops at the opening paragraph; the button opens the
+   full piece in the reader dialog. */
+.perspective-body .perspective-lead {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 6;
+  line-clamp: 6;
+  overflow: hidden;
+}
+.perspective-open {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  width: fit-content;
+  padding: 0.75rem 1.15rem;
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  background: transparent;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+  cursor: pointer;
+  transition: background-color var(--dur-base) var(--ease), color var(--dur-base) var(--ease),
+    transform 160ms var(--ease);
+}
+.perspective-open span {
+  transition: transform var(--dur-base) var(--ease);
+}
+@media (hover: hover) {
+  .perspective-open:hover {
+    background: var(--accent);
+    color: #fff;
+  }
+  .perspective-open:hover span {
+    transform: translateX(3px);
+  }
+  .reader-foot .perspective-open:hover span {
+    transform: translateX(-3px);
+  }
+}
+.perspective-open:active {
+  transform: scale(0.97);
+}
+.perspective-open:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* ---------- Reader: the full piece in a modal dialog ---------- */
+.reader {
+  /* Reset the UA dialog box; the panel inside carries the look. */
+  margin: auto;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  width: min(46rem, calc(100vw - 2rem));
+  /* Wide screens: a two-column reader (see below), so it can run wide. */
+  max-width: none;
+  max-height: calc(100dvh - 2.5rem);
+  overflow: visible;
+  color: var(--ink);
+}
+.reader::backdrop {
+  background: rgba(24, 21, 15, 0.62);
+  backdrop-filter: blur(6px);
+}
+.reader-panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100dvh - 2.5rem);
+  border-radius: var(--r-lg);
+  background: var(--card);
+  border: 1px solid var(--line);
+  box-shadow: 0 30px 80px -20px rgba(24, 21, 15, 0.45);
+  overflow: hidden;
+}
+.reader-scroll {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.reader-cover img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.reader-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+  padding: clamp(1.5rem, 4vw, 2.75rem) clamp(1.25rem, 5vw, 3.25rem) clamp(1.75rem, 4vw, 2.75rem);
+}
+.reader-body h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 3.6vw, 2.5rem);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+  color: var(--ink);
+  text-wrap: balance;
+}
+.reader-body > p {
+  font-size: 1.06rem;
+  line-height: 1.8;
+  color: var(--ink-2);
+}
+.reader-body .reader-byline {
+  padding-bottom: 1.15rem;
+  border-bottom: 1px solid var(--line);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  line-height: 1.4;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+.reader-byline strong {
+  color: var(--ink);
+  font-weight: 500;
+}
+.reader-quote {
+  margin: 0.6rem 0 0;
+  padding: 0.2rem 0 0.2rem 1.25rem;
+  border-left: 2px solid var(--accent);
+}
+.reader-quote p {
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 2.2vw, 1.5rem);
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  text-wrap: balance;
+}
+.reader-quote--aside {
+  display: none;
+}
+.reader-foot {
+  margin-top: 0.8rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--line);
+}
+.reader-close {
+  position: absolute;
+  top: 0.85rem;
+  right: 0.85rem;
+  z-index: 2;
+  width: 2.6rem;
+  height: 2.6rem;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(24, 21, 15, 0.72);
+  backdrop-filter: blur(8px);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: background-color var(--dur-base) var(--ease), transform 160ms var(--ease);
+}
+.reader-close span,
+.reader-close span::before {
+  display: block;
+  width: 1rem;
+  height: 1.5px;
+  background: #fff;
+  transform: rotate(45deg);
+}
+.reader-close span::before {
+  content: "";
+  transform: rotate(90deg);
+}
+@media (hover: hover) {
+  .reader-close:hover {
+    background: var(--accent);
+  }
+}
+.reader-close:active {
+  transform: scale(0.94);
+}
+.reader-close:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+/* Open: rise and fade in. */
+.reader[open] .reader-panel {
+  animation: reader-in 320ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+.reader[open]::backdrop {
+  animation: reader-fade 260ms ease-out;
+}
+@keyframes reader-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.985);
+  }
+}
+@keyframes reader-fade {
+  from {
+    opacity: 0;
+  }
+}
+/* Wide screens: cover held on the left while the column scrolls on the
+   right, so the art frames the piece instead of pushing it below the fold. */
+@media (min-width: 60rem) {
+  .reader {
+    width: min(76rem, calc(100vw - 4rem));
+  }
+  .reader article {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.08fr);
+    align-items: start;
+  }
+  .reader-cover {
+    position: sticky;
+    top: 0;
+    padding: clamp(1.5rem, 2.4vw, 2.25rem) 0 clamp(1.5rem, 2.4vw, 2.25rem)
+      clamp(1.5rem, 2.4vw, 2.25rem);
+  }
+  .reader-cover img {
+    border-radius: calc(var(--r-lg) - 8px);
+  }
+  /* Right padding clears the close button, so text never slides under it. */
+  .reader-body {
+    padding: clamp(2.25rem, 3.4vw, 3rem) 4.75rem clamp(2rem, 3vw, 2.75rem)
+      clamp(2rem, 3.4vw, 3rem);
+  }
+  .reader-quote--aside {
+    display: block;
+    margin-top: clamp(1.5rem, 2.4vw, 2rem);
+  }
+  .reader-quote--end {
+    display: none;
+  }
+  .reader-body > p {
+    font-size: 1.02rem;
+  }
+  /* Over the white column rather than the art: a quieter control. */
+  .reader-close {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    backdrop-filter: none;
+  }
+  .reader-close span,
+  .reader-close span::before {
+    background: var(--ink);
+  }
+  @media (hover: hover) {
+    .reader-close:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+    .reader-close:hover span,
+    .reader-close:hover span::before {
+      background: #fff;
+    }
+  }
+}
+/* Phones: a full-screen sheet reads better than a floating card. */
+@media (max-width: 40rem) {
+  .reader {
+    width: 100vw;
+    max-height: 100dvh;
+    height: 100dvh;
+    margin: 0;
+  }
+  .reader-panel {
+    max-height: 100dvh;
+    height: 100%;
+    border-radius: 0;
+    border: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reader[open] .reader-panel,
+  .reader[open]::backdrop {
+    animation: none;
+  }
+}
+
+.perspective-byline {
+  margin-top: 0.4rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.perspective-body .perspective-byline {
+  color: var(--ink-2);
+}
+.perspective-byline strong {
+  color: var(--ink);
+  font-weight: 500;
+}
+
 .column-card {
   position: relative;
   overflow: hidden;

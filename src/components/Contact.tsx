@@ -15,7 +15,7 @@ export default function Contact() {
         <div className="contact-grid">
           <div>
             <span className="kicker">
-              <span className="num">08</span>
+              <span className="num">07</span>
               Get in touch
             </span>
             <h2 id="contact-title">

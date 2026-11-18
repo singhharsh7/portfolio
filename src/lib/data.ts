@@ -39,8 +39,8 @@ export const ticker = [
 ];
 
 // Hero portrait frames, cross-faded in order. The first is the one that ships
-// in the static HTML and carries the alt text; the rest are the same subject,
-// so they are marked decorative rather than announced again.
+// in the static HTML. Each frame carries its own descriptive alt text and
+// filename for image search.
 //
 // These are cut from the studio originals (avatar.jpg, avatar1.png) to one
 // shared framing contract, because two portraits that dissolve into each other
@@ -50,8 +50,8 @@ export const ticker = [
 // the frame letterbox a raw photo, and leave the backdrop pure white so the
 // .frame multiply blend can burn it off against the paper tone.
 export const portraits = [
-  { src: "/portrait-01.webp", alt: "Portrait of Harsh V Singh" },
-  { src: "/portrait-02.webp", alt: "" },
+  { src: "/harsh-v-singh-professional-portrait.webp", alt: "Professional headshot of Harsh V Singh" },
+  { src: "/harsh-v-singh-professional-portrait-01.webp", alt: "Harsh V Singh, Associate Director at Rang Digitech LLC" },
 ];
 export const PORTRAIT_INTERVAL = 3000;
 
@@ -412,6 +412,31 @@ export const writing: Column[] = [
     href: "https://medium.com/@singhharsh_7",
     body: "Personal essays on marriage, memory, and the small moments that outlast the news cycle.",
     brand: "#191919",
+  },
+];
+
+// "My Weekly Perspective" - the newest entry is listed first and is the one
+// shown under the Substack / Medium cards. Add each week's piece to the top.
+export type Perspective = {
+  title: string;
+  /** Cover art, 4:3. Lives in public/dispatches/. */
+  image: string;
+  imageAlt: string;
+  /** One line from the piece, set under the cover on wide screens. */
+  pullQuote?: string;
+  paragraphs: string[];
+};
+export const perspectives: Perspective[] = [
+  {
+    title: "AI Is Making Everyone Faster. But Is It Making Us Smarter?",
+    image: "/dispatches/ai-making-everyone-faster-harsh-v-singh.png",
+    imageAlt:
+      "My Weekly Perspective by Harsh V Singh: AI Is Making Everyone Faster. But Is It Making Us Smarter?",
+    pullQuote: "AI is faster, no doubt. The smart person still checks the milk bill.",
+    paragraphs: [
+      "Early this month, a Gen Z colleague handed his milk bill to Claude… and accepted its AI-generated answer as gospel. Claude can err. It may count all 31 days when the milk came on only 27. He never checked. Anthropic's help page admits Claude can write things that look correct but are very mistaken, and says it shouldn't be your single source of truth. Still, AI dependency has grown in this time, every search and research now begins and ends with AI. We no longer read the sources and argue with them.",
+      "Writers have caught the habit too. A grammar check is fair. Rewriting whole paragraphs? Plain wrong. Spellings escape us, and even simple sums go to the calculator. Javed Akhtar told The Lallantop that words are the building blocks of thought, so a shrinking vocabulary shrinks the mind. AI is faster, no doubt. But it's making the human brain duller. The smart person still checks the milk bill.",
+    ],
   },
 ];
 

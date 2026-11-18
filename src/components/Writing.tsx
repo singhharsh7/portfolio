@@ -1,8 +1,14 @@
+import Image from "next/image";
 import SectionHead from "./SectionHead";
 import PlatformMark from "./PlatformMark";
-import { writing } from "@/lib/data";
+import PerspectiveReader from "./PerspectiveReader";
+import { perspectives, writing } from "@/lib/data";
 
 export default function Writing() {
+  const latest = perspectives[0];
+  const lead = latest?.paragraphs[0] ?? "";
+  const words = (latest?.paragraphs ?? []).join(" ").split(/\s+/).length;
+  const readMinutes = Math.max(1, Math.round(words / 200));
   return (
     <section className="section" id="writing" aria-labelledby="writing-title">
       <div className="wrap">
@@ -38,6 +44,43 @@ export default function Writing() {
             </a>
           ))}
         </div>
+        {latest && (
+          <article
+            className="perspective"
+            id="weekly-perspective"
+            aria-labelledby="perspective-title"
+            data-reveal
+          >
+            <div className="perspective-aside">
+              <div className="perspective-cover">
+                <Image
+                  src={latest.image}
+                  alt={latest.imageAlt}
+                  width={1448}
+                  height={1086}
+                  sizes="(max-width: 48rem) 92vw, 34rem"
+                />
+              </div>
+              {latest.pullQuote && (
+                <blockquote className="perspective-quote">
+                  <p>{latest.pullQuote}</p>
+                </blockquote>
+              )}
+            </div>
+            <div className="perspective-body">
+              <div className="perspective-meta">
+                <span className="perspective-kicker">My weekly perspective</span>
+                <span className="perspective-read">{readMinutes} min read</span>
+              </div>
+              <h3 id="perspective-title">{latest.title}</h3>
+              <p className="perspective-lead">{lead}</p>
+              <PerspectiveReader piece={latest} readMinutes={readMinutes} />
+              <p className="perspective-byline">
+                By <strong>Harsh V Singh</strong>
+              </p>
+            </div>
+          </article>
+        )}
       </div>
     </section>
   );

@@ -8,7 +8,7 @@ export default function Credentials() {
         <div className="file-grid">
           <div>
             <SectionHead
-              index="04"
+              index="03"
               label="The file"
               title={
                 <span id="cred-title">
